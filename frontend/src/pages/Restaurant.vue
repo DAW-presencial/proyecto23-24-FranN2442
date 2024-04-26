@@ -284,81 +284,56 @@ export default {
 
         this.tourns = JSON.parse(this.restaurant.tourns)
 
-        let horas = []
-        let intervalo = 1
+        let intervalo = 30 // Meter valor en la base de datos
 
+        
         for(let tourn in this.tourns){
+          
+          let horas_int = []
 
-          let horas = []
+          console.log(this.tourns[tourn].start,this.tourns[tourn].end);
 
-          let hora = this.tourns[tourn].start
-          let ultima_hora = this.tourns[tourn].end
-          let nombre_turno = this.tourns[tourn].tourn_name
+          let split_start = this.tourns[tourn].start.split(':')
+          let split_end = this.tourns[tourn].end.split(':')
+          let start = parseInt(split_start[0]) * 60 + parseInt(split_start[1])
+          let end = parseInt(split_end[0]) * 60 + parseInt(split_end[1])
+          console.log(start,end);
 
-          let splited_start = hora.split(':')
-          let splited_end = ultima_hora.split(':')
-
-          let float_start_h = parseFloat(splited_start[0])
-          let float_start_m = 0
-          if(splited_start[1] != "00"){
-
-            float_start_m = parseFloat("0." + splited_start[1])
-
-          }
-
-          let float_end_h = parseFloat(splited_end[0])
-          let float_end_m = 0
-          if(splited_end[1] != "00"){
-
-            float_end_m = parseFloat("0." + splited_end[1])
-
-          }
-
-          let start = float_start_h + float_start_m
-          let end = float_end_h + float_end_m
-
-          console.log('....................');
-          console.log(start);
-
-          horas.push(hora)
+          horas_int.push(start)
 
           while(start <= end){
 
             start = start + intervalo
-            if(start <= end){
+            if(start > end){
 
-              let final_time = ''
-
-              let float_to_str = start.toString().replace('.',':')
-              console.log(float_to_str);
-              if(float_to_str.length != 1){
-
-                let sep_time = float_to_str.split(':')
-
-                if(sep_time[1][0] == '6'){
-
-                  let float_h = parseFloat(sep_time[0]) + 1
-                  final_time = float_h.toString() + ":" + "00"
-                  horas.push(final_time)
-                } else {
-
-                  final_time = sep_time[0] + ":" + sep_time[1]
-                  horas.push(final_time)
-
-                }
-              } else {
-
-                final_time = "0" + float_to_str + ":" + "00"
-                horas.push(final_time)
-              }
+              continue
             }
+            horas_int.push(start)
+          
+
           }
 
-          this.horarios.push([nombre_turno.toUpperCase(),horas])
+          let aux_arr = []
 
+          for(let i = 0;i < horas_int.length;i++){
 
+            let horas = Math.floor(horas_int[i] / 60)
+            let minutos = horas_int[i] % 60
+  
+            let fecha = new Date();
+            fecha.setHours(horas,minutos,0,0)
+  
+            let horaFormateada = fecha.toLocaleTimeString('es-ES', {hour: '2-digit',minute:'2-digit'})
 
+            aux_arr.push(horaFormateada)
+  
+            // console.log(horaFormateada);
+          }
+          this.horarios.push([this.tourns[tourn].tourn_name,aux_arr])
+      
         }
+
+        console.log(this.horarios);
       }
     );
   },
