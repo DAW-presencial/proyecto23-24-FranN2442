@@ -56,7 +56,7 @@ export default {
 
     this.getReservas()
 
-    fetch("http://127.0.0.1:8000/api/v1/designs?filter[restaurant_id]=" + this.$route.query.id, {
+    fetch("http://booknow.randion.es/api/v1/designs?filter[restaurant_id]=" + this.$route.query.id, {
       method: "GET",
       headers: {
         Accept: "application/vnd.api+json",

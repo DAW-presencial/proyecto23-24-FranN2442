@@ -272,7 +272,7 @@ export default {
     },
   beforeCreate() {
 
-    fetch("http://127.0.0.1:8000/api/v1/restaurants/" + this.$route.query.id, {
+    fetch("http://booknow.randion.es/api/v1/restaurants/" + this.$route.query.id, {
       method: "GET",
       headers: {
         Accept: "application/vnd.api+json",
@@ -376,7 +376,7 @@ export default {
 
       console.log(date);
 
-      fetch("http://127.0.0.1:8000/api/v1/reservations?filter[restaurant_id]=" + this.$route.query.id + "&filter[date]=" + date, {
+      fetch("http://booknow.randion.es/api/v1/reservations?filter[restaurant_id]=" + this.$route.query.id + "&filter[date]=" + date, {
         method: "GET",
         headers: {
           Accept: "application/vnd.api+json",
