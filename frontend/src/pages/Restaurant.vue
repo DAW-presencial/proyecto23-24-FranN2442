@@ -253,7 +253,7 @@ export default {
       diners_arr : [1,2,3,4,5,6,7,8,9,10,11,12],
       reservation : {
         date : "",
-        hour : "",
+        hour : "11:00",
         diners :"",
         table : ""
       },
@@ -285,7 +285,7 @@ export default {
         this.tourns = JSON.parse(this.restaurant.tourns)
 
         let horas = []
-        let intervalo = 1.3
+        let intervalo = 1
 
         for(let tourn in this.tourns){
 
@@ -393,39 +393,6 @@ export default {
 };
 </script>
 <style scoped>
-/* .rest-item:hover{
-
-  border-left: 1px black solid;
-  transition: all 0.7s ease-in-out;
-  background-color: rgb(233, 233, 233);
-}
-.items-list{
-
-  flex: 1 0 10rem;
-
-}
-.custom-caption {
-  text-align: left;
-  padding: 12px;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.638);
-  font-family: "Times New Roman", Times, serif;
-}
-#svg {
-  background-color: purple;
-}
-.form-div {
-  width: 50%;
-}
-.svg-div {
-  width: 60%;
-}
-.content-container {
-  height: 700px;
-}
-.form-input {
-  padding: 5px;
-} */
 .boton{
 
   width: 20%;

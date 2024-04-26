@@ -49,9 +49,9 @@ export default {
   },
   created() {
 
-    console.log(this.hour,this.dia);
+    console.log(this.hour,this.day);
     this.horaReserva = this.hour
-    this.diaReserva = this.dia
+    this.diaReserva = this.day
     this.comensalesReserva = this.diners
 
     this.getReservas()
@@ -71,7 +71,7 @@ export default {
 
     console.log(this.hour,this.dia);
     this.horaReserva = this.hour
-    this.diaResera = this.dia
+    this.diaResera = this.day
     this.comensalesReserva = this.diners
 
   },
@@ -98,6 +98,7 @@ export default {
       svg.setAttribute('width',this.svgWidth)
       svg.setAttribute('height',this.svgHeight)
 
+      this.tables = JSON.parse(this.tables)
       for(let table in this.tables){
 
         let rect = document.createElementNS("http://www.w3.org/2000/svg", "rect")
@@ -106,9 +107,12 @@ export default {
         rect.setAttribute("y",this.tables[table].y)
         rect.setAttribute("width",this.tables[table].w + "px")
         rect.setAttribute("height",this.tables[table].h + "px")
-        if (!this.tables[table].state){
+        if (this.tables[table].ocupated_hours.includes(this.hour)){
           rect.setAttribute("fill","red")
           rect.addEventListener('click', () => {
+
+            this.mesa_seleccionada = ""
+            LocalStorage.remove('table')
 
             Notify.create({
 
@@ -121,8 +125,8 @@ export default {
           rect.setAttribute("fill","green")
           rect.addEventListener('click', () => {
 
-            this.mesa_seleccionada = this.tables[table].numero
-            LocalStorage.set('table',this.tables[table].numero)
+            this.mesa_seleccionada = this.tables[table].number
+            LocalStorage.set('table',this.tables[table].number)
 
           })
         }

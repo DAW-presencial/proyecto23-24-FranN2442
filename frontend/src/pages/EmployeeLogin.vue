@@ -54,28 +54,27 @@ export default {
       employee_pin: "",
     };
   },
-  beforeCreate() {
+  beforeCreate(){
     let local_arr = LocalStorage.getAll();
     let rest_id = local_arr.restaurant_id;
     let token = local_arr.token;
 
     console.log(rest_id, token);
      
-    api.get("/employees?filter[restaurant_id]=" + rest_id,{
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+    fetch("http://booknow.randion.es/api/v1/employees?filter[restaurant_id]=" + rest_id,{
 
-    }).then(async (res) => {
+      headers : {
+        Accept : "application/vnd.api+json",
+        Authorization: `Bearer ${token}`
+      }
+    }).then((res) => res.json()).then((resultado) => {
 
-        this.employees = await res.data.data;
+      console.log(resultado.data);
 
-    } ).catch((error) => {
-
-      this.$router.push('/unauthorized')
+      this.employees = resultado.data;
 
     })
-  
+
   },
   methods: {
     logout() {
