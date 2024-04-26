@@ -141,7 +141,7 @@ export default defineComponent({
         "password": this.password,
         "device_name": this.getDeviceName()
       }
-      fetch('http://127.0.0.1:8000/api/v1/user_login', {
+      fetch('http://booknow.randion.es/api/v1/user_login', {
         method: 'POST',
         headers: {
           'Accept': 'application/vnd.api+json',

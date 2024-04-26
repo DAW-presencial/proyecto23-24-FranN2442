@@ -99,7 +99,7 @@ export default {
       console.log(this.employee_id, this.employee_pin);
 
       fetch(
-        "http://127.0.0.1:8000/api/v1/employee_login",
+        "http://booknow.randion.es/api/v1/employee_login",
         {
           method: "POST",
           headers: {
