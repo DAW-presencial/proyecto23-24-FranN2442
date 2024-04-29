@@ -17,7 +17,15 @@ export default {
         const response = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitud}&lon=${longitud}&format=json`);
         const data = await response.json();
         codigoPostal.value = data.address.postcode;
-        console.log('Código postal ' + codigoPostal.value)
+
+        const codigoPostalSumado = parseInt(codigoPostal.value) + 1;
+        const codigoPostalActual = parseInt(codigoPostal.value);
+        const codigoPostalRestado = parseInt(codigoPostal.value) - 1;
+        localStorage.setItem("zip_code", codigoPostalSumado);
+        localStorage.setItem("zip_code_1", codigoPostalActual);
+        localStorage.setItem("zip_code_2", codigoPostalRestado);
+        window.location.reload();
+
       } catch (error) {
         console.error('Error obteniendo el código postal actual:', error);
         codigoPostal.value = 'No disponible';
@@ -41,7 +49,6 @@ export default {
           }
         })
 
-      // Start listening for position changes
       geoId = Geolocation.watchPosition({}, (newPosition, err) => {
         console.log('New GPS position: latitud ' + newPosition.coords.latitude + ' longitud ' + newPosition.coords.longitude)
         position.value = newPosition

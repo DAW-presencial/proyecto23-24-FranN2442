@@ -10,13 +10,13 @@
             </a>
           </div>
         </q-toolbar-title>
-        <div v-if="isAuthenticated == null">
+        <div v-if="isAuthenticated === null">
           <q-btn class="btn" to="/login" label="Login" color="primary" /> &nbsp;
           <q-btn class="btn" to="/register" label="Register" color="primary" />
         </div>
         <div v-else>
-          <q-btn class="btn" to="/login" label="Profile" color="primary" /> &nbsp;
-          <q-btn class="btn" to="" label="Log out" color="primary" @click="logOut"/>
+          <q-btn class="btn" to="/profile" label="Profile" color="primary" /> &nbsp;
+          <q-btn class="btn" to="" label="Log out" color="primary" @click="logOut" />
         </div>
       </q-toolbar>
     </q-header>
@@ -35,14 +35,14 @@ export default {
       isAuthenticated: null,
     }
   },
-  created (){
+  created() {
     this.isAuthenticated = LocalStorage.getItem("token")
   },
-  methods:{
-    logOut(){
-      LocalStorage.remove("token")
-      this.isAuthenticated = LocalStorage.getItem("token")
-      console.log(this.isAuthenticated)
+  methods: {
+    logOut() {
+      localStorage.clear();
+      this.isAuthenticated = null;
+      window.location.href = "";
     },
   }
 }
