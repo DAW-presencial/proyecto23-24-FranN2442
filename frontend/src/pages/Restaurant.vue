@@ -1,220 +1,142 @@
 <template>
   <q-page-container style="padding-top: 0%">
     <q-page>
-      <div class="example-row-equal-width">
-        <div class="row">
-          <div class="col">
-            <div>
-              <q-carousel
-                v-model="slide"
-                height="250px"
-              >
-                <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
-              </q-carousel>
-            </div>
+      <div class="max-width">
+        <div class="col">
+          <div>
+            <q-carousel
+              v-model="slide"
+              height="250px"
+            >
+              <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
+            </q-carousel>
           </div>
         </div>
-        <div class="row">
-          <div class="col-6 q-pa-md">
-            <div class="row mulish">{{restaurant.name}}</div>
-            <div class="row">{{restaurant}}</div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="row mulish title">
+            <h3 class="q-ma-md">{{restaurant.name}}</h3>
           </div>
-          <div class="col-6 q-pa-md">
-            <div class="row justify-center q-ma-md mulish">
-              <div>
-                <q-stepper
-                  v-model="step"
-                  ref="stepper"
-                  color="primary"
-                  animated
-                >
-                  <q-step
-                    :name="1"
-                    title="DIA"
-                    caption="Dia de asistencia"
-                    icon="calendar_today"
-                    :done="step > 1 && reservation.date != ''"
-                  >
-                    <div class="row justify-center">
-                      <div class="q-pa-md">
-                        <q-date
-                          v-model="reservation.date"
-                          landscape
-                          :options="optionsFn"
-                          navigation-min-year-month="2024/04"
-                          navigation-max-year-month="2024/06"
-                        />
-                      </div>
-                    </div>
-                    <div class="row">
-                      <q-stepper-navigation>
-                        <q-btn v-if="reservation.date != '' " @click="$refs.stepper.next()" color="primary" :label="step === 4 ? 'Finish' : 'Continue'" />
-                        <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back" class="q-ml-sm" />
-                      </q-stepper-navigation>
-                    </div>
-                  </q-step>
-
-                  <q-step
-                    :name="2"
-                    title="HORA"
-                    caption="Hora de llegada"
-                    icon="schedule"
-                    :done="step > 2"
-                  >
-                    <div class="row q-ma-md" v-for="horario in this.horarios" :key="horario">
-                      <div class="col">
-                        <div class="row">
-                          <h6 style="margin: 1%">{{ horario[0]}}</h6>
-                        </div>
-                        <div class="row">
-                          <q-btn v-for="hora in horario[1]" :key="hora" v-model="reservation.hour" :label="hora"></q-btn>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <q-stepper-navigation>
-                        <q-btn v-if="reservation.hour != '' " @click="$refs.stepper.next()" color="primary" :label="step === 4 ? 'Finish' : 'Continue'" />
-                        <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back" class="q-ml-sm" />
-                      </q-stepper-navigation>
-                    </div>
-                  </q-step>
-
-                  <q-step
-                    :name="3"
-                    title="COMENSALES"
-                    caption="Nº de asistentes"
-                    icon="group"
-                    :done="step > 3"
-                  >
-                    <div class="row justify-center">
-                      <q-btn  @click="setDiners(diners_num)" class="q-ma-sm boton" v-for="diners_num in diners_arr" :label="diners_num" :key="diners_num"></q-btn>
-                    </div>
-                    <q-stepper-navigation>
-                      <q-btn v-if="reservation.diners != '' " @click="$refs.stepper.next()" color="primary" :label="step === 4 ? 'Finish' : 'Continue'" />
-                      <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back" class="q-ml-sm" />
-                    </q-stepper-navigation>
-
-                  </q-step>
-
-                  <q-step
-                    :name="4"
-                    title="MESA RESERVA"
-                    caption="Elija una mesa"
-                    icon="table_restaurant"
-                  >
-
-                    <q-btn label="Selecionar Mesa" color="primary" @click="dialog = true" />
-
-                    <q-stepper-navigation>
-                      <q-btn v-if="reservation.diners != '' " @click="$refs.stepper.next()" color="primary" :label="step === 4 ? 'Finish' : 'Continue'" />
-                      <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back" class="q-ml-sm" />
-                    </q-stepper-navigation>
-
-                  </q-step>
-                </q-stepper>
+          <div class="row">
+            <q-btn class="q-ma-sm bg-primary text-white" :label="restaurant.category" icon="restaurant"></q-btn>
+            <q-btn class="q-ma-sm bg-primary text-white" :label="restaurant.location" icon="location_on"></q-btn>
+          </div>
+          <div class="row q-ma-sm rounded-borders">
+            <div class="col mulish">
+              <h5 class="q-ma-md">Información de contacto</h5>
+              <div class="row">
+                <p>{{ restaurant.email }}</p>
+              </div>
+              <div class="row">
+                <p>{{ restaurant.address }}</p>
+              </div>
+              <div class="row">
+                <p>{{ restaurant.tel_num }}</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- <div class="bg-blue-1">
-        <div style="max-height: 600px; height: 600px; width: 100%;display: flex;flex-wrap: wrap;">
-          <div style="height: 100%;width: 65%;z-index: 1;flex: 1 0 10rem;">
-            <div class="rounded-borders shadow-2 bg-white" style="height: 700px;margin: 2%;padding: 1%">
-              <div>
-                <h3 class="q-pa-md mulish" style="margin: 5px;border-bottom: 2px black solid;">{{restaurant.name}}</h3>
-              </div>
-              <div class="rounded-borders">
-                <div class="q-pa-sm" style="display: flex;flex-wrap: wrap">
-                  <q-btn color="white" icon="pin_drop" text-color="black" class="shadow-1 q-ma-sm mulish " :label="restaurant.address" />
-                  <q-btn color="white" icon="restaurant" text-color="black" class="shadow-1 q-ma-sm mulish " :label="restaurant.location" />
-                </div>
-                <h5 style="margin: 0%;" class="q-pa-sm mulish text-primary">Información</h5>
-                <div class="q-pa-sm">
-                  <q-list >
-                    <q-item class="mulish q-ma-sm rounded-borders " v-ripple>
-                      <q-item-section class="rest-item  q-pa-sm">
-                        <q-item-label overline>EMAIL</q-item-label>
-                        <q-item-label>{{restaurant.email}}</q-item-label>
-                      </q-item-section>
-                    </q-item>
+      <div class="row q-pa-md bg-blue-2">
+        <div class="col q-ma-md mulish">
+          <div>
+            <q-stepper
+              v-model="step"
+              ref="stepper"
+              color="primary"
+              animated
 
-                    <q-item v-ripple class="mulish q-ma-sm rounded-borders ">
-                      <q-item-section class="rest-item q-pa-sm">
-                        <q-item-label overline>NUMERO TELEFONO</q-item-label>
-                        <q-item-label>{{restaurant.tel_num}}</q-item-label>
-                      </q-item-section>
-                    </q-item>
-
-                    <q-item v-ripple class="mulish q-ma-sm rounded-borders ">
-                      <q-item-section class="rest-item q-pa-sm">
-                        <q-item-label overline>WEB</q-item-label>
-                        <q-item-label><a href="{{restaurant.web_url}}">{{restaurant.web_url}}</a></q-item-label>
-                      </q-item-section>
-                    </q-item>
-                  </q-list>
+            >
+              <q-step
+                :name="1"
+                title="DIA"
+                caption="Dia de asistencia"
+                icon="calendar_today"
+                :done="step > 1 && reservation.date != ''"
+              >
+                <div class="row justify-center">
+                  <div class="q-pa-md">
+                    <q-date
+                      v-model="reservation.date"
+                      landscape
+                      :options="optionsFn"
+                      navigation-min-year-month="2024/04"
+                      navigation-max-year-month="2024/06"
+                    />
+                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div style="height: 100%;width: 35%;z-index: 1;flex: 1 0 10rem;">
-            <div class="rounded-borders shadow-5 bg-white" style=" height: 610px;margin: 4%;">
-              <div class="flex justify-center">
-                <h4 class="mulish">HORARIO</h4>
-              </div>
-              <div class="q-pa-md">
-                <q-list bordered class="rounded-borders" v-for="dia in restaurant.opening_hours" :key="dia" >
-                  <q-expansion-item
-                      expand-separator
-                      group="horario"
-                      header-class="bg-blue-3 text-black mulish"
-                      icon="event"
-                      :label="dia[0]"
-                      :caption="dia[1]"
-                      dense-toggle
-                      v-if="dia[1] == 'Abierto'">
-                    <q-card>
-                      <q-card-section class="flex justify-center mulish">
-                        {{dia[2]}} - {{ dia[3] }}
-                      </q-card-section>
-                    </q-card>
-                  </q-expansion-item>
-                  <q-expansion-item
-                      expand-separator
-                      header-class="bg-red-3 text-black"
-                      group="horario"
-                      icon="event_busy"
-                      :label="dia[0]"
-                      :caption="dia[1]"
-                      disable
-                      v-else>
-                    <q-card>
-                      <q-card-section class="flex justify-center">
-                        Cerrado
-                      </q-card-section>
-                    </q-card>
-                  </q-expansion-item>
-                </q-list>
-              </div>
-            </div>
+                <div class="row">
+                  <q-stepper-navigation>
+                    <q-btn v-if="reservation.date != '' " @click="$refs.stepper.next()" color="primary" :label="step === 4 ? 'Finish' : 'Continue'" />
+                    <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back" class="q-ml-sm" />
+                  </q-stepper-navigation>
+                </div>
+              </q-step>
+
+              <q-step
+                :name="2"
+                title="HORA"
+                caption="Hora de llegada"
+                icon="schedule"
+                :done="step > 2"
+              >
+                <div class="row q-ma-md" v-for="horario in this.horarios" :key="horario">
+                  <div class="col">
+                    <div class="row justify-center">
+                      <h6 class="rounded-borders q-ma-sm q-pa-sm shadow-1">{{ horario[0]}}</h6>
+                    </div>
+                    <div class="row justify-center">
+                      <q-btn v-for="hora in horario[1]" @click="updateHour(hora)" :active="reservation.hour === hora" :key="hora">{{ hora }}</q-btn>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <q-stepper-navigation>
+                    <q-btn v-if="reservation.hour != '' " @click="$refs.stepper.next()" color="primary" :label="step === 4 ? 'Finish' : 'Continue'" />
+                    <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back" class="q-ml-sm" />
+                  </q-stepper-navigation>
+                </div>
+              </q-step>
+
+              <q-step
+                :name="3"
+                title="COMENSALES"
+                caption="Nº de asistentes"
+                icon="group"
+                :done="step > 3"
+              >
+                <div class="row justify-center">
+                  <q-btn  @click="setDiners(diners_num)" class="q-ma-sm boton" v-for="diners_num in diners_arr" :label="diners_num" :key="diners_num"></q-btn>
+                </div>
+                <q-stepper-navigation>
+                  <q-btn v-if="reservation.diners != '' " @click="$refs.stepper.next()" color="primary" :label="step === 4 ? 'Finish' : 'Continue'" />
+                  <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back" class="q-ml-sm" />
+                </q-stepper-navigation>
+
+              </q-step>
+
+              <q-step
+                :name="4"
+                title="MESA RESERVA"
+                caption="Elija una mesa"
+                icon="table_restaurant"
+              >
+                <div class="row justify-center">
+                  <q-btn label="Selecionar Mesa" color="blue-9" @click="dialog = true" />
+                </div>
+                <div class="row">
+                  <q-stepper-navigation>
+                    <q-btn  @click="confirmReservation()" color="primary" :label="step === 4 ? 'Finish' : 'Continue'" />
+                    <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back" class="q-ml-sm" />
+                  </q-stepper-navigation>
+                </div>
+
+              </q-step>
+            </q-stepper>
           </div>
         </div>
-        <q-parallax :height="400" src="../assets/plato.jpg" style="z-index: 0;">
-
-        </q-parallax>
-        <div class="bg-blue-1" style="height: auto;width: 100%;">
-          <div class=" mulish">
-            <div  class="bg-primary text-white shadow-2" style="height: 15%;width: 100%;">
-              <h4 class="q-pa-md" style="margin: 0px">RESERVA YA!</h4>
-            </div>
-            <div class="q-pa-xl">
-
-              <ResFormComponent></ResFormComponent>
-            </div>
-          </div>
-        </div>
-      </div> -->
-      <!-- <FooterComponent></FooterComponent> -->
+      </div>
       <q-dialog
         v-model="dialog"
         persistent
@@ -228,6 +150,26 @@
           </q-card-section>
         </q-card>
       </q-dialog>
+      <!-- ! Confirmation card -->
+      <q-dialog v-model="card">
+        <q-card class="my-card">
+          <q-card-section>
+            <div>
+              <p><q-btn :label="reservation.date"></q-btn></p>
+              <p><q-btn :label="reservation.hour"></q-btn></p>
+              <p><q-btn :label="reservation.diners"></q-btn></p>
+              <p><q-btn :label="reservation.table_number"></q-btn></p>
+            </div>
+          </q-card-section>
+
+          <q-separator />
+
+          <q-card-actions align="right">
+            <q-btn @click="makeReservation()" flat color="primary" label="Reserve" :loading="loading"/>
+            <q-btn v-close-popup flat color="alert" round icon="close" />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </q-page>
   </q-page-container>
 </template>
@@ -236,6 +178,7 @@ import moment from "moment";
 import FooterComponent from "../components/FooterComponent.vue";
 import ResFormComponent from "src/components/ResFormComponent.vue";
 import SvgComponent from "src/components/SvgComponent.vue";
+import { LocalStorage, Notify } from "quasar";
 
 export default {
   name: "RestaurantPage",
@@ -250,17 +193,23 @@ export default {
       slide: "first",
       slide: 1,
       step : 1,
-      diners_arr : [1,2,3,4,5,6,7,8,9,10,11,12],
+      diners_arr : ["1","2","3","4","5","6","7","8","9","10","11","12"],
       reservation : {
         date : "",
-        hour : "11:00",
+        reservation_code : "",
+        hour : "",
         diners :"",
-        table : ""
+        table_number : "",
+        user_id : 1,
+        restaurant_id : parseInt(this.$route.query.id),
+        design_id : 0
       },
       today : "",
       dialog : false,
       maximizedToggle: true,
-      horarios : []
+      horarios : [],
+      card: false,
+      loading : false
 
     };
   },
@@ -286,9 +235,9 @@ export default {
 
         let intervalo = 30 // Meter valor en la base de datos
 
-        
+
         for(let tourn in this.tourns){
-          
+
           let horas_int = []
 
           console.log(this.tourns[tourn].start,this.tourns[tourn].end);
@@ -309,7 +258,7 @@ export default {
               continue
             }
             horas_int.push(start)
-          
+
 
           }
 
@@ -319,18 +268,18 @@ export default {
 
             let horas = Math.floor(horas_int[i] / 60)
             let minutos = horas_int[i] % 60
-  
+
             let fecha = new Date();
             fecha.setHours(horas,minutos,0,0)
-  
+
             let horaFormateada = fecha.toLocaleTimeString('es-ES', {hour: '2-digit',minute:'2-digit'})
 
             aux_arr.push(horaFormateada)
-  
+
             // console.log(horaFormateada);
           }
           this.horarios.push([this.tourns[tourn].tourn_name,aux_arr])
-      
+
         }
 
         console.log(this.horarios);
@@ -363,6 +312,69 @@ export default {
         console.log(reservationsFiltred);
       });
 
+
+    },
+    updateHour(hora){
+
+      this.reservation.hour = hora
+
+    },
+    makeReservation(){
+
+      let reservation_code = Math.floor(Math.random() * (999999999999 - 100000000000 + 1)) + 100000000000
+      this.reservation.reservation_code = reservation_code.toString()
+      this.reservation.design_id = parseInt(LocalStorage.getItem('dsid'))
+
+      console.log(this.reservation);
+
+
+      this.loading = true
+      // fetch("http://booknow.randion.es/api/v1/reservations",{
+
+      //   headers : {
+
+      //     'Accept' : "application/vnd.api+json",
+      //     'Content-Type' : "application/vnd.api+json"
+      //   },
+      //   body : JSON.stringify({data : { attribtes : this.reservation}})
+      // }).then().then()
+
+    },
+    confirmReservation(){
+
+
+      if(LocalStorage.getItem('token') == null){
+
+        setTimeout(() => {
+
+          this.$router.push("/login")
+        },1500)
+        Notify.create({
+
+          message : "Inicia sessión para continuar",
+          type : "alert"
+
+        })
+      }else {
+
+        if(LocalStorage.getItem('table') == null){
+
+          Notify.create({
+
+            message: "Selecciona una mesa",
+            type: "negative"
+
+          })
+
+        } else {
+
+          this.reservation.table_number = LocalStorage.getItem('table')
+          this.card = true
+          console.log(this.table_number);
+
+        }
+      }
+
     }
   }
 };
@@ -373,4 +385,10 @@ export default {
   width: 20%;
 
 }
+.title{
+
+  border-bottom: 2px black solid;
+
+}
+
 </style>

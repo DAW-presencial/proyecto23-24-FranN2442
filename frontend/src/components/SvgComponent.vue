@@ -80,6 +80,7 @@ export default {
     changeSelectedSvg(id){
 
       this.selected_hall = id
+      LocalStorage.set('dsid',id)
       this.changeSvg()
       // this.tables = this.designs.filter(design => design.attributtes.id.toLowerCase().includes(this.selected_hall))
 
