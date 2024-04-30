@@ -95,7 +95,7 @@ export default defineComponent({
 
   methods: {
     async fetchRestaurants() {
-      const response = await fetch('http://booknow.randion.es/api/v1/restaurants', {
+      const response = await fetch('http://booknow_api.randion.es/api/v1/restaurants', {
         method: 'GET',
         headers: {
           'accept': 'application/vnd.api+json'

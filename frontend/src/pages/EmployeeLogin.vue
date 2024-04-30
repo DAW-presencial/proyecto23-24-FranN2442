@@ -61,7 +61,7 @@ export default {
 
     console.log(rest_id, token);
      
-    fetch("http://booknow.randion.es/api/v1/employees?filter[restaurant_id]=" + rest_id,{
+    fetch("http://booknow_api.randion.es/api/v1/employees?filter[restaurant_id]=" + rest_id,{
 
       headers : {
         Accept : "application/vnd.api+json",
@@ -98,7 +98,7 @@ export default {
       console.log(this.employee_id, this.employee_pin);
 
       fetch(
-        "http://booknow.randion.es/api/v1/employee_login",
+        "http://booknow_api.randion.es/api/v1/employee_login",
         {
           method: "POST",
           headers: {
