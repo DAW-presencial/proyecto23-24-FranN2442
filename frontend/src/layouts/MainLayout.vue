@@ -15,7 +15,8 @@
           <q-btn class="btn" to="/register" label="Register" color="primary" />
         </div>
         <div v-else>
-          <q-btn class="btn" to="/profile" label="Profile" color="primary" /> &nbsp;
+
+          <q-btn class="btn" to="/profile" label="Profile" color="primary" v-if="this.$route.path != '/profile'"/> &nbsp;
           <q-btn class="btn" to="" label="Log out" color="primary" @click="logOut" />
         </div>
       </q-toolbar>
