@@ -25,6 +25,40 @@
         </div>
       </q-card-section>
     </div>
+    <div class="q-pa-md shadow-2 my_card bg-white">
+      <q-card-section>
+        <div class="text-h6">Reservas</div>
+      </q-card-section>
+      <q-card-section class="text-center" v-if="userReservations != [] ">
+        <div class="q-gutter-md" style="max-width: 300px" v-for="reservation in this.userReservations" :key="reservation.id">
+          <q-field outlined label="Código Reserva" stack-label>
+            <template v-slot:control>
+              <div class="self-center full-width no-outline" tabindex="0">{{ reservation.attributes.reservation_code }}</div>
+            </template>
+          </q-field>
+          <q-field outlined label="Fecha" stack-label>
+            <template v-slot:control>
+              <div class="self-center full-width no-outline" tabindex="0">{{ reservation.attributes.date }}</div>    
+            </template>
+          </q-field>
+          <q-field outlined label="Hora" stack-label>
+            <template v-slot:control>
+              <div class="self-center full-width no-outline" tabindex="0">{{ reservation.attributes.hour }}</div>
+            </template>
+          </q-field>
+          <q-field outlined label="Comensales" stack-label>
+            <template v-slot:control>
+              <div class="self-center full-width no-outline" tabindex="0">{{ reservation.attributes.diners }}</div>
+            </template>
+          </q-field>
+          <q-field outlined label="Numero de mesa" stack-label>
+            <template v-slot:control>
+              <div class="self-center full-width no-outline" tabindex="0">{{ reservation.attributes.table_number }}</div>
+            </template>
+          </q-field>
+        </div>
+      </q-card-section>
+    </div>
   </q-page>
 </template>
 
@@ -45,10 +79,12 @@ export default defineComponent({
           tel_num: '',
         }
       },
+      userReservations : []
     }
   },
   created() {
     this.loadData();
+    this.getUserReservations()
   },
   methods: {
     loadData() {
@@ -65,7 +101,30 @@ export default defineComponent({
     },
     redirectUnathorized() {
       window.location.href = "/#/unathorized"
+    },
+    getUserReservations(){
+  
+      let user_id = LocalStorage.getItem('usrid')// Cambiar a petición para comprobar token
+      let token = LocalStorage.getItem('token')
+  
+      fetch("http://booknow_api.randion.es/api/v1/reservations?filter[user_id]=" + user_id,{
+        headers : {
+  
+          'Accept' : "application/vnd.api+json",
+          'Authorization' : `Bearer ${token}`
+        },
+      }).then((res) => res.json()).then((response) => {
+  
+        console.log(response);
+        this.userReservations = response.data
+  
+      }).catch((error) => {
+  
+        console.log(error);
+  
+      })
+  
     }
-  }
+  },
 });
 </script>

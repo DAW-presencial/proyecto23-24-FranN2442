@@ -150,6 +150,7 @@ export default defineComponent({
         .then(resultado => {
           LocalStorage.set("token", resultado.token);
           LocalStorage.set("data", resultado.data.attributes);
+          LocalStorage.set("usrid", resultado.data.id);
           console.log(localStorage.getItem("token"));
           this.showCustom()
         })
