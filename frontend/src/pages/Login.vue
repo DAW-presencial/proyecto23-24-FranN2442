@@ -31,27 +31,19 @@
       </q-card-section>
       <q-card-section class="text-center q-pt-none">
         <div class="text-grey-8">¿Aún no tiene cuenta?
-          <router-link to="/register" class="text-dark text-weight-bold cursor-pointer"
+          <router-link to="/register" class="text-primary text-weight-bold cursor-pointer"
             style="text-decoration: none">Regístrese</router-link>
         </div>
       </q-card-section>
     </q-card>
-    <q-footer class="bg-grey-2">
-      <FooterComponent></FooterComponent>
-    </q-footer>
   </q-page>
 </template>
 
 <script>
 import { defineComponent, ref } from 'vue'
 import { LocalStorage, useQuasar, QSpinnerGears } from 'quasar'
-import FooterComponent from '../components/FooterComponent.vue'
 export default defineComponent({
   name: 'Home',
-  components: {
-    FooterComponent,
-  },
-
   setup() {
     const alert = ref(false)
     const email = ref('')
@@ -156,7 +148,9 @@ export default defineComponent({
           return res.json();
         })
         .then(resultado => {
-          LocalStorage.set("token", resultado.token)
+          LocalStorage.set("token", resultado.token);
+          LocalStorage.set("data", resultado.data.attributes);
+          console.log(localStorage.getItem("token"));
           this.showCustom()
         })
         .catch(error => {

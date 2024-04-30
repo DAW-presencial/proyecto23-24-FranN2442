@@ -3,7 +3,10 @@
     <div class="rounded-div">
       <div class="search-div">
         <q-input type="search" class="search-input" rounded outlined v-model="searchRestaurant" @input="searchByInput"
-          placeholder="Buscar restaurante..." />
+          placeholder="Buscar restaurante..." />&nbsp;
+        <a @click="clearSearch" style="cursor: pointer;">
+          <i class="fa-regular fa-circle-xmark"></i>
+        </a>
         &nbsp;
         <GeolocationComponent></GeolocationComponent>
       </div>
@@ -16,8 +19,9 @@
       </div>
       <q-card class="my-card" v-for="rest in restaurantsFilter" :key="rest.id">
         <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
-          <div class="absolute-bottom text-h6">
-            <q-btn :to="'/restaurant?id=' + rest.id">{{ rest.attributes.name }}</q-btn>
+
+          <div class="absolute-bottom text-h7">
+            {{ rest.attributes.name }}
           </div>
         </q-img>
         <q-card-section>
@@ -42,6 +46,13 @@
           <div>
             <i class="fa-solid fa-person restaurant-icon"></i>{{ rest.attributes.capacity }}
           </div>
+          <br>
+          <div class="text-center">
+            <q-btn color="black" class="full-width">
+              <router-link :to="'restaurant?id=' + rest.id" class="text-white text-weight-bold cursor-pointer"
+                style="text-decoration: none">Reservar</router-link>
+            </q-btn>
+          </div>
         </q-card-section>
       </q-card>
     </div>
@@ -50,7 +61,7 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import FooterComponent from '../components/FooterComponent.vue'
 import GeolocationComponent from '../components/Geolocation.vue'
 export default defineComponent({
@@ -62,7 +73,7 @@ export default defineComponent({
 
   data() {
     return {
-      searchRestaurant: '', // Variable para almacenar el término de búsqueda
+      searchRestaurant: '',
       restaurants: [],
       restaurantsFilter: [],
     };
@@ -70,13 +81,8 @@ export default defineComponent({
 
   async created() {
     await this.fetchRestaurants();
-    //console.log('restaurants ' + this.restaurants.length);
+    this.searchByCode();
   },
-  /*
-  La propiedad computed en Vue se utiliza para definir
-  propiedades calculadas que se actualizan automáticamente
-  cuando alguna de las dependencias cambia.
-  */
   computed: {
     searchByInput() {
       if (this.searchRestaurant) {
@@ -84,7 +90,7 @@ export default defineComponent({
       } else {
         this.restaurantsFilter = this.restaurants
       }
-    }
+    },
   },
 
   methods: {
@@ -100,8 +106,24 @@ export default defineComponent({
       }
       const resultado = await response.json();
       this.restaurants = resultado.data;
-      //console.log('restaurants:', this.restaurants[0].attributes.name);
-    }
+    },
+    clearSearch() {
+      this.searchRestaurant = '';
+      this.restaurantsFilter = this.restaurants
+    },
+    searchByCode() {
+      const zip_code = localStorage.getItem("zip_code");
+      const zip_code_1 = localStorage.getItem("zip_code_1");
+      const zip_code_2 = localStorage.getItem("zip_code_2");
+      if (zip_code && zip_code_1 && zip_code_2) {
+        this.restaurantsFilter = this.restaurants.filter(rest => {
+          const zip = parseInt(rest.attributes.postal_code);
+          return zip === parseInt(zip_code) || zip === parseInt(zip_code_1) || zip === parseInt(zip_code_2);
+        });
+      } else {
+        this.restaurantsFilter = this.restaurants
+      }
+    },
   },
 });
 </script>
@@ -130,7 +152,7 @@ export default defineComponent({
 }
 
 .search-input {
-  width: 50vw;
+  width: 30vw;
   border-radius: 30px;
   background-color: white;
 }

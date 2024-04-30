@@ -29,7 +29,7 @@
           <q-input v-model="formData.tel_num" dense outlined label="Número de teléfono" type="tel"
             class="custom-input" /><br>
           <div class="text-center">
-            <q-btn style="border-radius: 8px;" type="submit" color="green" label="Registrarse" class="full-width" />
+            <q-btn style="border-radius: 8px;" type="submit" color="primary" label="Registrarse" class="full-width" />
           </div>
         </q-form>
       </q-card-section>
@@ -40,20 +40,14 @@
         </div>
       </q-card-section>
     </q-card>
-    <FooterComponent></FooterComponent>
   </q-page>
 </template>
 
 <script>
 import { useQuasar } from 'quasar'
 import { defineComponent, ref } from 'vue'
-import FooterComponent from '../components/FooterComponent.vue'
 export default defineComponent({
   name: 'Home',
-  components: {
-    FooterComponent,
-  },
-
   data() {
     return {
       formData: {
