@@ -66,7 +66,7 @@ export default {
 
       }
 
-      fetch('http://booknow.randion.es/api/v1/restaurant_login',{
+      fetch('http://booknow_api.randion.es/api/v1/restaurant_login',{
         method : 'POST',
         headers : {
 
