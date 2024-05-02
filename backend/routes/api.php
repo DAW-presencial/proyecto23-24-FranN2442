@@ -23,7 +23,7 @@ Route::post('employee_login',[EmployeeController::class,'login']) // * EMPLOYEE 
 
 // ! Users API Routes without Token-----------------------------------------------------------------------------------------------------
 
-Route::get('user_login',[UserController::class,'login'])
+Route::post('user_login',[UserController::class,'login'])
 ->name(('api.v1.users.login')); // HECHO
 Route::get('users',[UserController::class,'index'])
 ->name(('api.v1.users.index')); // HECHO
