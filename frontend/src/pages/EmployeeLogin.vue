@@ -57,7 +57,7 @@ export default {
   beforeCreate(){
     let local_arr = LocalStorage.getAll();
     let rest_id = local_arr.restaurant_id;
-    let token = local_arr.token;
+    let token = local_arr.token_rest;
 
     console.log(rest_id, token);
      
@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     logout() {
-      LocalStorage.remove("token");
+      LocalStorage.remove("token_rest");
       LocalStorage.remove("restaurant_id");
 
       Notify.create({
