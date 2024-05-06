@@ -133,11 +133,13 @@ export default defineComponent({
         "password": this.password,
         "device_name": this.getDeviceName()
       }
-      fetch('http://booknow_api.randion.es/api/v1/user_login', {
-        //method: 'POST',
+      console.log(params);
+      fetch('http://booknow_api_api.randion.es/api/v1/user_login', {
+        //method: "POST",
         headers: {
-          'Accept': 'application/vnd.api+json',
-          'Content-Type': 'application/vnd.api+json',
+
+          'Accept' : 'application/vnd.api+json',
+          'Content-Type' : 'application/vnd.api+json'
         },
         body: JSON.stringify(params)
       })
@@ -150,6 +152,7 @@ export default defineComponent({
         .then(resultado => {
           LocalStorage.set("token", resultado.token);
           LocalStorage.set("data", resultado.data.attributes);
+          LocalStorage.set("usrid", resultado.data.id);
           console.log(localStorage.getItem("token"));
           this.showCustom()
         })
@@ -157,6 +160,7 @@ export default defineComponent({
           if (error.message === 'Unprocessable Content') {
             this.alert = true;
           } else {
+            console.log(error);
             this.errorMessage = alert('Se produjo un error interno del servidor. Por favor, inténtalo de nuevo más tarde.');
           }
         });

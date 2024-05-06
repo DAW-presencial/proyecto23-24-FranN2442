@@ -127,7 +127,7 @@
                 </div>
                 <div class="row">
                   <q-stepper-navigation>
-                    <q-btn  @click="confirmReservation()" color="primary" :label="step === 4 ? 'Finish' : 'Continue'" />
+                    <q-btn  @click="makeReservation()" color="primary" :label="step === 4 ? 'Finish' : 'Continue'" />
                     <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back" class="q-ml-sm" />
                   </q-stepper-navigation>
                 </div>
@@ -165,7 +165,7 @@
           <q-separator />
 
           <q-card-actions align="right">
-            <q-btn @click="makeReservation()" flat color="primary" label="Reserve" :loading="loading"/>
+            <q-btn @click="confirmReservation()" flat color="primary" label="Reserve" :loading="loading"/>
             <q-btn v-close-popup flat color="alert" round icon="close" />
           </q-card-actions>
         </q-card>
@@ -200,7 +200,7 @@ export default {
         hour : "",
         diners :"",
         table_number : "",
-        user_id : 1,
+        user_id : 9,
         restaurant_id : parseInt(this.$route.query.id),
         design_id : 0
       },
@@ -300,7 +300,7 @@ export default {
 
       console.log(date);
 
-      fetch("http://booknow.randion.es/api/v1/reservations?filter[restaurant_id]=" + this.$route.query.id + "&filter[date]=" + date, {
+      fetch("http://booknow_api.randion.es/api/v1/reservations?filter[restaurant_id]=" + this.$route.query.id + "&filter[date]=" + date, {
         method: "GET",
         headers: {
           Accept: "application/vnd.api+json",
@@ -324,20 +324,11 @@ export default {
       let reservation_code = Math.floor(Math.random() * (999999999999 - 100000000000 + 1)) + 100000000000
       this.reservation.reservation_code = reservation_code.toString()
       this.reservation.design_id = parseInt(LocalStorage.getItem('dsid'))
+      this.reservation.table_number = LocalStorage.getItem('table')
 
       console.log(this.reservation);
 
-
-      this.loading = true
-      // fetch("http://booknow.randion.es/api/v1/reservations",{
-
-      //   headers : {
-
-      //     'Accept' : "application/vnd.api+json",
-      //     'Content-Type' : "application/vnd.api+json"
-      //   },
-      //   body : JSON.stringify({data : { attribtes : this.reservation}})
-      // }).then().then()
+      this.card = true
 
     },
     confirmReservation(){
@@ -368,9 +359,30 @@ export default {
 
         } else {
 
-          this.reservation.table_number = LocalStorage.getItem('table')
-          this.card = true
-          console.log(this.table_number);
+          this.loading = true
+          let token = LocalStorage.getItem('token')
+
+          fetch("http://booknow_api.randion.es/api/v1/reservations",{
+            method : 'POST',
+            headers : {
+
+              'Accept' : "application/vnd.api+json",
+              'Content-Type' : "application/vnd.api+json",
+              'Authorization' : `Bearer ${token}`
+            },
+            body : JSON.stringify({data : { attributes : this.reservation}})
+          }).then((res) => res.json()).then((response) => {
+
+            console.log(response);
+            this.loading = false
+            this.card = false
+
+          }).catch((error) => {
+
+            console.log(error);
+
+          })
+
 
         }
       }

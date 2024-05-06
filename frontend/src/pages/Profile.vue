@@ -6,17 +6,23 @@
           <div class="text-h5 text-weight-bold">Datos personales</div>
           <q-field outlined label="Name" stack-label>
             <template v-slot:control>
-              <div class="self-center full-width no-outline" tabindex="0">{{ data.attributes.full_name }}</div>
+              <div class="self-center full-width no-outline" tabindex="0">
+                {{ data.attributes.full_name }}
+              </div>
             </template>
           </q-field>
           <q-field outlined label="Teléfono" stack-label>
             <template v-slot:control>
-              <div class="self-center full-width no-outline" tabindex="0">{{ data.attributes.tel_num }}</div>
+              <div class="self-center full-width no-outline" tabindex="0">
+                {{ data.attributes.tel_num }}
+              </div>
             </template>
           </q-field>
           <q-field outlined label="Email" stack-label>
             <template v-slot:control>
-              <div class="self-center full-width no-outline" tabindex="0">{{ data.attributes.email }}</div>
+              <div class="self-center full-width no-outline" tabindex="0">
+                {{ data.attributes.email }}
+              </div>
             </template>
           </q-field>
           <div class="text-right q-gutter-md">
@@ -25,47 +31,180 @@
         </div>
       </q-card-section>
     </div>
+    <div class="q-pa-md shadow-2 my_card bg-white">
+      <q-card-section>
+        <div class="text-h6">Reservas</div>
+      </q-card-section>
+      <q-card-section class="text-center flex" v-if="userReservations != []">
+        <div
+          class="q-pa-md q-ma-md shadow-2"
+          style="max-width: 300px"
+          v-for="reservation in this.userReservations"
+          :key="reservation.id"
+        >
+          <q-field
+            outlined
+            label="Código Reserva"
+            label-color="primary"
+            stack-label
+            class="q-ma-sm"
+          >
+            <template v-slot:control>
+              <div class="self-center full-width no-outline" tabindex="0">
+                {{ reservation.attributes.reservation_code }}
+              </div>
+            </template>
+          </q-field>
+          <q-field
+            outlined
+            label="Fecha"
+            label-color="primary"
+            stack-label
+            class="q-ma-sm"
+          >
+            <template v-slot:control>
+              <div class="self-center full-width no-outline" tabindex="0">
+                {{ reservation.attributes.date }}
+              </div>
+            </template>
+          </q-field>
+          <q-field
+            outlined
+            label="Hora"
+            label-color="primary"
+            stack-label
+            class="q-ma-sm"
+          >
+            <template v-slot:control>
+              <div class="self-center full-width no-outline" tabindex="0">
+                {{ reservation.attributes.hour }}
+              </div>
+            </template>
+          </q-field>
+          <q-field
+            outlined
+            label="Comensales"
+            label-color="primary"
+            stack-label
+            class="q-ma-sm"
+          >
+            <template v-slot:control>
+              <div class="self-center full-width no-outline" tabindex="0">
+                {{ reservation.attributes.diners }}
+              </div>
+            </template>
+          </q-field>
+          <q-field
+            outlined
+            label="Numero de mesa"
+            label-color="primary"
+            stack-label
+            class="q-ma-sm"
+          >
+            <template v-slot:control>
+              <div class="self-center full-width no-outline" tabindex="0">
+                {{ reservation.attributes.table_number }}
+              </div>
+            </template>
+          </q-field>
+          <q-card-actions class="flex">
+            <q-btn
+              flat
+              @click="deleteReservation(reservation.id)"
+              class="bg-red text-white justify-end"
+              >Calcelar</q-btn
+            >
+          </q-card-actions>
+        </div>
+      </q-card-section>
+    </div>
   </q-page>
 </template>
 
 
 <script>
-import { defineComponent } from 'vue'
-import { LocalStorage } from 'quasar'
+import { defineComponent } from "vue";
+import { LocalStorage, Notify } from "quasar";
 
 export default defineComponent({
-  name: 'Home',
+  name: "Home",
   data() {
     return {
       datos: null,
       data: {
         attributes: {
-          full_name: '',
-          password: '',
-          tel_num: '',
-        }
+          full_name: "",
+          password: "",
+          tel_num: "",
+        },
       },
-    }
+      userReservations: [],
+    };
   },
   created() {
     this.loadData();
+    this.getUserReservations();
   },
   methods: {
     loadData() {
       const userData = LocalStorage.getItem("data");
       if (userData) {
         this.datos = userData;
-        this.data.attributes.email = userData.email
-        this.data.attributes.full_name = userData.full_name
-        this.data.attributes.password = userData.password
-        this.data.attributes.tel_num = userData.tel_num
+        this.data.attributes.email = userData.email;
+        this.data.attributes.full_name = userData.full_name;
+        this.data.attributes.password = userData.password;
+        this.data.attributes.tel_num = userData.tel_num;
       } else {
         this.redirectUnathorized();
-      };
+      }
     },
     redirectUnathorized() {
-      window.location.href = "/unathorized"
-    }
-  }
+      window.location.href = "/unathorized";
+    },
+    getUserReservations() {
+      let user_id = LocalStorage.getItem("usrid"); // Cambiar a petición para comprobar token
+      let token = LocalStorage.getItem("token");
+
+      fetch(
+        "http://booknow_api.randion.es/api/v1/reservations?filter[user_id]=" +
+          user_id,
+        {
+          headers: {
+            Accept: "application/vnd.api+json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((response) => {
+          console.log(response);
+          this.userReservations = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    deleteReservation(reservation_id) {
+      let token = LocalStorage.getItem("token");
+      console.log(token);
+
+      fetch("http://booknow_api.randion.es/api/v1/reservations/" + reservation_id, {
+        headers: {
+          Accept: "application/vnd.api+json",
+          Authorization: `Bearer ${token}`,
+        },
+        method: "DELETE",
+      })
+        .then(() => {
+          Notify.create({
+            message: "Reserva cancelada!",
+            type: "positive",
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
 });
 </script>

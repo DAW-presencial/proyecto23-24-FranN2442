@@ -94,13 +94,33 @@ class UserController extends Controller
 
             'full_name' => $request->input('data.attributes.full_name'),
             'email' => $request->input('data.attributes.email'),
-            'password' => $request->input('data.attributes.password'),
             'tel_num' => $request->input('data.attributes.tel_num'),
 
 
         ]);
 
         return UserResource::make($user);
+
+    }
+
+    public function resetPassword(User $user,Request $request)
+    {
+
+        if(Hash::check($request->input('data.attributes.old_password'), $user->password)){
+
+            $user->update([
+
+                'password' => Hash::make($request->input('data.attributes.new_password'))
+
+            ]);
+
+            return response()->json(["message" => "User updated!"]);
+
+        } else {
+
+            return response()->json(["message" => "Passwords doesn't match"]);
+
+        }
 
     }
 

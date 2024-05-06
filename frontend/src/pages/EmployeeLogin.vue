@@ -57,11 +57,11 @@ export default {
   beforeCreate(){
     let local_arr = LocalStorage.getAll();
     let rest_id = local_arr.restaurant_id;
-    let token = local_arr.token;
+    let token = local_arr.token_rest;
 
     console.log(rest_id, token);
 
-    fetch("http://booknow_api.randion.es/api/v1/employees?filter[restaurant_id]=" + rest_id,{
+    fetch("http://booknow_api_api.randion.es/api/v1/employees?filter[restaurant_id]=" + rest_id,{
 
       headers : {
         Accept : "application/vnd.api+json",
@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     logout() {
-      LocalStorage.remove("token");
+      LocalStorage.remove("token_rest");
       LocalStorage.remove("restaurant_id");
 
       Notify.create({
@@ -98,7 +98,7 @@ export default {
       console.log(this.employee_id, this.employee_pin);
 
       fetch(
-        "http://booknow.randion.es/api/v1/employee_login",
+        "http://booknow_api.randion.es/api/v1/employee_login",
         {
           method: "POST",
           headers: {

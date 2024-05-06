@@ -66,7 +66,7 @@ export default {
 
       }
 
-      fetch('http://booknow.randion.es/api/v1/restaurant_login',{
+      fetch('http://booknow_api.randion.es/api/v1/restaurant_login',{
         method : 'POST',
         headers : {
 
@@ -79,7 +79,7 @@ export default {
 
         if(! resultado.errors){
 
-          LocalStorage.set('token',resultado.token.split('|')[1])
+          LocalStorage.set('token_rest',resultado.token.split('|')[1])
           LocalStorage.set('restaurant_id',resultado.data.id)
           Notify.create({
 
