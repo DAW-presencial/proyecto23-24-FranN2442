@@ -17,9 +17,9 @@ const routes = [
     component: () => import('layouts/ErpLayout.vue'),
     children: [
 
-      { path: 'restaurant-login', component: () => import('src/pages/RestaurantLogin.vue') },
-      { path: 'employee-login', component: () => import('src/pages/EmployeeLogin.vue') },
-      { path: 'restaurant-sales', component: () => import('src/pages/RestaurantSales.vue') },
+      { path: 'restaurant-login', component: () => import('pages/RestaurantLogin.vue') },
+      { path: 'employee-login', component: () => import('pages/EmployeeLogin.vue') },
+      { path: 'restaurant-sales', component: () => import('pages/RestaurantSales.vue') },
 
 
     ]

@@ -85,14 +85,18 @@ export default {
         setInterval(()=> {
 
             this.timerSvg()
-
+            clearInterval()
 
         },5000)
+
+    
 
     },
     methods : {
 
         setOptions(){
+
+            this.options = []
 
             for(let i = 0;i < this.svgs.length;i++){
 
@@ -178,12 +182,15 @@ export default {
 
                     this.newSvgs = await response.data
                     console.log(this.newSvgs,this.svgs);
-                    if(this.svgs == this.newSvgs){
+                    if(this.svgs.length !== this.newSvgs.length){
 
-                        console.log("son iguales");
+                        this.svgs = this.newSvgs
+                        this.setOptions()
                     }
         
             })
+
+        
 
 
         }
