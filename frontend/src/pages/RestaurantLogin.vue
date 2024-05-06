@@ -79,7 +79,7 @@ export default {
 
         if(! resultado.errors){
 
-          LocalStorage.set('token',resultado.token.split('|')[1])
+          LocalStorage.set('token_rest',resultado.token.split('|')[1])
           LocalStorage.set('restaurant_id',resultado.data.id)
           Notify.create({
 
