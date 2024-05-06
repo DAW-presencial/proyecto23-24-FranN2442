@@ -35,7 +35,8 @@ export default {
             options : [],
             svg : {},
             token  : '',
-            restaurant_id : ''
+            restaurant_id : '',
+            newSvgs : {}
 
         }
 
@@ -86,7 +87,7 @@ export default {
             this.timerSvg()
 
 
-        },2000)
+        },5000)
 
     },
     methods : {
@@ -173,10 +174,14 @@ export default {
                         'Accept' : 'application/vnd.api+json',
                         'Authorization': `Bearer ${this.token}`
                     }
-            }).then((res) => res.json()).then(async (response) => {
+            }).then((res) => res.json()).then( async (response) => {
 
-                    this.svgs = await response.data
-                    this.setSvg()
+                    this.newSvgs = await response.data
+                    console.log(this.newSvgs,this.svgs);
+                    if(this.svgs == this.newSvgs){
+
+                        console.log("son iguales");
+                    }
         
             })
 
