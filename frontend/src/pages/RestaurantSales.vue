@@ -12,6 +12,7 @@
 </template>
 <script>
 import { api } from 'boot/axios'
+import { min } from 'moment';
 import { LocalStorage,Screen } from 'quasar'
 import SvgComponent from "src/components/SvgComponent.vue";
 
@@ -33,6 +34,8 @@ export default {
             selected : '1',
             options : [],
             svg : {},
+            token  : '',
+            restaurant_id : ''
 
         }
 
@@ -55,16 +58,16 @@ export default {
     },
     beforeCreate(){
 
-        console.log(Screen.height)
+    
         let local_arr = LocalStorage.getAll();
-        let rest_id = local_arr.restaurant_id;
-        console.log(rest_id);
-        let token = local_arr.token;
+        this.restaurant_id = local_arr.restaurant_id;
+        this.token = local_arr.token;
+        console.log( "Restaurant Id: " + this.restaurant_id);
 
-       fetch('http://booknow_api.randion.es/api/v1/designs?filter[restaurant_id]=' + rest_id,{
+       fetch('http://booknow_api.randion.es/api/v1/designs?filter[restaurant_id]=' + this.restaurant_id,{
             headers: {
                 'Accept' : 'application/vnd.api+json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${this.token}`
             }
        }).then((res) => res.json()).then(async (response) => {
 
@@ -74,6 +77,16 @@ export default {
             this.setSvg()
    
        })
+
+    },
+    created(){
+
+        setInterval(()=> {
+
+            this.timerSvg()
+
+
+        },2000)
 
     },
     methods : {
@@ -89,21 +102,28 @@ export default {
         },
         setSvg(){
 
+            let date = new Date();
+            let horas_actu = (date.getHours() < 10 ? '0' : '') + date.getHours()
+            let mins_actu = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
+
+            let formated_h_actu = horas_actu + ':' + mins_actu
+            
             let svgDiv = document.getElementById('svgDiv');
-            let bar = document.getElementById('bar')
             
             svgDiv.innerHTML = ""
 
             let svg = document.createElementNS("http://www.w3.org/2000/svg",'svg');
 
-            svg.setAttribute('width',Screen.width)
-            svg.setAttribute('height',Screen.height - 95)
+            svg.setAttribute('width',Screen.width - 10)
+            svg.setAttribute('height',Screen.height - 78)
             
 
             let tables  = JSON.parse(this.svg.attributes.tables)
-            console.log(tables);
 
             for(let table in tables){
+
+                console.log('Table ' + table);
+                console.log('----------------------------------------');
 
                 let rect = document.createElementNS("http://www.w3.org/2000/svg", "rect")
 
@@ -111,14 +131,33 @@ export default {
                 rect.setAttribute("y",tables[table].y)
                 rect.setAttribute("width",tables[table].w + "px")
                 rect.setAttribute("height",tables[table].h + "px")
-                rect.setAttribute("fill","green")
+                let ocupated_h = tables[table].ocupated_hours
+                if(ocupated_h.length == 0){
+                    console.log('-------- No hay horas ocupadas ---------');
+                    rect.setAttribute("fill","green")
+                }else {
+                    console.log(ocupated_h);
+                    for(let i in ocupated_h){
 
-                console.log(rect);
+                        rect.setAttribute("fill","green")
+    
+                        console.log('Hora reserva: ' + ocupated_h[i] + " Hora actual: " + formated_h_actu);
+    
+                        if(formated_h_actu == ocupated_h[i]){
+    
+                            rect.setAttribute("fill","red")
+    
+                        } 
+                        // TODO: si la hora actual esta entre la ocupated_h[i] (hora acupada) o ocupated_h[i] -1 
+                    }
+                }
+
+                // console.log(rect);
 
                 svg.append(rect);
             }
 
-            console.log(svg);
+            // console.log(svg);
 
             svgDiv.appendChild(svg)
 
@@ -126,6 +165,22 @@ export default {
         logOut(){
             LocalStorage.remove('token')
             this.$router.push('employee-login')
+        },
+        timerSvg(){
+
+            fetch('http://booknow_api.randion.es/api/v1/designs?filter[restaurant_id]=' + this.restaurant_id,{
+                    headers: {
+                        'Accept' : 'application/vnd.api+json',
+                        'Authorization': `Bearer ${this.token}`
+                    }
+            }).then((res) => res.json()).then(async (response) => {
+
+                    this.svgs = await response.data
+                    this.setSvg()
+        
+            })
+
+
         }
 
     }
