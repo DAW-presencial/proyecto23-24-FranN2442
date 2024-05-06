@@ -29,7 +29,7 @@ export default defineComponent({
 
     link: {
       type: String,
-      default: '#'
+      default: ''
     },
 
     icon: {

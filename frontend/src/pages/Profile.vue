@@ -159,7 +159,7 @@ export default defineComponent({
       }
     },
     redirectUnathorized() {
-      window.location.href = "/#/unathorized";
+      window.location.href = "/unathorized";
     },
     getUserReservations() {
       let user_id = LocalStorage.getItem("usrid"); // Cambiar a petición para comprobar token
