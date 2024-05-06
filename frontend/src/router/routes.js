@@ -8,12 +8,13 @@ const routes = [
       { path: 'login', component: () => import('pages/Login.vue') },
       { path: 'register', component: () => import('pages/Register.vue') },
       { path: 'restaurant', component: () => import('pages/Restaurant.vue') },
-      { path: 'profile', component: () => import('pages/Profile.vue') }
+      { path: 'profile', component: () => import('pages/Profile.vue') },
+      
     ]
   },
   {
 
-    path: '/erp',
+    path: '/erp/',
     component: () => import('layouts/ErpLayout.vue'),
     children: [
 
