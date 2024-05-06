@@ -46,6 +46,7 @@ export default {
   color: #fff;
   text-align: center;
   width: 100%;
+  margin-top: 6vh
 }
 
 .container {

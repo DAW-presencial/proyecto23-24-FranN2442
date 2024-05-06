@@ -1,9 +1,12 @@
 <template>
   <div class="container">
     <div class="rounded-div">
+      <div class="title-container">
+        <div class="title-text">Descubre y reserva en los mejores restaurantes</div>
+      </div>
       <div class="search-div">
         <q-input type="search" class="search-input" rounded outlined v-model="searchRestaurant" @input="searchByInput"
-          placeholder="Buscar restaurante..." />&nbsp;
+          placeholder="Nombre de restaurante, categoria..." />&nbsp;
         <a @click="clearSearch" style="cursor: pointer;">
           <i class="fa-regular fa-circle-xmark"></i>
         </a>
@@ -13,46 +16,74 @@
     </div>
   </div>
   <div class="card-container">
+    <h5 class="text-center text-h5" style="font-weight: bold; text-transform: uppercase;">Restaurantes</h5>
     <div class="card-div">
       <div v-if="restaurantsFilter.length === 0">
         No se encontraron resultados.
       </div>
-      <q-card class="my-card" v-for="rest in restaurantsFilter" :key="rest.id">
-        <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
-
-          <div class="absolute-bottom text-h7">
-            {{ rest.attributes.name }}
-          </div>
-        </q-img>
+      <q-card class="my-card" v-for="rest in restaurantsFilter" :key="rest.id" flat bordered>
+        <q-img src="https://cdn.quasar.dev/img/chicken-salad.jpg" />
         <q-card-section>
-          <div>
-            <i class="fa-solid fa-location-dot restaurant-icon"></i>{{ rest.attributes.address }}
+          <div class="row no-wrap items-center">
+            <div class="col text-h6 ellipsis">
+              {{ rest.attributes.name }}
+            </div>
           </div>
-          <div>
-            <i class="fa-solid fa-location-crosshairs restaurant-icon"></i>{{ rest.attributes.location }}
+        </q-card-section>
+        <q-card-section class="q-pt-none">
+          <div class="text-overline text-orange-9">{{ rest.attributes.category }}</div>
+          <div class="text-caption text-grey">
+            Small plates, salads & sandwiches in an intimate setting.
           </div>
-          <div>
-            <i class="fa fa-map-pin restaurant-icon" aria-hidden="true"></i>{{ rest.attributes.postal_code }}
-          </div>
-          <div>
-            <i class="fa-solid fa-phone restaurant-icon"></i>{{ rest.attributes.tel_num }}
-          </div>
-          <div>
-            <i class="fa-solid fa-envelope restaurant-icon"></i>{{ rest.attributes.email }}
-          </div>
-          <div>
-            <i class="fa-solid fa-clock restaurant-icon"></i>{{ rest.attributes.opening_hours }}
-          </div>
-          <div>
-            <i class="fa-solid fa-person restaurant-icon"></i>{{ rest.attributes.capacity }}
-          </div>
-          <br>
-          <div class="text-center">
-            <q-btn color="black" class="full-width">
-              <router-link :to="'restaurant?id=' + rest.id" class="text-white text-weight-bold cursor-pointer"
-                style="text-decoration: none">Reservar</router-link>
-            </q-btn>
-          </div>
+        </q-card-section>
+        <q-separator />
+        <q-card-actions class="container">
+          <q-btn flat color="primary">
+            <router-link :to="modificarRuta(rest.id)" class="text-primary text-weight-bold cursor-pointer"
+              style="text-decoration: none">Reservar</router-link>
+          </q-btn>
+        </q-card-actions>
+      </q-card>
+    </div>
+    <h5 class="text-center text-h5" style="font-weight: bold; text-transform: uppercase;">Ofertas</h5>
+    <div class="q-pa-md" style="width: 90%;">
+      <div class="q-gutter-md">
+        <q-carousel v-model="slide" transition-prev="scale" transition-next="scale" swipeable animated
+          control-color="white" navigation padding arrows height="300px"
+          class="bg-primary text-white shadow-1 rounded-borders" infinite autoplay>
+          <q-carousel-slide name="style" class="column no-wrap flex-center" img-src="">
+            <q-icon name="discount" size="56px" />
+            <div class="q-mt-md text-center">
+              <h6 class="text-h6">Descuentos en pedidos para usuarios</h6>
+            </div>
+          </q-carousel-slide>
+          <q-carousel-slide name="layers" class="column no-wrap flex-center" img-src="">
+            <q-icon name="style" size="56px" />
+            <div class="q-mt-md text-center">
+              <h6 class="text-h6">Envíos gratis a partir de 10 euros</h6>
+            </div>
+          </q-carousel-slide>
+        </q-carousel>
+      </div>
+    </div>
+    <h5 class="text-center text-h5" style="font-weight: bold; text-transform: uppercase;">Registra tu negocio</h5>
+    <div class="card-div">
+      <q-card class="restRegister">
+        <q-card-section horizontal>
+          <q-img class="col-5" src="https://cdn.quasar.dev/img/parallax2.jpg" />
+          <q-card-section class="bg-grey-4">
+            <div class="col text-h6 text-caption text-center text-bold" style="font-size: 22px; padding-top: 2%;">
+              ¡Únete a nosotros!
+            </div>
+            <h6 class="left text-black-9 text-caption" style="font-size: 18px;">Tienes un restaurante o negocio de
+              comida? ¡Únete a nuestra plataforma y lleva tu negocio
+              al siguiente
+              nivel! Regístrate ahora para aumentar tu visibilidad, llegar a nuevos clientes y disfrutar de beneficios
+              exclusivos.</h6>
+            <div class="text-center">
+              <q-btn class="custom bg-grey-4" to="/login" label="Ver más" />
+            </div>
+          </q-card-section>
         </q-card-section>
       </q-card>
     </div>
@@ -61,14 +92,14 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import FooterComponent from '../components/FooterComponent.vue'
 import GeolocationComponent from '../components/Geolocation.vue'
 export default defineComponent({
   name: 'Home',
   components: {
     FooterComponent,
-    GeolocationComponent
+    GeolocationComponent,
   },
 
   data() {
@@ -76,6 +107,7 @@ export default defineComponent({
       searchRestaurant: '',
       restaurants: [],
       restaurantsFilter: [],
+      slide: ref('style'),
     };
   },
 
@@ -86,7 +118,8 @@ export default defineComponent({
   computed: {
     searchByInput() {
       if (this.searchRestaurant) {
-        this.restaurantsFilter = this.restaurants.filter(rest => rest.attributes.name.toLowerCase().includes(this.searchRestaurant.toLocaleLowerCase()));
+        this.restaurantsFilter = this.restaurants.filter(rest => rest.attributes.name.toLowerCase().includes(this.searchRestaurant.toLocaleLowerCase())
+          || rest.attributes.category.toLowerCase().includes(this.searchRestaurant.toLocaleLowerCase()));
       } else {
         this.restaurantsFilter = this.restaurants
       }
@@ -95,7 +128,7 @@ export default defineComponent({
 
   methods: {
     async fetchRestaurants() {
-      const response = await fetch('http://booknow.randion.es/api/v1/restaurants', {
+      const response = await fetch('http://booknow_api.randion.es/api/v1/restaurants', {
         method: 'GET',
         headers: {
           'accept': 'application/vnd.api+json'
@@ -124,6 +157,20 @@ export default defineComponent({
         this.restaurantsFilter = this.restaurants
       }
     },
+    modificarRuta(restId) {
+      function generarCadenaAleatoria(length) {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        for (let i = 0; i < length; i++) {
+          result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+      }
+      const nuevoParametro = generarCadenaAleatoria(5);
+      const nuevoValor = generarCadenaAleatoria(8);
+      return `/restaurant?id=${restId}&${nuevoParametro}${nuevoValor}`;
+    },
   },
 });
 </script>
@@ -131,12 +178,14 @@ export default defineComponent({
 <style scoped>
 .container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
 .rounded-div {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 90%;
@@ -149,6 +198,8 @@ export default defineComponent({
 
 .search-div {
   display: inline-flex;
+  margin-top: 4vh;
+
 }
 
 .search-input {
@@ -164,8 +215,8 @@ export default defineComponent({
 }
 
 .card-container {
-  margin: 2%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -184,22 +235,25 @@ export default defineComponent({
   margin: 0.5%;
 }
 
-.card-div-title {
-  font-size: 24px;
+.title-container {
+  text-align: center;
+}
+
+.title-text {
+  font-size: 44px;
   font-weight: bold;
-  color: #333;
-  width: 90%;
-  display: flex;
-  justify-content: flex-end;
+  color: #FFFFFF;
 }
 
-.no-underline {
-  text-decoration: none;
-  margin: 1%;
+.restRegister {
+  width: 100%;
+  max-width: 84vw;
+  padding: 0%
 }
 
-.restaurant-icon {
-  margin-right: 2%;
-  padding-right: 2%;
+.custom {
+  border: 1px solid #1480ed;
+  background-color: white;
+  color: #1480ed;
 }
 </style>

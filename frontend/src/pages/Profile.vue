@@ -64,7 +64,7 @@ export default defineComponent({
       };
     },
     redirectUnathorized() {
-      window.location.href = "/#/unathorized"
+      window.location.href = "/unathorized"
     }
   }
 });

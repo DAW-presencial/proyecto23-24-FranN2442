@@ -91,7 +91,7 @@ export default defineComponent({
         tel_num: this.formData.tel_num
       };
 
-      fetch('http://booknow.randion.es/api/v1/users', {
+      fetch('http://booknow_api.randion.es/api/v1/users', {
         method: 'POST',
         headers: {
           'Accept': 'application/vnd.api+json',

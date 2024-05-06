@@ -1,5 +1,5 @@
 <template>
-  <q-btn class="search-btn" @click="getCurrentPosition">Buscar</q-btn>
+  <q-btn class="search-btn" @click="getCurrentPosition">BUSCAR</q-btn>
 </template>
 
 <script>
