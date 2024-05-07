@@ -11,9 +11,9 @@
           </div>
         </q-toolbar-title>
         <div v-if="isAuthenticated === null">
+          <q-btn class="btn" to="/erp/restaurant-login" label="Acceso Restaurantes" color="primary" /> &nbsp;
           <q-btn class="btn" to="/login" label="Login" color="primary" /> &nbsp;
           <q-btn class="btn" to="/register" label="Register" color="primary" />
-          <q-btn class="btn" to="/erp/restaurant-login" label="Acceso Restaurantes" color="primary" />
         </div>
         <div v-else>
 
