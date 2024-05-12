@@ -15,7 +15,7 @@
         </q-card>
       </q-dialog>
     </div>
-    <q-card class="q-pa-md shadow-2 my_card" bordered>
+    <q-card class="q-pa-md shadow-2 my_card" bordered  @keydown.enter="login">
       <q-card-section class="text-center">
         <div class="text-grey-9 text-h5 text-weight-bold">Login</div>
       </q-card-section>
