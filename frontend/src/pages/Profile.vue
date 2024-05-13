@@ -1,31 +1,46 @@
 <template>
-  <q-page class="bg-grey-2">
-    <div class="q-pa-md shadow-2 my_card bg-white">
+  <q-page class="bg-grey-2 flex flex-center">
+    <div class="q-pa-md shadow-2 my_card bg-white container">
       <q-card-section class="text-center">
-        <div class="q-gutter-md" style="max-width: 300px">
-          <div class="text-h5 text-weight-bold">Datos personales</div>
-          <div>
-            <q-toggle v-model="readonly" label="Readonly" />
-            <q-toggle v-model="disable" label="Disable" />
-          </div>
-
-
-
-          <q-input v-model="this.data.attributes.full_name" label="Name" placeholder="Nuevo nombre" outlined :readonly="readonly" :disable="disable" />
-          <q-input v-model="this.data.attributes.tel_num" label="Phone" placeholder="Nuevo teléfono" outlined :readonly="readonly" :disable="disable" />
-          <q-input v-model="this.data.attributes.email" label="Email" placeholder="Nuevo email" outlined :readonly="readonly" :disable="disable" />
-          <q-input v-model="this.data.attributes.password" label="Password" placeholder="Nuevo password" outlined :readonly="readonly" :disable="disable" />
-
-
-          <div class="text-right q-gutter-md">
-            <q-btn class="btn" label="Editar" color="green" />
+        <div class="q-gutter-md" style="max-width: 500px">
+          <div class="text-h5 text-weight-bold text-left">Información de perfil</div>
+          <div class="text-left text-caption" style="font-size: 15px;">Nombre</div>
+          <q-input v-model="this.data.attributes.full_name" outlined />
+          <div class="text-left text-caption" style="font-size: 15px;">Teléfono</div>
+          <q-input v-model="this.data.attributes.tel_num" outlined />
+          <div class="text-left text-caption" style="font-size: 15px;">Correo electrónico</div>
+          <q-input v-model="this.data.attributes.email" outlined />
+          <div class="text-left q-gutter-md">
+            <q-btn class="btn" style="margin-left: 0px;" label="Guardar" color="green" />
           </div>
         </div>
       </q-card-section>
     </div>
-    <div class="q-pa-md shadow-2 my_card bg-white">
+    <div class="q-pa-md shadow-2 my_card bg-white container">
+      <q-card-section class="text-center">
+        <div class="q-gutter-md" style="max-width: 500px">
+          <div class="text-h5 text-weight-bold text-left">Actualizar contraseña</div>
+          <div class="text-left text-caption" style="font-size: 15px;">Contraseña actual</div>
+          <q-input v-model="current_pass" outlined
+            :rules="[val => !!val || 'Password is required', val => val.length >= 8 || 'La contraseña debe tener al menos 8 caracteres']"
+            type="password" label="Password" />
+          <div class="text-left text-caption" style="font-size: 15px;">Nueva Contraseña</div>
+          <q-input v-model="new_pass" outlined
+            :rules="[val => !!val || 'Password is required', val => val.length >= 8 || 'La contraseña debe tener al menos 8 caracteres']"
+            type="password" label="Password" />
+          <div class="text-left text-caption" style="font-size: 15px;">Confirmar Contraseña</div>
+          <q-input v-model="confirm_pass" outlined
+            :rules="[val => !!val || 'Password is required', val => val.length >= 8 || 'La contraseña debe tener al menos 8 caracteres']"
+            type="password" label="Password" />
+          <div class="text-left q-gutter-md">
+            <q-btn class="btn" style="margin-left: 0px;" label="Guardar" color="green" @click="savePassword" />
+          </div>
+        </div>
+      </q-card-section>
+    </div>
+    <div class="q-pa-md shadow-2 my_card bg-white container">
       <q-card-section>
-        <div class="text-h6">Reservas</div>
+        <div class="text-h5 text-weight-bold text-left">Reservas</div>
       </q-card-section>
       <q-card-section class="text-center flex" v-if="userReservations != []">
         <div class="q-pa-md q-ma-md shadow-2" style="max-width: 300px" v-for="reservation in this.userReservations"
@@ -71,8 +86,8 @@
           </q-card-actions>
         </div>
       </q-card-section>
-      <q-card-section class="text-center flex" v-if="userReservations.length === 0">
-        No se encontraron resultados.
+      <q-card-section class="text-center" v-if="userReservations.length === 0">
+        <div class="text-caption" style="font-size: 15px;">No se encontraron reservas</div>
       </q-card-section>
     </div>
   </q-page>
@@ -80,7 +95,7 @@
 
 
 <script>
-import { defineComponent, readonly, ref } from "vue";
+import { defineComponent } from "vue";
 import { LocalStorage, Notify } from "quasar";
 
 export default defineComponent({
@@ -91,29 +106,29 @@ export default defineComponent({
       data: {
         attributes: {
           full_name: "",
-          password: "",
           tel_num: "",
+          email: ""
         },
       },
       userReservations: [],
-      text: ref(''),
-      readonly: ref(false),
-      disable: ref(false),
+      current_pass: '',
+      new_pass: '',
+      confirm_pass: ''
     };
   },
   created() {
     this.loadData();
     this.getUserReservations();
+    console.log(this.current_pass)
   },
   methods: {
     loadData() {
       const userData = LocalStorage.getItem("data");
       if (userData) {
         this.datos = userData;
-        this.data.attributes.email = userData.email;
         this.data.attributes.full_name = userData.full_name;
-        this.data.attributes.password = userData.password;
         this.data.attributes.tel_num = userData.tel_num;
+        this.data.attributes.email = userData.email;
       } else {
         this.redirectUnathorized();
       }
@@ -122,7 +137,7 @@ export default defineComponent({
       window.location.href = "/unathorized";
     },
     getUserReservations() {
-      let user_id = LocalStorage.getItem("usrid"); // Cambiar a petición para comprobar token
+      let user_id = LocalStorage.getItem("usrid");
       let token = LocalStorage.getItem("token");
 
       fetch(
@@ -165,6 +180,63 @@ export default defineComponent({
           console.log(error);
         });
     },
+
+    updatePassword() {
+      let params = {
+        "old_password": this.current_pass,
+        "new_password": this.confirm_pass,
+      };
+      let user_id = LocalStorage.getItem("usrid");
+      let token = LocalStorage.getItem("token");
+
+      fetch("http://booknow_api.randion.es/api/v1/passwordReset/" + user_id, {
+        method: 'PATCH',
+        headers: {
+          'Accept': 'application/vnd.api+json',
+          'Content-Type': 'application/vnd.api+json',
+          'Authorization': "Bearer " + token
+        },
+        body: JSON.stringify({ data: { type: 'users', attributes: params } })
+      })
+        .then(response => {
+          if (response.ok) {
+            console.log(response);
+            Notify.create({
+              message: 'Contraseña actualizada',
+              type: 'positive'
+            });
+          } else {
+            throw new Error('Error al actualizar la contraseña');
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
+
+    savePassword() {
+      if (this.new_pass === this.confirm_pass) {
+        this.updatePassword();
+      } else {
+        Notify.create({
+          message: 'Error al actualizar la contraseña',
+          type: 'negative'
+        });
+      }
+    }
   },
 });
 </script>
+
+<style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: left;
+  width: 50vw;
+  height: 60vh;
+  margin-top: 4vh;
+  border-radius: 20px;
+}
+</style>

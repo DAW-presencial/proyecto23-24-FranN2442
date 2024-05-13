@@ -2,8 +2,8 @@ import { boot } from 'quasar/wrappers'
 import axios from 'axios'
 import { Loading, Notify } from 'quasar'
 
-const api = axios.create({  baseURL: 'http://127.0.0.1:8000/api/v1' , 
-                            headers : { post : {   
+const api = axios.create({  baseURL: 'http://127.0.0.1:8000/api/v1' ,
+                            headers : { post : {
                                             'Accept' : 'application/vnd.api+json',
                                             'Content-Type' : 'application/vnd.api+json'},
                                         get : {
@@ -23,7 +23,7 @@ export default boot(({ app }) => {
 })
 
 api.interceptors.request.use(function (config){
-    
+
     return config
 
 })

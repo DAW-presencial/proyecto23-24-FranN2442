@@ -38,6 +38,8 @@ Route::get('reservations',[ReservationController::class,'index'])
 
 // ! Abilities Group Authentication ---------------------------------------------------------------------------------------
 Route::middleware('auth:sanctum')->patch('passwordReset/{user}',[UserController::class,'resetPassword'])->name('user.reset.password');
+Route::middleware('auth:sanctum')->patch('updateProfile/{user}', [UserController::class, 'update'])->name('user.update.profile');
+
 // ! Routes for Employees with role Admin can do:
 
 Route::middleware(['auth:sanctum','abilaities:update-employees,delete-employees,create-employees'])->group(function(){
