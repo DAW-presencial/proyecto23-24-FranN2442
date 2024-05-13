@@ -200,7 +200,7 @@ export default {
         hour : "",
         diners :"",
         table_number : "",
-        user_id : 9,
+        user_id : LocalStorage.getItem('usrid'),
         restaurant_id : parseInt(this.$route.query.id),
         design_id : 0
       },
