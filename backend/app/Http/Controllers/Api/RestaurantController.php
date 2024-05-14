@@ -58,7 +58,7 @@ class RestaurantController extends Controller
 
     }
 
-    public function delete(Restaurant $restaurant)
+    public function destroy(Restaurant $restaurant)
     {
 
         $restaurant->delete();

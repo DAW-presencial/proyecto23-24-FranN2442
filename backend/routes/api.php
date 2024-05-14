@@ -69,7 +69,8 @@ Route::middleware(['auth:sanctum','abilities:index-reservations,show-reservation
 
     Route::get('reservations/{reservation}',[ReservationController::class,'show'])
     ->name('api.v1.reservations.show'); // HECHO
-
+    Route::delete('reservations/{reservation}',[ReservationController::class,'destroy'])
+    ->name('api.v1.reservations.destroy'); // HECHO
 
 });
 
