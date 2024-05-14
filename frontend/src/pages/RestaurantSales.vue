@@ -11,9 +11,7 @@
     </div>
 </template>
 <script>
-import { api } from 'boot/axios'
-import { min } from 'moment';
-import { LocalStorage,Screen } from 'quasar'
+import { LocalStorage,Notify,Screen } from 'quasar'
 import SvgComponent from "src/components/SvgComponent.vue";
 
 export default {
@@ -70,26 +68,21 @@ export default {
                 'Accept' : 'application/vnd.api+json',
                 'Authorization': `Bearer ${this.token}`
             }
-       }).then((res) => res.json()).then(async (response) => {
+       }).then((res) => res.json()).then((response) => {
 
-            this.svgs = await response.data
+            this.svgs =  response.data
+            console.log(this.svgs);
             this.svg = this.svgs[0]
             this.setOptions()
-            this.setSvg()
    
        })
 
-    },
-    created(){
+       setInterval(()=> {
 
-        setInterval(()=> {
+        this.timerSvg()
 
-            this.timerSvg()
-            clearInterval()
 
         },5000)
-
-    
 
     },
     methods : {
@@ -103,6 +96,18 @@ export default {
                 this.options.push(this.svgs[i].id)
 
             }
+
+            let index = this.options.length
+
+            this.svgs.forEach(element => {
+                if(element.id == this.options[index - 1]){
+
+                    this.svg = element
+                    this.setSvg()
+
+                }
+            });
+
 
         },
         setSvg(){
@@ -127,8 +132,8 @@ export default {
 
             for(let table in tables){
 
-                console.log('Table ' + table);
-                console.log('----------------------------------------');
+                // console.log('Table ' + table);
+                // console.log('----------------------------------------');
 
                 let rect = document.createElementNS("http://www.w3.org/2000/svg", "rect")
 
@@ -140,19 +145,57 @@ export default {
                 if(ocupated_h.length == 0){
                     console.log('-------- No hay horas ocupadas ---------');
                     rect.setAttribute("fill","green")
+                    rect.addEventListener('click',() => {
+
+                        console.log('Mesa disponible');
+
+                    })
                 }else {
-                    console.log(ocupated_h);
+                    // console.log(ocupated_h);
                     for(let i in ocupated_h){
 
                         rect.setAttribute("fill","green")
+                        rect.addEventListener('click',() => {
+
+                            console.log('Mesa disponible');
+
+                        })
     
                         console.log('Hora reserva: ' + ocupated_h[i] + " Hora actual: " + formated_h_actu);
     
                         if(formated_h_actu == ocupated_h[i]){
     
                             rect.setAttribute("fill","red")
-    
+                            rect.addEventListener('click',() => {
+
+                                Notify.create({
+
+                                    message :"Mesa ocupada",
+                                    type: 'negative'
+
+                                })
+
+                            })
                         } 
+                        let arr_format_hour = formated_h_actu.split(':')
+                        let hour_prev = parseInt(arr_format_hour) - 1
+                        arr_format_hour[0] = hour_prev.toString()
+                        let formated_prev = arr_format_hour.join(':')
+                        if(formated_h_actu < ocupated_h[i] && formated_h_actu > formated_prev ){
+
+                            rect.setAttribute("fill","yellow")
+                            rect.addEventListener('click',() => {
+
+                               Notify.create({
+
+                                    message :"Reserva a las " + ocupated_h[i] ,
+                                    type: 'warning'
+
+                               })
+
+                            })
+
+                        }
                         // TODO: si la hora actual esta entre la ocupated_h[i] (hora acupada) o ocupated_h[i] -1 
                     }
                 }
@@ -178,16 +221,15 @@ export default {
                         'Accept' : 'application/vnd.api+json',
                         'Authorization': `Bearer ${this.token}`
                     }
-            }).then((res) => res.json()).then( async (response) => {
+            }).then((res) => res.json()).then( (response) => {
 
-                    this.newSvgs = await response.data
+                    this.newSvgs = response.data
                     console.log(this.newSvgs,this.svgs);
                     if(this.svgs.length !== this.newSvgs.length){
 
                         this.svgs = this.newSvgs
                         this.setOptions()
-                    }
-        
+                    }   
             })
 
         

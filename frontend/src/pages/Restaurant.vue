@@ -356,8 +356,8 @@ export default {
         },1500)
         Notify.create({
 
-          message : "Inicia sessión para continuar",
-          type : "alert"
+          message : "Inicia sesión para continuar",
+          type : "warning"
 
         })
       }else {
