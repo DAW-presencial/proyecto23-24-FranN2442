@@ -51,7 +51,7 @@
               <q-step
                 :name="1"
                 title="DIA"
-                caption="Dia de asistencia"
+                :caption="reservation.date"
                 icon="calendar_today"
                 :done="step > 1 && reservation.date != ''"
               >
@@ -77,17 +77,17 @@
               <q-step
                 :name="2"
                 title="HORA"
-                caption="Hora de llegada"
+                :caption="reservation.hour"
                 icon="schedule"
                 :done="step > 2"
               >
                 <div class="row q-ma-md" v-for="horario in this.horarios" :key="horario">
                   <div class="col">
                     <div class="row justify-center">
-                      <h6 class="rounded-borders q-ma-sm q-pa-sm shadow-1">{{ horario[0]}}</h6>
+                      <h6 class="rounded-borders q-ma-sm q-pa-sm ">{{ horario[0]}}</h6>
                     </div>
-                    <div class="row justify-center">
-                      <q-btn v-for="hora in horario[1]" @click="updateHour(hora)" :active="reservation.hour === hora" :key="hora">{{ hora }}</q-btn>
+                    <div class="row justify-center card-body">
+                      <q-btn v-for="hora in horario[1]" @click="updateHour(hora)" :active="reservation.hour === hora" :key="hora" >{{ hora }}</q-btn>
                     </div>
                   </div>
                 </div>
@@ -102,11 +102,11 @@
               <q-step
                 :name="3"
                 title="COMENSALES"
-                caption="Nº de asistentes"
+                :caption="reservation.diners"
                 icon="group"
                 :done="step > 3"
               >
-                <div class="row justify-center">
+                <div class="row justify-center card-body">
                   <q-btn  @click="setDiners(diners_num)" class="q-ma-sm boton" v-for="diners_num in diners_arr" :label="diners_num" :key="diners_num"></q-btn>
                 </div>
                 <q-stepper-navigation>
@@ -119,7 +119,7 @@
               <q-step
                 :name="4"
                 title="MESA RESERVA"
-                caption="Elija una mesa"
+                :caption="reservation.table_number"
                 icon="table_restaurant"
               >
                 <div class="row justify-center">
@@ -152,21 +152,35 @@
       </q-dialog>
       <!-- ! Confirmation card -->
       <q-dialog v-model="card">
-        <q-card class="my-card">
+        <q-card class="my-card mulish">
           <q-card-section>
-            <div>
-              <p><q-btn :label="reservation.date"></q-btn></p>
-              <p><q-btn :label="reservation.hour"></q-btn></p>
-              <p><q-btn :label="reservation.diners"></q-btn></p>
-              <p><q-btn :label="reservation.table_number"></q-btn></p>
+            <h4 class="q-ma-2">CONFIRMACIÓN RESERVA</h4>
+          </q-card-section>
+          <q-separator />
+          <q-card-section class="column items-center">
+            <div class="column items-center">
+              <h6 class="q-ma-sm text-primary">Dia Reserva</h6>
+              <p class="q-ml-sm">{{reservation.date}}</p>
+            </div>
+            <div class="column items-center">
+              <h6 class="q-ma-sm  text-primary">Hora Reserva</h6>
+              <p class="q-ml-sm">{{reservation.hour}}</p>
+            </div>
+            <div class="column items-center">
+              <h6 class="q-ma-sm  text-primary">Nº de Comensales</h6>
+              <p class="q-ml-sm">{{reservation.diners}}</p>
+            </div>
+            <div class="column items-center">
+              <h6 class="q-ma-sm  text-primary">Nº de Mesa</h6>
+              <p class="q-ml-sm">{{reservation.table_number}}</p>
             </div>
           </q-card-section>
 
           <q-separator />
 
           <q-card-actions align="right">
-            <q-btn @click="confirmReservation()" flat color="primary" label="Reserve" :loading="loading"/>
-            <q-btn v-close-popup flat color="alert" round icon="close" />
+            <q-btn @click="confirmReservation()" flat color="primary" label="Confirmar" :loading="loading"/>
+            <q-btn v-close-popup flat color="red" round icon="close" />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -400,6 +414,11 @@ export default {
 .title{
 
   border-bottom: 2px black solid;
+
+}
+.card-body q-btn:hover{
+
+  background-color: rgb(77, 77, 243);
 
 }
 
