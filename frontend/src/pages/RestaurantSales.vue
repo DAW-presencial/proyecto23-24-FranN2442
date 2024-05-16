@@ -30,7 +30,7 @@ export default {
             restaurant : {},
             employee : {},
             svgs : {},
-            selected : '1',
+            selected : "",
             options : [],
             svg : {},
             token  : '',
@@ -75,6 +75,7 @@ export default {
             console.log(this.svgs);
             // TODO: Comprobar que vienen svg
             this.svg = this.svgs[0]
+            this.selected = this.svgs[0].id
             this.setOptions()
    
        })
@@ -164,9 +165,10 @@ export default {
                         })
     
                         console.log('Hora reserva: ' + ocupated_h[i] + " Hora actual: " + formated_h_actu);
+                        
                         let arr_format_hour2 = ocupated_h[i].split(':')
                         let hour_past = parseInt(arr_format_hour2) + 1
-                        arr_format_hour2[0] = hour_past.toString()
+                        arr_format_hour2[0] = (hour_past.toString() < 10 ? '0' : '') + hour_past.toString()
                         
                         let formated_past = arr_format_hour2.join(':')// Pasada una h
 
@@ -187,8 +189,9 @@ export default {
                         } 
                         let arr_format_hour = ocupated_h[i].split(':')
                         let hour_prev = parseInt(arr_format_hour) - 1
-                        arr_format_hour[0] = hour_prev.toString()
+                        arr_format_hour[0] = (hour_prev.toString() < 10 ? '0' : '') + hour_prev.toString()
                         let formated_prev = arr_format_hour.join(':')
+                        console.log(formated_prev + " " + formated_h_actu + " " + ocupated_h[i]);
                         if(formated_h_actu < ocupated_h[i] && formated_h_actu > formated_prev ){
 
                             rect.setAttribute("fill","yellow")
@@ -204,7 +207,7 @@ export default {
                             })
 
                         }
-                        // TODO: si la hora actual esta entre la ocupated_h[i] (hora acupada) o ocupated_h[i] -1 
+                         
                     }
                 }
 
