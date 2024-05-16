@@ -193,7 +193,7 @@ export default {
                         let formated_prev = arr_format_hour.join(':')
                         console.log(formated_prev + " " + formated_h_actu + " " + ocupated_h[i]);
                         if(formated_h_actu < ocupated_h[i] && formated_h_actu > formated_prev ){
-
+                            
                             rect.setAttribute("fill","yellow")
                             rect.addEventListener('click',() => {
 
