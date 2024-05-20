@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
         // * Nuestros usuarios
         User::factory()->create([
 
-            'name' => "Francisco Javier Gonzalez Viejo",
+            'full_name' => "Francisco Javier Gonzalez Viejo",
             'email' => "fran@gmail.com",
             'password' => Hash::make('password'),
 
@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
 
         User::factory()->create([
 
-            'name' => "Samuel Piedra Mite",
+            'full_name' => "Samuel Piedra Mite",
             'email' => "samu@gmail.com",
             'password' => Hash::make('password'),
 

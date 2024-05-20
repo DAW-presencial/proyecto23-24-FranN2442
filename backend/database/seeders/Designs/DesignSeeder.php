@@ -2,6 +2,7 @@
 
 namespace Database\Seeders\Designs;
 
+use App\Models\Design;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -689,5 +690,11 @@ class DesignSeeder extends Seeder
 
 
         ];
+
+        foreach($designs as $design){
+
+            Design::factory()->create($design);
+
+        }
     }
 }

@@ -23,7 +23,7 @@ class JsonApiQuery
 
                 } else {
 
-                    $this->where($filter,'LIKE','%'. $value . '%');
+                    $this->where($filter,'=', $value );
 
                 }
 

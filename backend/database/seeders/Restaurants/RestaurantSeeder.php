@@ -26,10 +26,11 @@ class RestaurantSeeder extends Seeder
                 'tel_num' => '871798904',
                 'email' => 'rincondelpatio@gmail.com',
                 'password' => Hash::make('rincondelpatio1234'),
-                'tourns' => 
-                ['turno0' => ['start' => '12:00','end' => '15:00','tourn_name' => 'Comida'],
-                'turno1' => ['start' => '18:00','end' => '22:00','tourn_name' => 'Cena']
-                ]
+                'tourns' => json_encode([
+                    'turno0' => ['start' => '09:00','end' => '12:00','tourn_name' => 'Desayuno'],
+                    'turno1' => ['start' => '13:00','end' => '16:00','tourn_name' => 'Comida'],
+                    'turno2' => ['start' => '19:00','end' => '23:00','tourn_name' => 'Cena'],
+                ]),
             ],
             [
 
@@ -41,11 +42,11 @@ class RestaurantSeeder extends Seeder
                 'tel_num' => '871722904',
                 'email' => 'losarcos@gmail.com',
                 'password' => Hash::make('losarcos1234'),
-                'tourns' => [
+                'tourns' => json_encode([
                     'turno0' => ['start' => '09:00','end' => '12:00','tourn_name' => 'Desayuno'],
                     'turno1' => ['start' => '13:00','end' => '16:00','tourn_name' => 'Comida'],
                     'turno2' => ['start' => '19:00','end' => '23:00','tourn_name' => 'Cena'],
-                ]
+                ])
             ],
             [
                 'name' => 'Restaurante El Mirador',
@@ -56,11 +57,11 @@ class RestaurantSeeder extends Seeder
                 'tel_num' => '932157890',
                 'email' => 'elmirador@gmail.com',
                 'password' => Hash::make('elmirador1234'),
-                'tourns' => [
+                'tourns' => json_encode([
                     'turno0' => ['start' => '08:00', 'end' => '11:00', 'tourn_name' => 'Desayuno'],
                     'turno1' => ['start' => '12:00', 'end' => '15:00', 'tourn_name' => 'Comida'],
                     'turno2' => ['start' => '18:00', 'end' => '22:00', 'tourn_name' => 'Cena']
-                ]
+                ])
             ],
             [
                 'name' => 'Bistro del Mar',
@@ -71,11 +72,11 @@ class RestaurantSeeder extends Seeder
                 'tel_num' => '951234567',
                 'email' => 'bistrodelmar@gmail.com',
                 'password' => Hash::make('bistrodelmar1234'),
-                'tourns' => [
+                'tourns' => json_encode([
                     'turno0' => ['start' => '07:30', 'end' => '10:30', 'tourn_name' => 'Desayuno'],
                     'turno1' => ['start' => '12:30', 'end' => '15:30', 'tourn_name' => 'Comida'],
                     'turno2' => ['start' => '19:00', 'end' => '23:00', 'tourn_name' => 'Cena']
-                ]
+                ])
             ],
             [
                 'name' => 'La Parrilla',
@@ -86,11 +87,11 @@ class RestaurantSeeder extends Seeder
                 'tel_num' => '954123890',
                 'email' => 'laparrilla@gmail.com',
                 'password' => Hash::make('laparrilla1234'),
-                'tourns' => [
+                'tourns' => json_encode([
                     'turno0' => ['start' => '08:00', 'end' => '11:00', 'tourn_name' => 'Desayuno'],
                     'turno1' => ['start' => '13:00', 'end' => '16:00', 'tourn_name' => 'Comida'],
                     'turno2' => ['start' => '19:30', 'end' => '23:30', 'tourn_name' => 'Cena']
-                ]
+                ])
             ],
             [
                 'name' => 'Veggie Delight',
@@ -101,11 +102,11 @@ class RestaurantSeeder extends Seeder
                 'tel_num' => '933456789',
                 'email' => 'veggiedelight@gmail.com',
                 'password' => Hash::make('veggiedelight1234'),
-                'tourns' => [
+                'tourns' => json_encode([
                     'turno0' => ['start' => '09:00', 'end' => '12:00', 'tourn_name' => 'Desayuno'],
                     'turno1' => ['start' => '13:00', 'end' => '16:00', 'tourn_name' => 'Comida'],
                     'turno2' => ['start' => '18:00', 'end' => '22:00', 'tourn_name' => 'Cena']
-                ]
+                ])
             ],
             [
                 'name' => 'Sushi Express',
@@ -116,11 +117,11 @@ class RestaurantSeeder extends Seeder
                 'tel_num' => '915678123',
                 'email' => 'sushiexpress@gmail.com',
                 'password' => Hash::make('sushiexpress1234'),
-                'tourns' => [
+                'tourns' => json_encode([
                     'turno0' => ['start' => '09:00', 'end' => '12:00', 'tourn_name' => 'Desayuno'],
                     'turno1' => ['start' => '12:30', 'end' => '15:30', 'tourn_name' => 'Comida'],
                     'turno2' => ['start' => '18:00', 'end' => '22:00', 'tourn_name' => 'Cena']
-                ]
+                ])
             ],
             [
                 'name' => 'Pasta e Basta',
@@ -131,11 +132,11 @@ class RestaurantSeeder extends Seeder
                 'tel_num' => '963852741',
                 'email' => 'pastaebasta@gmail.com',
                 'password' => Hash::make('pastaebasta1234'),
-                'tourns' => [
+                'tourns' => json_encode([
                     'turno0' => ['start' => '08:00', 'end' => '11:00', 'tourn_name' => 'Desayuno'],
                     'turno1' => ['start' => '12:00', 'end' => '15:00', 'tourn_name' => 'Comida'],
                     'turno2' => ['start' => '19:00', 'end' => '23:00', 'tourn_name' => 'Cena']
-                ]
+                ])
             ],
             [
                 'name' => 'Café Central',
@@ -146,11 +147,11 @@ class RestaurantSeeder extends Seeder
                 'tel_num' => '917234567',
                 'email' => 'cafecentral@gmail.com',
                 'password' => Hash::make('cafecentral1234'),
-                'tourns' => [
+                'tourns' => json_encode([
                     'turno0' => ['start' => '08:00', 'end' => '11:00', 'tourn_name' => 'Desayuno'],
                     'turno1' => ['start' => '12:30', 'end' => '15:30', 'tourn_name' => 'Comida'],
                     'turno2' => ['start' => '17:00', 'end' => '21:00', 'tourn_name' => 'Cena']
-                ]
+                ])
             ],
             [
                 'name' => 'Grill & Chill',
@@ -161,11 +162,11 @@ class RestaurantSeeder extends Seeder
                 'tel_num' => '932234567',
                 'email' => 'grillandchill@gmail.com',
                 'password' => Hash::make('grillandchill1234'),
-                'tourns' => [
+                'tourns' => json_encode([
                     'turno0' => ['start' => '09:00', 'end' => '12:00', 'tourn_name' => 'Desayuno'],
                     'turno1' => ['start' => '13:00', 'end' => '16:00', 'tourn_name' => 'Comida'],
                     'turno2' => ['start' => '19:00', 'end' => '23:00', 'tourn_name' => 'Cena']
-                ]
+                ])
             ],
             [
                 'name' => 'El Rincón del Gourmet',
@@ -176,11 +177,11 @@ class RestaurantSeeder extends Seeder
                 'tel_num' => '983123456',
                 'email' => 'rincongourmet@gmail.com',
                 'password' => Hash::make('rincongourmet1234'),
-                'tourns' => [
+                'tourns' => json_encode([
                     'turno0' => ['start' => '08:30', 'end' => '11:30', 'tourn_name' => 'Desayuno'],
                     'turno1' => ['start' => '13:00', 'end' => '16:00', 'tourn_name' => 'Comida'],
                     'turno2' => ['start' => '19:00', 'end' => '22:30', 'tourn_name' => 'Cena']
-                ]
+                ])
             ],
             [
                 'name' => 'Taco Fiesta',
@@ -191,12 +192,12 @@ class RestaurantSeeder extends Seeder
                 'tel_num' => '914567890',
                 'email' => 'tacofiesta@gmail.com',
                 'password' => Hash::make('tacofiesta1234'),
-                'tourns' => [
+                'tourns' => json_encode([
                     'turno0' => ['start' => '09:00', 'end' => '12:00', 'tourn_name' => 'Desayuno'],
                     'turno1' => ['start' => '12:30', 'end' => '15:30', 'tourn_name' => 'Comida'],
                     'turno2' => ['start' => '18:00', 'end' => '22:00', 'tourn_name' => 'Cena']
-                ]
-            ],
+                ]),
+            ]
         ];
 
         foreach ($restaurants as $restaurant) {
