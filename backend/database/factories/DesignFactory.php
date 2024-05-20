@@ -23,7 +23,7 @@ class DesignFactory extends Factory
     {
         return [
             'hall_name' => $this->faker->regexify('[A-Za-z0-9]{255}'),
-            'tables' => '{}',
+            'tables' => ['tables' => []],
             'restaurant_id' => Restaurant::first()->getRouteKey()
         ];
     }
