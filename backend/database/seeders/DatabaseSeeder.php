@@ -7,6 +7,10 @@ use App\Models\Design;
 use App\Models\Employee;
 use App\Models\Restaurant;
 use App\Models\User;
+use Database\Seeders\Designs\DesignSeeder;
+use Database\Seeders\Employees\EmployeeSeeder;
+use Database\Seeders\Restaurants\RestaurantSeeder;
+use Database\Seeders\Users\UserSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -17,6 +21,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Restaurant::factory()->create();
+
+        $this->call([
+
+            UserSeeder::class,
+            RestaurantSeeder::class,
+            EmployeeSeeder::class,
+            DesignSeeder::class
+        ]);
+
     }
 }
