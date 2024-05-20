@@ -4,7 +4,6 @@ namespace App\Console;
 
 use App\Models\Design;
 use App\Models\Reservation;
-use App\Models\Restaurant;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Storage;
@@ -77,7 +76,7 @@ class Kernel extends ConsoleKernel
             }
 
 
-        })->dailyAt('00:00');
+        })->dailyAt("00:00");
 
 
     }
