@@ -1,17 +1,23 @@
 <template>
+  <div class="q-pa-md q-gutter-sm bg-grey-2 flex flex-center mgTop4">
+    <q-breadcrumbs>
+      <q-breadcrumbs-el label="Home" icon="home" to="/" />
+      <q-breadcrumbs-el :label="$t('profileIcon')" icon="person" to="/profile" />
+    </q-breadcrumbs>
+  </div>
   <q-page class="bg-grey-2 flex flex-center">
-    <div class="q-pa-md shadow-2 my_card bg-white container">
+    <div class="q-pa-md shadow-2 my_card bg-white container mgTop4">
       <q-card-section class="text-center">
         <div class="q-gutter-md" style="max-width: 500px">
-          <div class="text-h5 text-weight-bold text-left">Información de perfil</div>
-          <div class="text-left text-caption" style="font-size: 15px;">Nombre</div>
+          <div class="text-h5 text-weight-bold text-left">{{ $t('profileTitle') }}</div>
+          <div class="text-left text-caption" style="font-size: 15px;">{{ $t('profileName') }}</div>
           <q-input v-model="this.data.attributes.full_name" outlined />
-          <div class="text-left text-caption" style="font-size: 15px;">Teléfono</div>
+          <div class="text-left text-caption" style="font-size: 15px;">{{ $t('profilePhone') }}</div>
           <q-input v-model="this.data.attributes.tel_num" outlined />
-          <div class="text-left text-caption" style="font-size: 15px;">Correo electrónico</div>
+          <div class="text-left text-caption" style="font-size: 15px;">{{ $t('profileMail') }}</div>
           <q-input v-model="this.data.attributes.email" outlined />
           <div class="text-left q-gutter-md">
-            <q-btn class="btn" style="margin-left: 0px;" label="Guardar" color="green" />
+            <q-btn class="btn" style="margin-left: 0px;" :label="$t('saveBtn')" color="green" @click="updateProfile" />
           </div>
         </div>
       </q-card-section>
@@ -19,61 +25,61 @@
     <div class="q-pa-md shadow-2 my_card bg-white container">
       <q-card-section class="text-center">
         <div class="q-gutter-md" style="max-width: 500px">
-          <div class="text-h5 text-weight-bold text-left">Actualizar contraseña</div>
-          <div class="text-left text-caption" style="font-size: 15px;">Contraseña actual</div>
+          <div class="text-h5 text-weight-bold text-left">{{ $t('updatePass') }}</div>
+          <div class="text-left text-caption" style="font-size: 15px;">{{ $t('currentPass') }}</div>
           <q-input v-model="current_pass" outlined
             :rules="[val => !!val || 'Password is required', val => val.length >= 8 || 'La contraseña debe tener al menos 8 caracteres']"
-            type="password" label="Password" />
-          <div class="text-left text-caption" style="font-size: 15px;">Nueva Contraseña</div>
+            type="password" />
+          <div class="text-left text-caption" style="font-size: 15px;">{{ $t('newPass') }}</div>
           <q-input v-model="new_pass" outlined
             :rules="[val => !!val || 'Password is required', val => val.length >= 8 || 'La contraseña debe tener al menos 8 caracteres']"
-            type="password" label="Password" />
-          <div class="text-left text-caption" style="font-size: 15px;">Confirmar Contraseña</div>
+            type="password" />
+          <div class="text-left text-caption" style="font-size: 15px;">{{ $t('confirmPass') }}</div>
           <q-input v-model="confirm_pass" outlined
             :rules="[val => !!val || 'Password is required', val => val.length >= 8 || 'La contraseña debe tener al menos 8 caracteres']"
-            type="password" label="Password" />
+            type="password" />
           <div class="text-left q-gutter-md">
-            <q-btn class="btn" style="margin-left: 0px;" label="Guardar" color="green" @click="savePassword" />
+            <q-btn class="btn" style="margin-left: 0px;" :label="$t('saveBtn')" color="green" @click="savePassword" />
           </div>
         </div>
       </q-card-section>
     </div>
     <div class="q-pa-md shadow-2 my_card bg-white container">
       <q-card-section>
-        <div class="text-h5 text-weight-bold text-left">Reservas</div>
+        <div class="text-h5 text-weight-bold text-left">{{ $t('reserve') }}</div>
       </q-card-section>
-      <q-card-section class="text-center flex" v-if="userReservations != []">
-        <div class="q-pa-md q-ma-md shadow-2" style="max-width: 300px" v-for="reservation in this.userReservations"
-          :key="reservation.id">
-          <q-field outlined label="Código Reserva" label-color="primary" stack-label class="q-ma-sm">
+      <q-card-section class="text-center flex" v-if="userReservations != []" style="padding: 0px;">
+        <div class="q-pa-md" v-for="reservation in this.userReservations" :key="reservation.id">
+          <q-field outlined :label="$t('reserveCode')" label-color="primary" stack-label class="q-ma-sm"
+            style="width: 250px;">
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">
                 {{ reservation.attributes.reservation_code }}
               </div>
             </template>
           </q-field>
-          <q-field outlined label="Fecha" label-color="primary" stack-label class="q-ma-sm">
+          <q-field outlined :label="$t('reserveDate')" label-color="primary" stack-label class="q-ma-sm">
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">
                 {{ reservation.attributes.date }}
               </div>
             </template>
           </q-field>
-          <q-field outlined label="Hora" label-color="primary" stack-label class="q-ma-sm">
+          <q-field outlined :label="$t('reserveHour')" label-color="primary" stack-label class="q-ma-sm">
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">
                 {{ reservation.attributes.hour }}
               </div>
             </template>
           </q-field>
-          <q-field outlined label="Comensales" label-color="primary" stack-label class="q-ma-sm">
+          <q-field outlined :label="$t('reserveDiners')" label-color="primary" stack-label class="q-ma-sm">
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">
                 {{ reservation.attributes.diners }}
               </div>
             </template>
           </q-field>
-          <q-field outlined label="Numero de mesa" label-color="primary" stack-label class="q-ma-sm">
+          <q-field outlined :label="$t('reserveTable')" label-color="primary" stack-label class="q-ma-sm">
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">
                 {{ reservation.attributes.table_number }}
@@ -82,24 +88,28 @@
           </q-field>
           <q-card-actions class="flex">
             <q-btn flat @click="deleteReservation(reservation.id)"
-              class="bg-red text-white justify-end">Calcelar</q-btn>
+              class="bg-red text-white justify-end">{{ $t('reserveBtn') }}</q-btn>
           </q-card-actions>
         </div>
       </q-card-section>
       <q-card-section class="text-center" v-if="userReservations.length === 0">
-        <div class="text-caption" style="font-size: 15px;">No se encontraron reservas</div>
+        <div class="text-caption" style="font-size: 15px;">{{ $t('noReserve') }}</div>
       </q-card-section>
     </div>
+    <FooterComponent></FooterComponent>
   </q-page>
 </template>
-
 
 <script>
 import { defineComponent } from "vue";
 import { LocalStorage, Notify } from "quasar";
+import FooterComponent from '../components/FooterComponent.vue'
 
 export default defineComponent({
   name: "Home",
+  components: {
+    FooterComponent
+  },
   data() {
     return {
       datos: null,
@@ -119,7 +129,6 @@ export default defineComponent({
   created() {
     this.loadData();
     this.getUserReservations();
-    console.log(this.current_pass)
   },
   methods: {
     loadData() {
@@ -229,7 +238,44 @@ export default defineComponent({
           type: 'negative'
         });
       }
-    }
+    },
+
+    updateProfile() {
+      let params = {
+        "full_name": this.data.attributes.full_name,
+        "tel_num": this.data.attributes.tel_num,
+        "email": this.data.attributes.email
+      };
+      let user_id = LocalStorage.getItem("usrid");
+      let token = LocalStorage.getItem("token");
+
+      fetch("http://booknow_api.randion.es/api/v1/users/" + user_id, {
+        method: 'PATCH',
+        headers: {
+          'Accept': 'application/vnd.api+json',
+          'Content-Type': 'application/vnd.api+json',
+          'Authorization': "Bearer " + token
+        },
+        body: JSON.stringify({ data: { type: 'users', attributes: params } })
+      })
+        .then(response => {
+          if (response.ok) {
+            Notify.create({
+              message: 'Perfil actualizado, reinicia sesión',
+              type: 'positive'
+            });
+          } else {
+            Notify.create({
+              message: 'Error al actualizar perfil',
+              type: 'negative'
+            });
+            throw new Error('Error al actualizar');
+          };
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
   },
 });
 </script>
@@ -241,8 +287,51 @@ export default defineComponent({
   justify-content: left;
   align-items: left;
   width: 50vw;
-  height: 60vh;
+  height: 55vh;
   margin-top: 4vh;
   border-radius: 20px;
+}
+
+.mgTop4 {
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 600px) {
+ .q-pa-md {
+    padding: 10px;
+  }
+
+  .bg-grey-2 {
+    background-color: #f5f5f5;
+  }
+
+  .container {
+    width: 60%;
+    max-width: none;
+    margin: 4vh auto 0;
+    border-radius: 20px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .text-h5 {
+    font-size: 18px;
+  }
+
+  .text-caption {
+    font-size: 12px;
+  }
+
+  .q-field {
+    margin-bottom: 10px;
+  }
+
+  .q-btn {
+    margin-top: 10px;
+    padding: 8px 16px;
+  }
 }
 </style>
