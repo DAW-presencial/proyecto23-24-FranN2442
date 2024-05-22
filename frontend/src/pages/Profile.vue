@@ -184,6 +184,12 @@ export default defineComponent({
             message: "Reserva cancelada!",
             type: "positive",
           });
+
+          setTimeout(() => {
+
+            location.reload()
+
+          },2000)
         })
         .catch((error) => {
           console.log(error);
