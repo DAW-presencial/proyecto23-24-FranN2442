@@ -9,6 +9,7 @@
 // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js
 
 const { configure } = require("quasar/wrappers");
+const path  = require("path")
 
 module.exports = configure(function (ctx) {
   return {
@@ -21,7 +22,7 @@ module.exports = configure(function (ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-webpack/boot-files
-    boot: [],
+    boot: ["i18n"],
 
     // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-css
     css: ["app.css"],
@@ -41,6 +42,7 @@ module.exports = configure(function (ctx) {
     ],
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-build
+
     build: {
       vueRouterMode: "history", // available values: 'hash', 'history'
 
@@ -52,7 +54,7 @@ module.exports = configure(function (ctx) {
       // Applies only if "transpile" is set to true.
       // transpileDependencies: [],
 
-      // rtl: true, // https://quasar.dev/options/rtl-support
+       rtl: true, // https://quasar.dev/options/rtl-support
       // preloadChunks: true,
       // showProgress: false,
       // gzip: true,
@@ -64,7 +66,22 @@ module.exports = configure(function (ctx) {
       // https://v2.quasar.dev/quasar-cli-webpack/handling-webpack
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
 
-      chainWebpack(/* chain */) {},
+      chainWebpack: chain => {
+        chain.module
+          .rule('i18n-resource')
+            .test(/\.(json5?|ya?ml)$/)
+              .include.add(path.resolve(__dirname, './src/i18n'))
+              .end()
+            .type('javascript/auto')
+            .use('i18n-resource')
+              .loader('@intlify/vue-i18n-loader')
+        chain.module
+          .rule('i18n')
+            .resourceQuery(/blockType=i18n/)
+            .type('javascript/auto')
+            .use('i18n')
+              .loader('@intlify/vue-i18n-loader')
+      },
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-devServer
