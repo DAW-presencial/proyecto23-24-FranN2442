@@ -15,7 +15,7 @@
         </q-card>
       </q-dialog>
     </div>
-    <q-card class="q-pa-md shadow-2 my_card" bordered>
+    <q-card class="q-pa-md shadow-2 my_card" bordered  @keydown.enter="login">
       <q-card-section class="text-center">
         <div class="text-grey-9 text-h5 text-weight-bold">Login</div>
       </q-card-section>
@@ -134,8 +134,8 @@ export default defineComponent({
         "device_name": this.getDeviceName()
       }
       console.log(params);
-      fetch('http://booknow_api_api.randion.es/api/v1/user_login', {
-        //method: "POST",
+      fetch('http://booknow_api.randion.es/api/v1/user_login', {
+        method: "POST",
         headers: {
 
           'Accept' : 'application/vnd.api+json',

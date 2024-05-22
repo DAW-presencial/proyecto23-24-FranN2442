@@ -8,18 +8,19 @@ const routes = [
       { path: 'login', component: () => import('pages/Login.vue') },
       { path: 'register', component: () => import('pages/Register.vue') },
       { path: 'restaurant', component: () => import('pages/Restaurant.vue') },
-      { path: 'profile', component: () => import('pages/Profile.vue') }
+      { path: 'profile', component: () => import('pages/Profile.vue') },
+      
     ]
   },
   {
 
-    path: '/erp',
+    path: '/erp/',
     component: () => import('layouts/ErpLayout.vue'),
     children: [
 
-      { path: 'restaurant-login', component: () => import('src/pages/RestaurantLogin.vue') },
-      { path: 'employee-login', component: () => import('src/pages/EmployeeLogin.vue') },
-      { path: 'restaurant-sales', component: () => import('src/pages/RestaurantSales.vue') },
+      { path: 'restaurant-login', component: () => import('pages/RestaurantLogin.vue') },
+      { path: 'employee-login', component: () => import('pages/EmployeeLogin.vue') },
+      { path: 'restaurant-sales', component: () => import('pages/RestaurantSales.vue') },
 
 
     ]

@@ -61,7 +61,7 @@ export default {
 
     console.log(rest_id, token);
 
-    fetch("http://booknow_api_api.randion.es/api/v1/employees?filter[restaurant_id]=" + rest_id,{
+    fetch("http://booknow_api.randion.es/api/v1/employees?filter[restaurant_id]=" + rest_id,{
 
       headers : {
         Accept : "application/vnd.api+json",

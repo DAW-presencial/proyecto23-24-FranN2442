@@ -11,9 +11,8 @@
     </div>
 </template>
 <script>
-import { api } from 'boot/axios'
-import { min } from 'moment';
-import { LocalStorage,Screen } from 'quasar'
+import { LocalStorage,Notify,Screen } from 'quasar'
+import { isEqual } from 'lodash';
 import SvgComponent from "src/components/SvgComponent.vue";
 
 export default {
@@ -31,7 +30,7 @@ export default {
             restaurant : {},
             employee : {},
             svgs : {},
-            selected : '1',
+            selected : "",
             options : [],
             svg : {},
             token  : '',
@@ -70,21 +69,20 @@ export default {
                 'Accept' : 'application/vnd.api+json',
                 'Authorization': `Bearer ${this.token}`
             }
-       }).then((res) => res.json()).then(async (response) => {
+       }).then((res) => res.json()).then((response) => {
 
-            this.svgs = await response.data
+            this.svgs =  response.data
+            console.log(this.svgs);
+            // TODO: Comprobar que vienen svg
             this.svg = this.svgs[0]
+            this.selected = this.svgs[0].id
             this.setOptions()
-            this.setSvg()
    
        })
 
-    },
-    created(){
+       setInterval(()=> {
 
-        setInterval(()=> {
-
-            this.timerSvg()
+        this.timerSvg()
 
 
         },5000)
@@ -94,11 +92,25 @@ export default {
 
         setOptions(){
 
+            this.options = []
+
             for(let i = 0;i < this.svgs.length;i++){
 
                 this.options.push(this.svgs[i].id)
 
             }
+
+            let index = this.options.length
+
+            this.svgs.forEach(element => {
+                if(element.id == this.options[index - 1]){
+
+                    this.svg = element
+                    this.setSvg()
+
+                }
+            });
+
 
         },
         setSvg(){
@@ -123,8 +135,8 @@ export default {
 
             for(let table in tables){
 
-                console.log('Table ' + table);
-                console.log('----------------------------------------');
+                // console.log('Table ' + table);
+                // console.log('----------------------------------------');
 
                 let rect = document.createElementNS("http://www.w3.org/2000/svg", "rect")
 
@@ -136,20 +148,66 @@ export default {
                 if(ocupated_h.length == 0){
                     console.log('-------- No hay horas ocupadas ---------');
                     rect.setAttribute("fill","green")
+                    rect.addEventListener('click',() => {
+
+                        console.log('Mesa disponible');
+
+                    })
                 }else {
-                    console.log(ocupated_h);
+                    // console.log(ocupated_h);
                     for(let i in ocupated_h){
 
                         rect.setAttribute("fill","green")
+                        rect.addEventListener('click',() => {
+
+                            console.log('Mesa disponible');
+
+                        })
     
                         console.log('Hora reserva: ' + ocupated_h[i] + " Hora actual: " + formated_h_actu);
+                        
+                        let arr_format_hour2 = ocupated_h[i].split(':')
+                        let hour_past = parseInt(arr_format_hour2) + 1
+                        arr_format_hour2[0] = (hour_past.toString() < 10 ? '0' : '') + hour_past.toString()
+                        
+                        let formated_past = arr_format_hour2.join(':')// Pasada una h
+
     
-                        if(formated_h_actu == ocupated_h[i]){
+                        if(formated_h_actu >= ocupated_h[i] && formated_h_actu <= formated_past){
     
                             rect.setAttribute("fill","red")
-    
+                            rect.addEventListener('click',() => {
+
+                                Notify.create({
+
+                                    message :"Mesa ocupada",
+                                    type: 'negative'
+
+                                })
+
+                            })
                         } 
-                        // TODO: si la hora actual esta entre la ocupated_h[i] (hora acupada) o ocupated_h[i] -1 
+                        let arr_format_hour = ocupated_h[i].split(':')
+                        let hour_prev = parseInt(arr_format_hour) - 1
+                        arr_format_hour[0] = (hour_prev.toString() < 10 ? '0' : '') + hour_prev.toString()
+                        let formated_prev = arr_format_hour.join(':')
+                        console.log(formated_prev + " " + formated_h_actu + " " + ocupated_h[i]);
+                        if(formated_h_actu < ocupated_h[i] && formated_h_actu > formated_prev ){
+                            
+                            rect.setAttribute("fill","yellow")
+                            rect.addEventListener('click',() => {
+
+                               Notify.create({
+
+                                    message :"Reserva a las " + ocupated_h[i] ,
+                                    type: 'warning'
+
+                               })
+
+                            })
+
+                        }
+                         
                     }
                 }
 
@@ -174,19 +232,98 @@ export default {
                         'Accept' : 'application/vnd.api+json',
                         'Authorization': `Bearer ${this.token}`
                     }
-            }).then((res) => res.json()).then( async (response) => {
+            }).then((res) => res.json()).then( (response) => {
 
-                    this.newSvgs = await response.data
-                    console.log(this.newSvgs,this.svgs);
-                    if(this.svgs == this.newSvgs){
+                    // console.log(this.newSvgs,this.svgs);
+                    if(this.svgs.length !== response.data.length){
+                        this.svgs = response.data
+                        this.setOptions()
+                        return
+                    } 
 
-                        console.log("son iguales");
-                    }
-        
+                    // Si hay el mismo numero de diseños:
+                    for(let svg in this.svgs){
+
+                        for(let resp_svg in response.data){
+
+                            if(this.svgs[svg].id == response.data[resp_svg].id){
+
+                                let svg_tables = JSON.parse(this.svgs[svg].attributes.tables)
+                                let respose_tables = JSON.parse(response.data[resp_svg].attributes.tables)
+
+                                let equals = isEqual(svg_tables,respose_tables)
+
+                                if(!equals){
+                                    console.log('Son diferentes',this.svgs[svg],response.data[resp_svg]);
+                                    this.svgs[svg] = response.data[resp_svg] 
+                                    console.log(this.svgs[svg].id,this.selected);
+                                    if(parseInt(this.svgs[svg].id) == this.selected){
+                                        this.svg = this.svgs[svg]
+                                        this.setSvg()
+                                    }
+
+                                    this.$forceUpdate()
+                                } else {
+
+
+                                    let reservation_hours = JSON.parse(this.svgs[svg].attributes.tables)
+
+                                    for(let key in reservation_hours){
+                                        
+                                        
+                                        let hours = reservation_hours[key].ocupated_hours
+                                        for(let hour of hours){
+
+                                            let date = new Date();
+                                            let horas_actu = (date.getHours() < 10 ? '0' : '') + date.getHours()
+                                            let mins_actu = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
+                                            
+                                            let formated_h_actu = horas_actu + ':' + mins_actu // Hora actual
+    
+                                            let arr_format_hour = hour.split(':')
+                                            let hour_prev = parseInt(arr_format_hour) - 1
+                                            arr_format_hour[0] = hour_prev.toString()
+    
+                                            let formated_prev = arr_format_hour.join(':')// Hora previa
+    
+                                            let arr_format_hour2 = hour.split(':')
+                                            let hour_past = parseInt(arr_format_hour2) + 1
+                                            arr_format_hour2[0] = hour_past.toString()
+                                            
+                                            let formated_past = arr_format_hour2.join(':')// Pasada una h
+
+                                            if(formated_h_actu >= formated_prev && formated_h_actu <= formated_past){
+
+                                                if(parseInt(this.svgs[svg].id) == this.selected){
+                                    
+                                                    this.setSvg()
+                                                }
+                                            }
+
+                                        }
+
+                                    }
+
+
+
+
+
+                                }
+
+
+                            }
+
+                        }
+
+
+                    }       
             })
+
+        
 
 
         }
+        
 
     }
 }

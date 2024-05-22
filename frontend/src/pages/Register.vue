@@ -15,7 +15,7 @@
         </q-card>
       </q-dialog>
     </div>
-    <q-card class="q-pa-md shadow-2 my-card q-ma-md rounded-borders shadow-2" bordered>
+    <q-card class="q-pa-md shadow-2 my-card q-ma-md rounded-borders shadow-2" bordered @keydown.enter="submitForm">
       <q-card-section class="text-center">
         <div class="text-grey-9 text-h5 text-weight-bold">Registro</div>
       </q-card-section>
@@ -106,7 +106,7 @@ export default defineComponent({
           return res.json();
         })
         .then(resultado => {
-          window.location.href = "#/login";
+          window.location.href = "/login";
         })
         .catch(error => {
           if (error.message === 'Internal Server Error') {
