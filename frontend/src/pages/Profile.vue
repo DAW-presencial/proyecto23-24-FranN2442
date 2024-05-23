@@ -150,7 +150,7 @@ export default defineComponent({
       let token = LocalStorage.getItem("token");
 
       fetch(
-        "http://booknow_api.randion.es/api/v1/reservations?filter[user_id]=" +
+        "https://booknow_api.randion.es/api/v1/reservations?filter[user_id]=" +
         user_id,
         {
           headers: {
@@ -172,7 +172,7 @@ export default defineComponent({
       let token = LocalStorage.getItem("token");
       console.log(token);
 
-      fetch("http://booknow_api.randion.es/api/v1/reservations/" + reservation_id, {
+      fetch("https://booknow_api.randion.es/api/v1/reservations/" + reservation_id, {
         headers: {
           Accept: "application/vnd.api+json",
           Authorization: `Bearer ${token}`,
@@ -204,7 +204,7 @@ export default defineComponent({
       let user_id = LocalStorage.getItem("usrid");
       let token = LocalStorage.getItem("token");
 
-      fetch("http://booknow_api.randion.es/api/v1/passwordReset/" + user_id, {
+      fetch("https://booknow_api.randion.es/api/v1/passwordReset/" + user_id, {
         method: 'PATCH',
         headers: {
           'Accept': 'application/vnd.api+json',
@@ -249,7 +249,7 @@ export default defineComponent({
       let user_id = LocalStorage.getItem("usrid");
       let token = LocalStorage.getItem("token");
 
-      fetch("http://booknow_api.randion.es/api/v1/users/" + user_id, {
+      fetch("https://booknow_api.randion.es/api/v1/users/" + user_id, {
         method: 'PATCH',
         headers: {
           'Accept': 'application/vnd.api+json',

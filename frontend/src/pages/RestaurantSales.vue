@@ -65,7 +65,7 @@ export default {
         this.token = local_arr.token;
         console.log( "Restaurant Id: " + this.restaurant_id);
 
-       fetch('http://booknow_api.randion.es/api/v1/designs?filter[restaurant_id]=' + this.restaurant_id,{
+       fetch('https://booknow_api.randion.es/api/v1/designs?filter[restaurant_id]=' + this.restaurant_id,{
             headers: {
                 'Accept' : 'application/vnd.api+json',
                 'Authorization': `Bearer ${this.token}`
@@ -240,7 +240,7 @@ export default {
 
             this.restaurant_id = LocalStorage.getItem('restaurant_id')
             console.log(this.restaurant_id)
-            fetch('http://booknow_api.randion.es/api/v1/designs?filter[restaurant_id]=' + this.restaurant_id,{
+            fetch('https://booknow_api.randion.es/api/v1/designs?filter[restaurant_id]=' + this.restaurant_id,{
                     headers: {
                         'Accept' : 'application/vnd.api+json',
                         'Authorization': `Bearer ${this.token}`
