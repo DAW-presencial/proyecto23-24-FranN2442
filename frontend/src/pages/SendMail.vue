@@ -1,27 +1,33 @@
 <template>
+  <div class="q-pa-md q-gutter-sm bg-grey-2 flex flex-center mgTop4 my-font">
+    <q-breadcrumbs>
+      <q-breadcrumbs-el label="Home" icon="home" to="/" />
+      <q-breadcrumbs-el :label="$t('register')" icon="person" to="/register"  />
+    </q-breadcrumbs>
+  </div>
   <q-page class="flex flex-center bg-grey-2">
     <div class="container bg-blue-2 ">
       <div class="bg-grey-2">
-        <h5 class="text-left text-h5 text-bold text-uppercase mgTop4">Contacto</h5>
+        <h5 class="text-left text-h5 text-bold text-uppercase mgTopN my-font">{{ $t('sendTitle') }}</h5>
       </div>
       <form @submit.prevent="sendEmail">
-        <label>Name</label>
-        <input type="text" v-model="name" name="user_name" placeholder="Your Name">
+        <label>{{ $t('nameLabel') }}</label>
+        <input type="text" v-model="name" name="user_name" :placeholder="$t('fullName')">
         <span v-if="errors.name" class="error">{{ errors.name }}</span>
 
-        <label>Email</label>
-        <input type="email" v-model="email" name="user_email" placeholder="Your Email">
+        <label>{{ $t('emailLabel') }}</label>
+        <input type="email" v-model="email" name="user_email" :placeholder="$t('registerMail')">
         <span v-if="errors.email" class="error">{{ errors.email }}</span>
 
-        <label>Phone</label>
-        <input type="text" v-model="phone" name="user_phone" placeholder="Your Phone">
+        <label>{{ $t('phoneLabel') }}</label>
+        <input type="text" v-model="phone" name="user_phone" :placeholder="$t('registerPhone')">
         <span v-if="errors.phone" class="error">{{ errors.phone }}</span>
 
-        <label>Message</label>
-        <textarea name="message" v-model="message" cols="30" rows="5" placeholder="Message"></textarea>
+        <label>{{ $t('messageLabel') }}</label>
+        <textarea name="message" v-model="message" cols="30" rows="5" :placeholder="$t('messageLabel2')"></textarea>
         <span v-if="errors.message" class="error">{{ errors.message }}</span>
 
-        <input type="submit" value="Send">
+        <input type="submit" value="Send" class="text-uppercase">
       </form>
     </div>
   </q-page>
@@ -152,8 +158,13 @@ input[type=submit]:hover {
 }
 
 .mgTop4 {
+  margin-top: 10px;
+}
+
+.mgTopN{
   margin-top: -8vh;
 }
+
 .error {
   color: red;
   font-size: 12px;

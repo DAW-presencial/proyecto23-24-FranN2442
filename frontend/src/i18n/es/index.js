@@ -66,6 +66,15 @@ export default {
   reserveDiners: 'Comensales',
   reserveTable: 'Número de mesa',
   reserveBtn: 'Cancelar',
+  // SendMail
+  sendTitle: 'Contacto',
+  nameLabel: 'Nombre',
+  emailLabel: 'Email',
+  phoneLabel: 'Teléfono',
+  messageLabel: 'Mensaje',
+  messageLabel2: 'Describe tu negocio, caracteristicas, sector....',
+  btnLabel: 'enviar'
+  
 
 
 };
