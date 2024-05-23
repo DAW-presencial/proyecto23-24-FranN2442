@@ -53,6 +53,8 @@
 <script>
 import { useQuasar } from 'quasar'
 import { defineComponent, ref } from 'vue'
+import { apiUrl } from 'boot/axios'
+
 export default defineComponent({
   name: 'Home',
   data() {
@@ -98,7 +100,7 @@ export default defineComponent({
         tel_num: this.formData.tel_num
       };
 
-      fetch('https://booknow_api.randion.es/api/v1/users', {
+      fetch(apiUrl + '/users', {
         method: 'POST',
         headers: {
           'Accept': 'application/vnd.api+json',

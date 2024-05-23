@@ -91,6 +91,8 @@
 import { defineComponent, ref } from 'vue'
 import FooterComponent from '../components/FooterComponent.vue'
 import GeolocationComponent from '../components/Geolocation.vue'
+import { apiUrl } from 'boot/axios'
+
 export default defineComponent({
   name: 'Home',
   components: {
@@ -124,7 +126,7 @@ export default defineComponent({
 
   methods: {
     async fetchRestaurants() {
-      const response = await fetch('https://booknow_api.randion.es/api/v1/restaurants', {
+      const response = await fetch(apiUrl + '/restaurants', {
         method: 'GET',
         headers: {
           'accept': 'application/vnd.api+json'

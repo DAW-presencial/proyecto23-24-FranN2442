@@ -104,6 +104,7 @@
 import { defineComponent } from "vue";
 import { LocalStorage, Notify } from "quasar";
 import FooterComponent from '../components/FooterComponent.vue'
+import { apiUrl } from 'boot/axios'
 
 export default defineComponent({
   name: "Home",
@@ -150,7 +151,7 @@ export default defineComponent({
       let token = LocalStorage.getItem("token");
 
       fetch(
-        "https://booknow_api.randion.es/api/v1/reservations?filter[user_id]=" +
+        apiUrl + "/reservations?filter[user_id]=" +
         user_id,
         {
           headers: {
@@ -172,7 +173,7 @@ export default defineComponent({
       let token = LocalStorage.getItem("token");
       console.log(token);
 
-      fetch("https://booknow_api.randion.es/api/v1/reservations/" + reservation_id, {
+      fetch(apiUrl + "/reservations/" + reservation_id, {
         headers: {
           Accept: "application/vnd.api+json",
           Authorization: `Bearer ${token}`,
@@ -204,7 +205,7 @@ export default defineComponent({
       let user_id = LocalStorage.getItem("usrid");
       let token = LocalStorage.getItem("token");
 
-      fetch("https://booknow_api.randion.es/api/v1/passwordReset/" + user_id, {
+      fetch(apiUrl + "/passwordReset/" + user_id, {
         method: 'PATCH',
         headers: {
           'Accept': 'application/vnd.api+json',
@@ -249,7 +250,7 @@ export default defineComponent({
       let user_id = LocalStorage.getItem("usrid");
       let token = LocalStorage.getItem("token");
 
-      fetch("https://booknow_api.randion.es/api/v1/users/" + user_id, {
+      fetch(apiUrl + "/users/" + user_id, {
         method: 'PATCH',
         headers: {
           'Accept': 'application/vnd.api+json',

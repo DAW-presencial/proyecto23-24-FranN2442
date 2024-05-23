@@ -2,6 +2,8 @@ import { boot } from 'quasar/wrappers'
 import axios from 'axios'
 import { Loading, Notify } from 'quasar'
 
+const apiUrl = 'https://booknow_api.randion.es/api/v1'
+
 const api = axios.create({  baseURL: 'http://127.0.0.1:8000/api/v1' ,
                             headers : { post : {
                                             'Accept' : 'application/vnd.api+json',
@@ -35,4 +37,4 @@ api.interceptors.response.use(function (response){
 })
 
 
-export { axios, api }
+export { axios, api , apiUrl }
