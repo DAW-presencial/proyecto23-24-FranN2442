@@ -1,12 +1,12 @@
 <template>
-  <div class="q-pa-md q-gutter-sm bg-grey-2 flex flex-center mgTop4">
+  <div class="q-pa-md q-gutter-sm bg-grey-2 flex flex-center mgTop4 my-font2">
     <q-breadcrumbs>
       <q-breadcrumbs-el label="Home" icon="home" to="/" />
       <q-breadcrumbs-el :label="$t('register')" icon="person" to="/register"  />
       <q-breadcrumbs-el :label="$t('login')" icon="login" to="/profile" />
     </q-breadcrumbs>
   </div>
-  <q-page class="flex flex-center bg-grey-2">
+  <q-page class="flex flex-center bg-grey-2 my-font2">
     <div class="q-pa-md q-gutter-sm">
       <q-dialog v-model="alert">
         <q-card>
@@ -143,7 +143,7 @@ export default defineComponent({
         "device_name": this.getDeviceName()
       }
       console.log(params);
-      fetch('http://booknow_api.randion.es/api/v1/user_login', {
+      fetch('https://booknow_api.randion.es/api/v1/user_login', {
         method: "POST",
         headers: {
           'Accept': 'application/vnd.api+json',
