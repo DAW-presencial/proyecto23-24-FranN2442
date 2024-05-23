@@ -1,5 +1,5 @@
 <template>
-    <div class="q-pa-sm bg-grey max-heigth">
+    <div class="q-pa-sm bg-brown-6 max-heigth">
 
         <div id="svgDiv" >
             
@@ -35,7 +35,8 @@ export default {
             svg : {},
             token  : '',
             restaurant_id : '',
-            newSvgs : {}
+            newSvgs : {},
+     
 
         }
 
@@ -80,12 +81,20 @@ export default {
    
        })
 
-       setInterval(()=> {
+       this.stopInterval = setInterval(()=> {
 
-        this.timerSvg()
+            this.timerSvg()
 
 
         },5000)
+
+        console.log('BeforeCreate: ' + this.stopInterval);
+
+    },
+    beforeUnmount() {
+
+        clearInterval(this.stopInterval)
+        console.log('UnMounted:' + this.stopInterval);
 
     },
     methods : {
@@ -223,10 +232,14 @@ export default {
         },
         logOut(){
             LocalStorage.remove('token')
+            clearInterval(this.stopInterval)
+            console.log('LogOut:' + this.stopInterval);
             this.$router.push('employee-login')
         },
         timerSvg(){
 
+            this.restaurant_id = LocalStorage.getItem('restaurant_id')
+            console.log(this.restaurant_id)
             fetch('http://booknow_api.randion.es/api/v1/designs?filter[restaurant_id]=' + this.restaurant_id,{
                     headers: {
                         'Accept' : 'application/vnd.api+json',
@@ -234,7 +247,8 @@ export default {
                     }
             }).then((res) => res.json()).then( (response) => {
 
-                    // console.log(this.newSvgs,this.svgs);
+                    console.log(this.newSvgs,this.svgs,'pepe');
+                  
                     if(this.svgs.length !== response.data.length){
                         this.svgs = response.data
                         this.setOptions()
@@ -329,5 +343,9 @@ export default {
 }
 </script>
 <style scoped>
+rect{
 
+    border: 3px black solid
+
+}
 </style>

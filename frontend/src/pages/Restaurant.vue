@@ -146,7 +146,7 @@
       >
         <q-card class="bg-primary max-height">
           <q-card-section>
-            <SvgComponent svg-height="500px" svg-width="100%" :hour="reservation.hour" :day="reservation.date" :diners="reservation.diners"></SvgComponent>
+            <SvgComponent svg-height="800px" svg-width="100%" :hour="reservation.hour" :day="reservation.date" :diners="reservation.diners"></SvgComponent>
           </q-card-section>
         </q-card>
       </q-dialog>
