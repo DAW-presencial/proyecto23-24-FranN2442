@@ -134,7 +134,7 @@ export default {
             
             svgDiv.innerHTML = ""
 
-            let svg = document.createElementNS("http://www.w3.org/2000/svg",'svg');
+            let svg = document.createElementNS("https://www.w3.org/2000/svg",'svg');
 
             svg.setAttribute('width',Screen.width - 10)
             svg.setAttribute('height',Screen.height - 78)
@@ -147,7 +147,7 @@ export default {
                 // console.log('Table ' + table);
                 // console.log('----------------------------------------');
 
-                let rect = document.createElementNS("http://www.w3.org/2000/svg", "rect")
+                let rect = document.createElementNS("https://www.w3.org/2000/svg", "rect")
 
                 rect.setAttribute("x",tables[table].x)
                 rect.setAttribute("y",tables[table].y)

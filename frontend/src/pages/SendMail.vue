@@ -1,11 +1,11 @@
 <template>
-  <div class="q-pa-md q-gutter-sm bg-grey-2 flex flex-center mgTop4 my-font">
-    <q-breadcrumbs>
-      <q-breadcrumbs-el label="Home" icon="home" to="/" />
-      <q-breadcrumbs-el :label="$t('register')" icon="person" to="/register"  />
-    </q-breadcrumbs>
-  </div>
   <q-page class="flex flex-center bg-grey-2">
+    <div class="q-pa-md q-gutter-sm bg-grey-2 flex flex-center mgTop4 my-font">
+      <q-breadcrumbs>
+        <q-breadcrumbs-el label="Home" icon="home" to="/" />
+        <q-breadcrumbs-el :label="$t('register')" icon="person" to="/register"  />
+      </q-breadcrumbs>
+    </div>
     <div class="container bg-blue-2 ">
       <div class="bg-grey-2">
         <h5 class="text-left text-h5 text-bold text-uppercase mgTopN my-font">{{ $t('sendTitle') }}</h5>
