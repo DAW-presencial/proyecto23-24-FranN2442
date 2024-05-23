@@ -124,8 +124,9 @@ export default defineComponent({
 
   methods: {
     async fetchRestaurants() {
-      const response = await fetch('https://booknow_api.randion.es/api/v1/restaurants', {
+      const response = await fetch('http://booknow_api.randion.es/api/v1/restaurants', {
         method: 'GET',
+        mode: 'no-cors',
         headers: {
           'accept': 'application/vnd.api+json'
         }
