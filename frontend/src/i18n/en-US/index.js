@@ -65,7 +65,17 @@ export default {
     reserveHour: 'Time',
     reserveDiners: 'Diners',
     reserveTable: 'Table number',
-    reserveBtn: 'Cancel'
+    reserveBtn: 'Cancel',
+    // SendMail
+    sendTitle: 'Contact',
+    nameLabel: 'Name',
+    emailLabel: 'Email',
+    phoneLabel: 'Phone',
+    messageLabel: 'Message',
+    messageLabel2: 'Describe your business, features, sector....',
+    btnLabel: 'send'
+    
+
 
 
 
