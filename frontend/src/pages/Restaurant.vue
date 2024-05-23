@@ -235,7 +235,7 @@ export default {
     },
   beforeCreate() {
 
-    fetch("http://booknow_api.randion.es/api/v1/restaurants/" + this.$route.query.id, {
+    fetch("https://booknow_api.randion.es/api/v1/restaurants/" + this.$route.query.id, {
       method: "GET",
       headers: {
         Accept: "application/vnd.api+json",
@@ -314,7 +314,7 @@ export default {
 
       console.log(date);
 
-      fetch("http://booknow_api.randion.es/api/v1/reservations?filter[restaurant_id]=" + this.$route.query.id + "&filter[date]=" + date, {
+      fetch("https://booknow_api.randion.es/api/v1/reservations?filter[restaurant_id]=" + this.$route.query.id + "&filter[date]=" + date, {
         method: "GET",
         headers: {
           Accept: "application/vnd.api+json",
@@ -376,7 +376,7 @@ export default {
           this.loading = true
           let token = LocalStorage.getItem('token')
 
-          fetch("http://booknow_api.randion.es/api/v1/reservations",{
+          fetch("https://booknow_api.randion.es/api/v1/reservations",{
             method : 'POST',
             headers : {
 

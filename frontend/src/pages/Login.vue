@@ -143,7 +143,7 @@ export default defineComponent({
         "device_name": this.getDeviceName()
       }
       console.log(params);
-      fetch('http://booknow_api.randion.es/api/v1/user_login', {
+      fetch('https://booknow_api.randion.es/api/v1/user_login', {
         method: "POST",
         headers: {
           'Accept': 'application/vnd.api+json',

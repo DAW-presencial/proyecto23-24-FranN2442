@@ -21,7 +21,7 @@ export default {
   methods: {
     async submitForm() {
       try {
-        await this.$axios.post('http://localhost:8000/api/send-email', {
+        await this.$axios.post('https://localhost:8000/api/send-email', {
           name: this.name,
           email: this.email,
           message: this.message

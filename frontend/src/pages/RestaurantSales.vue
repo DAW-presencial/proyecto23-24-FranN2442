@@ -65,7 +65,7 @@ export default {
         this.token = local_arr.token;
         console.log( "Restaurant Id: " + this.restaurant_id);
 
-       fetch('http://booknow_api.randion.es/api/v1/designs?filter[restaurant_id]=' + this.restaurant_id,{
+       fetch('https://booknow_api.randion.es/api/v1/designs?filter[restaurant_id]=' + this.restaurant_id,{
             headers: {
                 'Accept' : 'application/vnd.api+json',
                 'Authorization': `Bearer ${this.token}`
@@ -134,7 +134,7 @@ export default {
             
             svgDiv.innerHTML = ""
 
-            let svg = document.createElementNS("http://www.w3.org/2000/svg",'svg');
+            let svg = document.createElementNS("https://www.w3.org/2000/svg",'svg');
 
             svg.setAttribute('width',Screen.width - 10)
             svg.setAttribute('height',Screen.height - 78)
@@ -147,7 +147,7 @@ export default {
                 // console.log('Table ' + table);
                 // console.log('----------------------------------------');
 
-                let rect = document.createElementNS("http://www.w3.org/2000/svg", "rect")
+                let rect = document.createElementNS("https://www.w3.org/2000/svg", "rect")
 
                 rect.setAttribute("x",tables[table].x)
                 rect.setAttribute("y",tables[table].y)
@@ -240,7 +240,7 @@ export default {
 
             this.restaurant_id = LocalStorage.getItem('restaurant_id')
             console.log(this.restaurant_id)
-            fetch('http://booknow_api.randion.es/api/v1/designs?filter[restaurant_id]=' + this.restaurant_id,{
+            fetch('https://booknow_api.randion.es/api/v1/designs?filter[restaurant_id]=' + this.restaurant_id,{
                     headers: {
                         'Accept' : 'application/vnd.api+json',
                         'Authorization': `Bearer ${this.token}`
