@@ -50,6 +50,8 @@
 import { defineComponent, ref } from 'vue'
 import { LocalStorage, useQuasar, QSpinnerGears } from 'quasar'
 import { useI18n } from 'vue-i18n';
+import { apiUrl } from 'boot/axios'
+
 export default defineComponent({
   name: 'Home',
   setup() {
@@ -143,7 +145,7 @@ export default defineComponent({
         "device_name": this.getDeviceName()
       }
       console.log(params);
-      fetch('https://booknow_api.randion.es/api/v1/user_login', {
+      fetch(apiUrl + '/user_login', {
         method: "POST",
         headers: {
           'Accept': 'application/vnd.api+json',
