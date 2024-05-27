@@ -20,6 +20,7 @@
 </template>
 <script>
 import {Notify,LocalStorage} from 'quasar';
+import { apiUrl } from 'boot/axios'
 
 export default {
   props : {
@@ -56,7 +57,7 @@ export default {
 
     this.getReservas()
 
-    fetch("http://booknow_api.randion.es/api/v1/designs?filter[restaurant_id]=" + this.$route.query.id, {
+    fetch(apiUrl + "/designs?filter[restaurant_id]=" + this.$route.query.id, {
       method: "GET",
       headers: {
         Accept: "application/vnd.api+json",

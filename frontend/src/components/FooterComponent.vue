@@ -2,23 +2,22 @@
   <footer class="footer">
     <div class="container">
       <div class="footer-content">
-        <div class="footer-section">
-          <h3>Enlaces útiles</h3>
+        <div class="footer-section my-font">
+          <h3> {{ $t('links') }}</h3>
           <ul>
-            <li><a href="#">Inicio</a></li>
-            <li><a href="#">Acerca de nosotros</a></li>
-            <li><a href="#">Servicios</a></li>
-            <li><a href="#">Contacto</a></li>
+            <li><a href="#"> {{ $t('home') }}</a></li>
+            <li><a href="#"> {{ $t('us') }}</a></li>
+            <li><a href="#"> {{ $t('services') }}</a></li>
           </ul>
         </div>
-        <div class="footer-section">
-          <h3>Contacto</h3>
-          <p>Dirección: 123 Calle Mallorca, Islas Baleares</p>
-          <p>Teléfono: +123 456 789</p>
-          <p>Email: info@example.com</p>
+        <div class="footer-section my-font">
+          <h3> {{ $t('contact') }}</h3>
+          <p> {{ $t('address') }} 123 Calle Mallorca, Islas Baleares</p>
+          <p> {{ $t('phone') }} +123 456 789</p>
+          <p> {{ $t('email') }} info@example.com</p>
         </div>
         <div class="footer-section">
-          <h3>Síguenos en las redes sociales</h3>
+          <h3 class="my-font">{{ $t('social') }}</h3>
           <ul class="social-icons">
             <li><a href="#"><i class="fa-brands fa-facebook fa-beat"></i></a></li>
             <li><a href="#"><i class="fa-brands fa-twitter fa-beat"></i></a></li>
@@ -28,8 +27,8 @@
         </div>
       </div>
     </div>
-    <div class="footer-bottom">
-      <p>&copy; 2024 Book Now. Todos los derechos reservados.</p>
+    <div class="footer-bottom my-font">
+      <p>&copy; 2024 Book Now. {{ $t('copyright') }}</p>
     </div>
   </footer>
 </template>
@@ -41,6 +40,7 @@ export default {
 </script>
 
 <style scoped>
+
 .footer {
   background-color: #333;
   color: #fff;

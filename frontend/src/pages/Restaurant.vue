@@ -146,7 +146,7 @@
       >
         <q-card class="bg-primary max-height">
           <q-card-section>
-            <SvgComponent svg-height="500px" svg-width="100%" :hour="reservation.hour" :day="reservation.date" :diners="reservation.diners"></SvgComponent>
+            <SvgComponent svg-height="800px" svg-width="100%" :hour="reservation.hour" :day="reservation.date" :diners="reservation.diners"></SvgComponent>
           </q-card-section>
         </q-card>
       </q-dialog>
@@ -193,6 +193,7 @@ import FooterComponent from "../components/FooterComponent.vue";
 import ResFormComponent from "src/components/ResFormComponent.vue";
 import SvgComponent from "src/components/SvgComponent.vue";
 import { LocalStorage, Notify } from "quasar";
+import { apiUrl } from 'boot/axios'
 
 export default {
   name: "RestaurantPage",
@@ -235,7 +236,7 @@ export default {
     },
   beforeCreate() {
 
-    fetch("http://booknow_api.randion.es/api/v1/restaurants/" + this.$route.query.id, {
+    fetch(apiUrl + "/restaurants/" + this.$route.query.id, {
       method: "GET",
       headers: {
         Accept: "application/vnd.api+json",
@@ -314,7 +315,7 @@ export default {
 
       console.log(date);
 
-      fetch("http://booknow_api.randion.es/api/v1/reservations?filter[restaurant_id]=" + this.$route.query.id + "&filter[date]=" + date, {
+      fetch(apiUrl + "/reservations?filter[restaurant_id]=" + this.$route.query.id + "&filter[date]=" + date, {
         method: "GET",
         headers: {
           Accept: "application/vnd.api+json",
@@ -376,7 +377,7 @@ export default {
           this.loading = true
           let token = LocalStorage.getItem('token')
 
-          fetch("http://booknow_api.randion.es/api/v1/reservations",{
+          fetch(apiUrl + "/reservations",{
             method : 'POST',
             headers : {
 

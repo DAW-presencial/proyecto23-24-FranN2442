@@ -1,18 +1,41 @@
 /* app global css */
 @font-face {
-    font-family: mulish;
-    src: url(./fonts/Mulish-Italic-VariableFont_wght.ttf);
+  font-family: mulish;
+  src: url(./fonts/Mulish-Italic-VariableFont_wght.ttf);
 }
 @font-face {
-    font-family: script;
-    src: url(./fonts/DancingScript-VariableFont_wght.ttf);
+  font-family: script;
+  src: url(./fonts/DancingScript-VariableFont_wght.ttf);
 }
-  
+
+@font-face {
+  font-family: customfont2;
+  src: url(../css/fonts/LeoArrowSansSerif-yZZ5.ttf);
+}
+
+@font-face {
+  font-family: customfont;
+  src: url(../css/fonts//LeoArrowSansSerif-yZZ5.ttf);
+}
+@font-face {
+  font-family: lato;
+  src: url(../css/fonts//Lato-Light.ttf);
+}
 
 .mulish {
-    font-family: 'mulish';
+  font-family: "mulish";
 }
-.script{
+.script {
+  font-family: "script";
+}
 
-    font-family: 'script';
+.my-font {
+  font-family: "customfont";
+}
+
+.font-lato {
+  font-family: "customfont2";
+}
+.font-lato {
+  font-family: "lato";
 }

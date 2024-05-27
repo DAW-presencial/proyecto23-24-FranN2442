@@ -41,7 +41,7 @@
 <script>
 import { LocalStorage } from 'quasar'
 import { Notify } from 'quasar'
-import { api } from 'boot/axios'
+import { apiUrl } from 'boot/axios'
 
 export default {
   name : 'RestAccessPage',
@@ -67,7 +67,7 @@ export default {
 
       }
 
-      fetch('http://booknow_api.randion.es/api/v1/restaurant_login',{
+      fetch(apiUrl + '/restaurant_login',{
         method : 'POST',
         headers : {
 

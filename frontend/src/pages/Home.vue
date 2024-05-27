@@ -2,11 +2,11 @@
   <div class="container">
     <div class="rounded-div">
       <div class="title-container">
-        <div class="title-text">Descubre y reserva en los mejores restaurantes</div>
+        <div class="title-text font-lato">{{ $t('titleHome') }}</div>
       </div>
-      <div class="search-div">
+      <div class="search-div font-lato">
         <q-input type="search" class="search-input" rounded outlined v-model="searchRestaurant" @input="searchByInput"
-          placeholder="Nombre de restaurante, categoria..." />&nbsp;
+          :placeholder="$t('searchBar')" />&nbsp;
         <a @click="clearSearch" style="cursor: pointer;">
           <i class="fa-regular fa-circle-xmark"></i>
         </a>
@@ -16,10 +16,10 @@
     </div>
   </div>
   <div class="card-container">
-    <h5 class="text-center text-h5" style="font-weight: bold; text-transform: uppercase;">Restaurantes</h5>
+    <h5 class="text-center text-h5 font-lato" style="font-weight: bold; text-transform: uppercase;">{{ $t('restaurant') }}</h5>
     <div class="card-div">
-      <div v-if="restaurantsFilter.length === 0">
-        No se encontraron resultados.
+      <div class="font-lato" v-if="restaurantsFilter.length === 0">
+        {{ $t('noResults') }}
       </div>
       <q-card class="my-card" v-for="rest in restaurantsFilter" :key="rest.id" flat bordered>
         <q-img src="https://cdn.quasar.dev/img/chicken-salad.jpg" />
@@ -40,48 +40,42 @@
         <q-card-actions class="container">
           <q-btn flat color="primary">
             <router-link :to="modificarRuta(rest.id)" class="text-primary text-weight-bold cursor-pointer"
-              style="text-decoration: none">Reservar</router-link>
+              style="text-decoration: none">{{ $t('book') }}</router-link>
           </q-btn>
         </q-card-actions>
       </q-card>
     </div>
-    <h5 class="text-center text-h5" style="font-weight: bold; text-transform: uppercase;">Ofertas</h5>
+    <h5 class="text-center text-h5 font-lato" style="font-weight: bold; text-transform: uppercase;">{{ $t('offer') }}</h5>
     <div class="q-pa-md" style="width: 90%;">
       <div class="q-gutter-md">
         <q-carousel v-model="slide" transition-prev="scale" transition-next="scale" swipeable animated
           control-color="white" navigation padding arrows height="300px"
           class="bg-primary text-white shadow-1 rounded-borders" infinite autoplay>
-          <q-carousel-slide name="style" class="column no-wrap flex-center" img-src="">
-            <q-icon name="discount" size="56px" />
+          <q-carousel-slide name="layers" class="column no-wrap flex-center" img-src="../assets/book-now-users.png">
             <div class="q-mt-md text-center">
-              <h6 class="text-h6">Descuentos en pedidos para usuarios</h6>
+              <h6 class="text-h6 font-lato bg-primary q-pa-md">{{ $t('offer1') }}</h6>
             </div>
           </q-carousel-slide>
-          <q-carousel-slide name="layers" class="column no-wrap flex-center" img-src="">
-            <q-icon name="style" size="56px" />
+          <q-carousel-slide name="style" class="column no-wrap flex-center" img-src="../assets/book-now-descuentos.jpg">
             <div class="q-mt-md text-center">
-              <h6 class="text-h6">Envíos gratis a partir de 10 euros</h6>
+              <h6 class="text-h6 font-lato bg-primary  q-pa-md">{{ $t('offer2') }}</h6>
             </div>
           </q-carousel-slide>
         </q-carousel>
       </div>
     </div>
-    <h5 class="text-center text-h5" style="font-weight: bold; text-transform: uppercase;">Registra tu negocio</h5>
+    <h5 class="text-center text-h5 text-bold text-uppercase font-lato">{{ $t('registerRest') }}</h5>
     <div class="card-div">
       <q-card class="restRegister">
         <q-card-section horizontal>
-          <q-img class="col-5" src="https://cdn.quasar.dev/img/parallax2.jpg" />
+          <q-img class="col-5" src="../assets/unete-a-nosotros.jpg" />
           <q-card-section class="bg-grey-4">
-            <div class="col text-h6 text-caption text-center text-bold" style="font-size: 22px; padding-top: 2%;">
-              ¡Únete a nosotros!
+            <div class="col text-h6 text-caption text-center text-bold font-lato" style="font-size: 22px; padding-top: 2%;">
+              {{ $t('joinUs') }}
             </div>
-            <h6 class="left text-black-9 text-caption" style="font-size: 18px;">Tienes un restaurante o negocio de
-              comida? ¡Únete a nuestra plataforma y lleva tu negocio
-              al siguiente
-              nivel! Regístrate ahora para aumentar tu visibilidad, llegar a nuevos clientes y disfrutar de beneficios
-              exclusivos.</h6>
+            <h6 class="left text-black-9 text-caption font-lato" style="font-size: 18px;">{{ $t('joinUsDescription') }}</h6>
             <div class="text-center">
-              <q-btn class="custom bg-grey-4" to="/login" label="Ver más" />
+              <q-btn class="custom bg-grey-4 font-lato" to="/send-mail" :label="$t('joinUsBtn')" />
             </div>
           </q-card-section>
         </q-card-section>
@@ -95,6 +89,8 @@
 import { defineComponent, ref } from 'vue'
 import FooterComponent from '../components/FooterComponent.vue'
 import GeolocationComponent from '../components/Geolocation.vue'
+import { apiUrl } from 'boot/axios'
+
 export default defineComponent({
   name: 'Home',
   components: {
@@ -128,7 +124,7 @@ export default defineComponent({
 
   methods: {
     async fetchRestaurants() {
-      const response = await fetch('http://booknow_api.randion.es/api/v1/restaurants', {
+      const response = await fetch(apiUrl + '/restaurants', {
         method: 'GET',
         headers: {
           'accept': 'application/vnd.api+json'
@@ -255,5 +251,27 @@ export default defineComponent({
   border: 1px solid #1480ed;
   background-color: white;
   color: #1480ed;
+}
+
+@media screen and (max-width: 375px) and (max-height: 667px) {
+  .container {
+    padding: 10px;
+  }
+
+  .rounded-div {
+    border-radius: 10px;
+  }
+
+  .title-text {
+    font-size: 30px;
+  }
+
+  .search-input {
+    width: 80%;
+  }
+
+  .disc{
+    margin-top: 25px;
+  }
 }
 </style>

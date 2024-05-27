@@ -1,5 +1,5 @@
 <template>
-  <q-btn class="search-btn" @click="getCurrentPosition">BUSCAR</q-btn>
+  <q-btn class="search-btn" @click="getCurrentPosition">{{ $t('search') }}</q-btn>
 </template>
 
 <script>

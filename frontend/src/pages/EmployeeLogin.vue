@@ -42,7 +42,7 @@
 <script>
 import { LocalStorage } from "quasar";
 import { Notify } from "quasar";
-import { api } from 'boot/axios'
+import { apiUrl } from 'boot/axios'
 
 export default {
   name: "EmploLoginPage",
@@ -61,7 +61,7 @@ export default {
 
     console.log(rest_id, token);
 
-    fetch("http://booknow_api.randion.es/api/v1/employees?filter[restaurant_id]=" + rest_id,{
+    fetch(apiUrl + "/employees?filter[restaurant_id]=" + rest_id,{
 
       headers : {
         Accept : "application/vnd.api+json",
@@ -98,7 +98,7 @@ export default {
       console.log(this.employee_id, this.employee_pin);
 
       fetch(
-        "http://booknow_api.randion.es/api/v1/employee_login",
+        apiUrl + "/employee_login",
         {
           method: "POST",
           headers: {
