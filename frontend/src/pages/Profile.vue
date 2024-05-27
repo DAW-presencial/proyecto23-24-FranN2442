@@ -188,7 +188,7 @@ export default defineComponent({
 
           setTimeout(() => {
 
-            location.reload()
+            this.$router.push(this.$route.path)
 
           },2000)
         })
@@ -263,10 +263,7 @@ export default defineComponent({
           if (response.ok) {
             Notify.create({
               message: 'Perfil actualizado, reinicia sesión',
-              type: 'positive',
-              actions : [
-              { label: 'Reiniciar', color: 'white', handler: () => { this.$router.push(this.$route.path)} }
-              ]
+              type: 'positive'
             });
           } else {
             Notify.create({
