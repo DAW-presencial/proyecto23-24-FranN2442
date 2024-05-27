@@ -1,11 +1,11 @@
 <template>
+  <div class="q-pa-md q-gutter-sm bg-grey-2 flex flex-center mgTop4 my-font">
+    <q-breadcrumbs>
+      <q-breadcrumbs-el label="Home" icon="home" to="/" />
+      <q-breadcrumbs-el :label="$t('register')" icon="person" to="/register" />
+    </q-breadcrumbs>
+  </div>
   <q-page class="flex flex-center bg-grey-2">
-    <div class="q-pa-md q-gutter-sm bg-grey-2 flex flex-center mgTop4 my-font">
-      <q-breadcrumbs>
-        <q-breadcrumbs-el label="Home" icon="home" to="/" />
-        <q-breadcrumbs-el :label="$t('register')" icon="person" to="/register"  />
-      </q-breadcrumbs>
-    </div>
     <div class="container bg-blue-2 ">
       <div class="bg-grey-2">
         <h5 class="text-left text-h5 text-bold text-uppercase mgTopN my-font">{{ $t('sendTitle') }}</h5>
@@ -13,19 +13,19 @@
       <form @submit.prevent="sendEmail">
         <label>{{ $t('nameLabel') }}</label>
         <input type="text" v-model="name" name="user_name" :placeholder="$t('fullName')">
-        <span v-if="errors.name" class="error">{{ errors.name }}</span>
+        <span v-if="errors.name" class="text-left error">{{ errors.name }}</span>
 
         <label>{{ $t('emailLabel') }}</label>
-        <input type="email" v-model="email" name="user_email" :placeholder="$t('registerMail')">
-        <span v-if="errors.email" class="error">{{ errors.email }}</span>
+        <input type="email" v-model="email" name="user_email" :placeholder="$t('emailLabel')">
+        <span v-if="errors.email" class="text-left error">{{ errors.email }}</span>
 
         <label>{{ $t('phoneLabel') }}</label>
         <input type="text" v-model="phone" name="user_phone" :placeholder="$t('registerPhone')">
-        <span v-if="errors.phone" class="error">{{ errors.phone }}</span>
+        <span v-if="errors.phone" class="text-left error">{{ errors.phone }}</span>
 
         <label>{{ $t('messageLabel') }}</label>
         <textarea name="message" v-model="message" cols="30" rows="5" :placeholder="$t('messageLabel2')"></textarea>
-        <span v-if="errors.message" class="error">{{ errors.message }}</span>
+        <span v-if="errors.message" class="text-left error">{{ errors.message }}</span>
 
         <input type="submit" value="Send" class="text-uppercase">
       </form>
@@ -36,6 +36,7 @@
 
 <script>
 import emailjs from '@emailjs/browser';
+import { Notify } from "quasar";
 
 export default {
   name: 'ContactUs',
@@ -90,23 +91,32 @@ export default {
       return isValid;
     },
     async sendEmail(e) {
+      e.preventDefault();
       if (this.validateForm()) {
         try {
           const result = await emailjs.sendForm('service_bd0uxgm', 'template_wrnra98', e.target, 'DZeO-ciVfs13VEYFC');
           console.log(result.text);
-          alert('Correo enviado con éxito');
+          Notify.create({
+            message: 'Los datos han sido enviados, correctamente!',
+            type: 'positive'
+          });
 
-          // Limpiar los campos del formulario
           this.name = '';
           this.email = '';
           this.phone = '';
           this.message = '';
         } catch (error) {
           console.error('Error al enviar el correo:', error);
-          alert('Hubo un error al enviar el correo');
+          Notify.create({
+            message: 'Error al enviar el correo: ' + error,
+            type: 'negative'
+          });
         }
       } else {
-        alert('Por favor, corrige los errores en el formulario');
+        Notify.create({
+          message: 'Por favor, corrige los errores en el formulario',
+          type: 'warning'
+        });
       }
     },
   }
@@ -161,15 +171,14 @@ input[type=submit]:hover {
   margin-top: 10px;
 }
 
-.mgTopN{
+.mgTopN {
   margin-top: -8vh;
 }
 
-.error {
-  color: red;
-  font-size: 12px;
-  text-align: left;
+.error{
   display: block;
-  margin-bottom: 16px;
+  color: red;
+  margin-bottom: 14px
+
 }
 </style>

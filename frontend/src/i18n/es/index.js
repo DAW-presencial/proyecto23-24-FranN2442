@@ -74,7 +74,7 @@ export default {
   messageLabel: 'Mensaje',
   messageLabel2: 'Describe tu negocio, caracteristicas, sector....',
   btnLabel: 'enviar'
-  
+
 
 
 };
