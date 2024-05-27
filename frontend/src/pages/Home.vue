@@ -2,9 +2,9 @@
   <div class="container">
     <div class="rounded-div">
       <div class="title-container">
-        <div class="title-text my-font2">{{ $t('titleHome') }}</div>
+        <div class="title-text font-lato">{{ $t('titleHome') }}</div>
       </div>
-      <div class="search-div my-font2">
+      <div class="search-div font-lato">
         <q-input type="search" class="search-input" rounded outlined v-model="searchRestaurant" @input="searchByInput"
           :placeholder="$t('searchBar')" />&nbsp;
         <a @click="clearSearch" style="cursor: pointer;">
@@ -16,9 +16,9 @@
     </div>
   </div>
   <div class="card-container">
-    <h5 class="text-center text-h5 my-font" style="font-weight: bold; text-transform: uppercase;">{{ $t('restaurant') }}</h5>
+    <h5 class="text-center text-h5 font-lato" style="font-weight: bold; text-transform: uppercase;">{{ $t('restaurant') }}</h5>
     <div class="card-div">
-      <div class="my-font2" v-if="restaurantsFilter.length === 0">
+      <div class="font-lato" v-if="restaurantsFilter.length === 0">
         {{ $t('noResults') }}
       </div>
       <q-card class="my-card" v-for="rest in restaurantsFilter" :key="rest.id" flat bordered>
@@ -45,39 +45,37 @@
         </q-card-actions>
       </q-card>
     </div>
-    <h5 class="text-center text-h5 my-font" style="font-weight: bold; text-transform: uppercase;">{{ $t('offer') }}</h5>
+    <h5 class="text-center text-h5 font-lato" style="font-weight: bold; text-transform: uppercase;">{{ $t('offer') }}</h5>
     <div class="q-pa-md" style="width: 90%;">
       <div class="q-gutter-md">
         <q-carousel v-model="slide" transition-prev="scale" transition-next="scale" swipeable animated
           control-color="white" navigation padding arrows height="300px"
           class="bg-primary text-white shadow-1 rounded-borders" infinite autoplay>
           <q-carousel-slide name="layers" class="column no-wrap flex-center" img-src="../assets/book-now-users.png">
-            <q-icon name="discount" class="disc" size="56px" />
             <div class="q-mt-md text-center">
-              <h6 class="text-h6 my-font2 bg-orange">{{ $t('offer1') }}</h6>
+              <h6 class="text-h6 font-lato bg-primary q-pa-md">{{ $t('offer1') }}</h6>
             </div>
           </q-carousel-slide>
           <q-carousel-slide name="style" class="column no-wrap flex-center" img-src="../assets/book-now-descuentos.jpg">
-            <q-icon name="style" size="56px" />
             <div class="q-mt-md text-center">
-              <h6 class="text-h6 my-font2 bg-orange">{{ $t('offer2') }}</h6>
+              <h6 class="text-h6 font-lato bg-primary  q-pa-md">{{ $t('offer2') }}</h6>
             </div>
           </q-carousel-slide>
         </q-carousel>
       </div>
     </div>
-    <h5 class="text-center text-h5 text-bold text-uppercase my-font">{{ $t('registerRest') }}</h5>
+    <h5 class="text-center text-h5 text-bold text-uppercase font-lato">{{ $t('registerRest') }}</h5>
     <div class="card-div">
       <q-card class="restRegister">
         <q-card-section horizontal>
           <q-img class="col-5" src="../assets/unete-a-nosotros.jpg" />
           <q-card-section class="bg-grey-4">
-            <div class="col text-h6 text-caption text-center text-bold my-font2" style="font-size: 22px; padding-top: 2%;">
+            <div class="col text-h6 text-caption text-center text-bold font-lato" style="font-size: 22px; padding-top: 2%;">
               {{ $t('joinUs') }}
             </div>
-            <h6 class="left text-black-9 text-caption my-font2" style="font-size: 18px;">{{ $t('joinUsDescription') }}</h6>
+            <h6 class="left text-black-9 text-caption font-lato" style="font-size: 18px;">{{ $t('joinUsDescription') }}</h6>
             <div class="text-center">
-              <q-btn class="custom bg-grey-4 my-font2" to="/send-mail" :label="$t('joinUsBtn')" />
+              <q-btn class="custom bg-grey-4 font-lato" to="/send-mail" :label="$t('joinUsBtn')" />
             </div>
           </q-card-section>
         </q-card-section>

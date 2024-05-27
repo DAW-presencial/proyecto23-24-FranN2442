@@ -17,6 +17,10 @@
   font-family: customfont;
   src: url(../css/fonts//LeoArrowSansSerif-yZZ5.ttf);
 }
+@font-face {
+  font-family: lato;
+  src: url(../css/fonts//Lato-Light.ttf);
+}
 
 .mulish {
   font-family: "mulish";
@@ -29,6 +33,9 @@
   font-family: "customfont";
 }
 
-.my-font2 {
+.font-lato {
   font-family: "customfont2";
+}
+.font-lato {
+  font-family: "lato";
 }
