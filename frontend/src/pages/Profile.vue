@@ -263,7 +263,10 @@ export default defineComponent({
           if (response.ok) {
             Notify.create({
               message: 'Perfil actualizado, reinicia sesión',
-              type: 'positive'
+              type: 'positive',
+              actions : [
+              { label: 'Reiniciar', color: 'white', handler: () => { this.$router.push(this.$route.path)} }
+              ]
             });
           } else {
             Notify.create({
