@@ -45,7 +45,7 @@ export default {
 
         selected(newVal,oldVal){
 
-            console.log('Valor nuevo: ' + newVal);
+            // console.log('Valor nuevo: ' + newVal);
             this.svgs.forEach(element => {
                 if(element.id == newVal){
 
@@ -63,7 +63,7 @@ export default {
         let local_arr = LocalStorage.getAll();
         this.restaurant_id = local_arr.restaurant_id;
         this.token = local_arr.token;
-        console.log( "Restaurant Id: " + this.restaurant_id);
+        // console.log( "Restaurant Id: " + this.restaurant_id);
 
        fetch('https://booknow-api.randion.es/api/v1/designs?filter[restaurant_id]=' + this.restaurant_id,{
             headers: {
@@ -73,7 +73,7 @@ export default {
        }).then((res) => res.json()).then((response) => {
 
             this.svgs =  response.data
-            console.log(this.svgs);
+            // console.log(this.svgs);
             // TODO: Comprobar que vienen svg
             this.svg = this.svgs[0]
             this.selected = this.svgs[0].id
@@ -88,13 +88,13 @@ export default {
 
         },5000)
 
-        console.log('BeforeCreate: ' + this.stopInterval);
+        // console.log('BeforeCreate: ' + this.stopInterval);
 
     },
     beforeUnmount() {
 
         clearInterval(this.stopInterval)
-        console.log('UnMounted:' + this.stopInterval);
+        // console.log('UnMounted:' + this.stopInterval);
 
     },
     methods : {
@@ -159,7 +159,7 @@ export default {
                     rect.setAttribute("fill","green")
                     rect.addEventListener('click',() => {
 
-                        console.log('Mesa disponible');
+                        // console.log('Mesa disponible');
 
                     })
                 }else {
@@ -169,11 +169,11 @@ export default {
                         rect.setAttribute("fill","green")
                         rect.addEventListener('click',() => {
 
-                            console.log('Mesa disponible');
+                            // console.log('Mesa disponible');
 
                         })
     
-                        console.log('Hora reserva: ' + ocupated_h[i] + " Hora actual: " + formated_h_actu);
+                        // console.log('Hora reserva: ' + ocupated_h[i] + " Hora actual: " + formated_h_actu);
                         
                         let arr_format_hour2 = ocupated_h[i].split(':')
                         let hour_past = parseInt(arr_format_hour2) + 1
@@ -200,7 +200,7 @@ export default {
                         let hour_prev = parseInt(arr_format_hour) - 1
                         arr_format_hour[0] = (hour_prev.toString() < 10 ? '0' : '') + hour_prev.toString()
                         let formated_prev = arr_format_hour.join(':')
-                        console.log(formated_prev + " " + formated_h_actu + " " + ocupated_h[i]);
+                        // console.log(formated_prev + " " + formated_h_actu + " " + ocupated_h[i]);
                         if(formated_h_actu < ocupated_h[i] && formated_h_actu > formated_prev ){
                             
                             rect.setAttribute("fill","yellow")
@@ -233,13 +233,13 @@ export default {
         logOut(){
             LocalStorage.remove('token')
             clearInterval(this.stopInterval)
-            console.log('LogOut:' + this.stopInterval);
+            // console.log('LogOut:' + this.stopInterval);
             this.$router.push('employee-login')
         },
         timerSvg(){
 
             this.restaurant_id = LocalStorage.getItem('restaurant_id')
-            console.log(this.restaurant_id)
+            // console.log(this.restaurant_id)
             fetch('https://booknow-api.randion.es/api/v1/designs?filter[restaurant_id]=' + this.restaurant_id,{
                     headers: {
                         'Accept' : 'application/vnd.api+json',
@@ -247,7 +247,7 @@ export default {
                     }
             }).then((res) => res.json()).then( (response) => {
 
-                    console.log(this.newSvgs,this.svgs,'pepe');
+                    // console.log(this.newSvgs,this.svgs,'pepe');
                   
                     if(this.svgs.length !== response.data.length){
                         this.svgs = response.data
@@ -268,7 +268,7 @@ export default {
                                 let equals = isEqual(svg_tables,respose_tables)
 
                                 if(!equals){
-                                    console.log('Son diferentes',this.svgs[svg],response.data[resp_svg]);
+                                    // console.log('Son diferentes',this.svgs[svg],response.data[resp_svg]);
                                     this.svgs[svg] = response.data[resp_svg] 
                                     console.log(this.svgs[svg].id,this.selected);
                                     if(parseInt(this.svgs[svg].id) == this.selected){
@@ -279,7 +279,7 @@ export default {
                                     this.$forceUpdate()
                                 } else {
 
-                                    console.log("Son iguales, entrando");
+                                    // console.log("Son iguales, entrando");
                                     let reservation_hours = JSON.parse(this.svgs[svg].attributes.tables)
 
                                     for(let key in reservation_hours){
@@ -303,19 +303,26 @@ export default {
     
                                             let arr_format_hour2 = hour.split(':')
                                             let hour_past = parseInt(arr_format_hour2) + 1
-                                            console.log("Pasada 1 h ", hour_past);
+                                            // console.log("Pasada 1 h ", hour_past);
                                             let fixed_hour_past = (hour_past < 10 ? '0' : '') + hour_past
                                             arr_format_hour2[0] = fixed_hour_past.toString()
                                             
                                             let formated_past = arr_format_hour2.join(':')// Pasada una h
 
-                                            console.log("HORAS:" + formated_h_actu, formated_prev,formated_past);
+                                            // console.log("HORAS:" + formated_h_actu, formated_prev,formated_past);
                                             if(formated_h_actu >= formated_prev && formated_h_actu <= formated_past){
 
-                                                console.log("Hora entre la prev y la past");
+                                                // console.log("Hora entre la prev y la past");
                                                 if(parseInt(this.svgs[svg].id) == this.selected){
                                     
-                                                    console.log("Ejecutando pintar");
+                                                    // console.log("Ejecutando pintar");
+                                                    this.setSvg()
+                                                }
+                                            } else if (formated_h_actu > formated_past ) {
+
+                                                if(parseInt(this.svgs[svg].id) == this.selected){
+                                    
+                                                    // console.log("Ejecutando pintar");
                                                     this.setSvg()
                                                 }
                                             }

@@ -52,15 +52,13 @@
           control-color="white" navigation padding arrows height="300px"
           class="bg-primary text-white shadow-1 rounded-borders" infinite autoplay>
           <q-carousel-slide name="layers" class="column no-wrap flex-center" img-src="../assets/book-now-users.png">
-            <q-icon name="discount" class="disc" size="56px" />
             <div class="q-mt-md text-center">
-              <h6 class="text-h6 font-lato bg-orange">{{ $t('offer1') }}</h6>
+              <h6 class="text-h6 font-lato bg-primary q-pa-md">{{ $t('offer1') }}</h6>
             </div>
           </q-carousel-slide>
           <q-carousel-slide name="style" class="column no-wrap flex-center" img-src="../assets/book-now-descuentos.jpg">
-            <q-icon name="style" size="56px" />
             <div class="q-mt-md text-center">
-              <h6 class="text-h6 font-lato bg-orange">{{ $t('offer2') }}</h6>
+              <h6 class="text-h6 font-lato bg-primary  q-pa-md">{{ $t('offer2') }}</h6>
             </div>
           </q-carousel-slide>
         </q-carousel>
