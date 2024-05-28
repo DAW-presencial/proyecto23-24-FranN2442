@@ -1,8 +1,8 @@
 <template>
   <div class="q-pa-md q-gutter-sm bg-grey-2 flex flex-center mgTop4 my-font">
     <q-breadcrumbs>
-      <q-breadcrumbs-el label="Home" icon="home" to="/" />
-      <q-breadcrumbs-el :label="$t('register')" icon="person" to="/register" />
+      <q-breadcrumbs-el label="Home" icon="home" to="/"  @click="handleBreadcrumbClick('home')"/>
+      <q-breadcrumbs-el :label="$t('register')" icon="person" to="/register"  @click="handleBreadcrumbClick('register')"/>
     </q-breadcrumbs>
   </div>
   <q-page class="flex flex-center bg-grey-2">
@@ -14,20 +14,16 @@
         <label>{{ $t('nameLabel') }}</label>
         <input type="text" v-model="name" name="user_name" :placeholder="$t('fullName')">
         <span v-if="errors.name" class="text-left error">{{ errors.name }}</span>
-
         <label>{{ $t('emailLabel') }}</label>
         <input type="email" v-model="email" name="user_email" :placeholder="$t('emailLabel')">
         <span v-if="errors.email" class="text-left error">{{ errors.email }}</span>
-
         <label>{{ $t('phoneLabel') }}</label>
         <input type="text" v-model="phone" name="user_phone" :placeholder="$t('registerPhone')">
         <span v-if="errors.phone" class="text-left error">{{ errors.phone }}</span>
-
         <label>{{ $t('messageLabel') }}</label>
         <textarea name="message" v-model="message" cols="30" rows="5" :placeholder="$t('messageLabel2')"></textarea>
         <span v-if="errors.message" class="text-left error">{{ errors.message }}</span>
-
-        <input type="submit" value="Send" class="text-uppercase">
+        <input type="submit" :value="$t('register')" class="text-uppercase">
       </form>
     </div>
   </q-page>
@@ -37,26 +33,26 @@
 <script>
 import emailjs from '@emailjs/browser';
 import { Notify } from "quasar";
+import { useI18n } from 'vue-i18n';
+import { ref } from 'vue';
 
 export default {
   name: 'ContactUs',
-  data() {
-    return {
-      name: '',
-      email: '',
-      phone: '',
-      message: '',
-      errors: {
-        name: null,
-        email: null,
-        phone: null,
-        message: null,
-      }
-    }
-  },
-  methods: {
-    validateForm() {
-      this.errors = {
+  setup() {
+    const { t } = useI18n();
+    const name = ref('');
+    const email = ref('');
+    const phone = ref('');
+    const message = ref('');
+    const errors = ref({
+      name: null,
+      email: null,
+      phone: null,
+      message: null,
+    });
+
+    const validateForm = () => {
+      errors.value = {
         name: null,
         email: null,
         phone: null,
@@ -65,62 +61,86 @@ export default {
 
       let isValid = true;
 
-      if (!this.name) {
-        this.errors.name = 'Name is required';
+      if (!name.value) {
+        errors.value.name = t('nameReq');
         isValid = false;
       }
 
-      if (!this.email) {
-        this.errors.email = 'Email is required';
+      if (!email.value) {
+        errors.value.email = t('emailReq');
         isValid = false;
-      } else if (!/\S+@\S+\.\S+/.test(this.email)) {
-        this.errors.email = 'Email is invalid';
-        isValid = false;
-      }
-
-      if (!this.phone) {
-        this.errors.phone = 'Phone number is required';
+      } else if (!/\S+@\S+\.\S+/.test(email.value)) {
+        errors.value.email = t('emailInv');
         isValid = false;
       }
 
-      if (!this.message) {
-        this.errors.message = 'Message is required';
+      if (!phone.value) {
+        errors.value.phone = t('phoneReq');
+        isValid = false;
+      }
+
+      if (!message.value) {
+        errors.value.message = t('messReq');
         isValid = false;
       }
 
       return isValid;
-    },
-    async sendEmail(e) {
+    };
+
+    const sendEmail = async (e) => {
       e.preventDefault();
-      if (this.validateForm()) {
+      if (validateForm()) {
         try {
           const result = await emailjs.sendForm('service_bd0uxgm', 'template_wrnra98', e.target, 'DZeO-ciVfs13VEYFC');
           console.log(result.text);
           Notify.create({
-            message: 'Los datos han sido enviados, correctamente!',
+            message: t('dataSend'),
             type: 'positive'
           });
 
-          this.name = '';
-          this.email = '';
-          this.phone = '';
-          this.message = '';
+          name.value = '';
+          email.value = '';
+          phone.value = '';
+          message.value = '';
         } catch (error) {
-          console.error('Error al enviar el correo:', error);
+          console.error(t('error'), error);
           Notify.create({
-            message: 'Error al enviar el correo: ' + error,
+            message: t('error') + error,
             type: 'negative'
           });
         }
       } else {
         Notify.create({
-          message: 'Por favor, corrige los errores en el formulario',
+          message: t('info'),
           type: 'warning'
         });
       }
+    };
+
+    return {
+      t,
+      name,
+      email,
+      phone,
+      message,
+      errors,
+      validateForm,
+      sendEmail
+    };
+  },
+  methods:{
+    handleBreadcrumbClick(icon) {
+      if (icon === 'person' || icon === 'login' || icon === 'home') {
+        this.clearLocalStorage();
+      }
     },
+    clearLocalStorage() {
+      localStorage.removeItem('zip_code');
+      localStorage.removeItem('zip_code_1');
+      localStorage.removeItem('zip_code_2');
+    }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -175,10 +195,9 @@ input[type=submit]:hover {
   margin-top: -8vh;
 }
 
-.error{
+.error {
   display: block;
   color: red;
   margin-bottom: 14px
-
 }
 </style>

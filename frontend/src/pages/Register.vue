@@ -1,9 +1,9 @@
 <template>
    <div class="q-pa-md q-gutter-sm bg-grey-2 flex flex-center mgTop4 font-lato">
     <q-breadcrumbs>
-      <q-breadcrumbs-el label="Home" icon="home" to="/" />
-      <q-breadcrumbs-el :label="$t('login')" icon="login" to="/profile" />
-      <q-breadcrumbs-el :label="$t('register')" icon="person" to="/register"  />
+      <q-breadcrumbs-el label="Home" icon="home" to="/" @click="handleBreadcrumbClick('home')"/>
+      <q-breadcrumbs-el :label="$t('login')" icon="login" to="/profile" @click="handleBreadcrumbClick('login')"/>
+      <q-breadcrumbs-el :label="$t('register')" icon="person" to="/register"  @click="handleBreadcrumbClick('register')"/>
     </q-breadcrumbs>
   </div>
   <q-page class="flex flex-center bg-grey-2 font-lato">
@@ -149,6 +149,16 @@ export default defineComponent({
         this.$q.loading.hide();
         this.timer = undefined;
       }, 1000)
+    },
+    handleBreadcrumbClick(icon) {
+      if (icon === 'person' || icon === 'login' || icon === 'home') {
+        this.clearLocalStorage();
+      }
+    },
+    clearLocalStorage() {
+      localStorage.removeItem('zip_code');
+      localStorage.removeItem('zip_code_1');
+      localStorage.removeItem('zip_code_2');
     }
   }
 });

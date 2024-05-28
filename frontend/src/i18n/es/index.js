@@ -7,7 +7,7 @@ export default {
   register: "Regístrate",
   profile: "perfil",
   logOut: "salir",
-  search: "BUSCAR",
+  search: "CERCA DE MÍ",
   searchBar: " Nombre de restaurante, categoria...",
   noResults: "No se encontraron resultados.",
   book: "Reservar",
@@ -73,8 +73,22 @@ export default {
   phoneLabel: 'Teléfono',
   messageLabel: 'Mensaje',
   messageLabel2: 'Describe tu negocio, caracteristicas, sector....',
-  btnLabel: 'enviar'
-
-
-
+  btnLabel: 'enviar',
+ // Notify SendMail
+ nameReq: "El nombre es obligatorio",
+ emailReq: "Correo electrónico obligatorio",
+ emailInv: "Email is invalid",
+ phoneReq: "El correo electrónico no es válido",
+ messReq: "Mensaje obligatorio",
+ dataSend: "Los datos han sido enviados, correctamente!",
+ error: "Error al enviar el correo: ",
+ info: "Por favor, corrige los errores del formulario",
+ // Notify Profile
+ reservationCancelled: "Reserva cancelada!",
+ passwordUpdated: "Contraseña actualizada!",
+ errorUpdatingPassword: "Error al actualizar la contraseña",
+ passwordMismatch:"La contraseña no coincide",
+ profileUpdated: "Perfil actualizado",
+ errorUpdatingProfile: "Error al actualizar perfil",
+ errorUpdating: "Error actualizando"
 };

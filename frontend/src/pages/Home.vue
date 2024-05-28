@@ -16,36 +16,53 @@
     </div>
   </div>
   <div class="card-container">
-    <h5 class="text-center text-h5 font-lato" style="font-weight: bold; text-transform: uppercase;">{{ $t('restaurant') }}</h5>
+    <h5 class="text-center text-h5 font-lato" style="font-weight: bold; text-transform: uppercase;">{{ $t('restaurant')
+      }}</h5>
     <div class="card-div">
-      <div class="font-lato" v-if="restaurantsFilter.length === 0">
+      <div class="font-lato no-results-message" v-if="restaurantsFilter.length === 0">
         {{ $t('noResults') }}
       </div>
-      <q-card class="my-card" v-for="rest in restaurantsFilter" :key="rest.id" flat bordered>
-        <q-img src="https://cdn.quasar.dev/img/chicken-salad.jpg" />
-        <q-card-section>
-          <div class="row no-wrap items-center">
-            <div class="col text-h6 ellipsis">
-              {{ rest.attributes.name }}
-            </div>
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" v-for="rest in restaurantsFilter" :key="rest.id">
+            <q-card class="my-card" flat bordered>
+              <q-img class="card-img" src="https://cdn.quasar.dev/img/chicken-salad.jpg" />
+              <q-card-section class="card-section">
+                <div class="row no-wrap items-center">
+                  <div class="col text-h6 ellipsis card-text">
+                    {{ rest.attributes.name }}
+                  </div>
+                </div>
+              </q-card-section>
+              <q-card-section class="q-pt-none card-section">
+                <div class="text-overline text-orange-9 card-text">{{ rest.attributes.category }}</div>
+                <div class="text-caption text-grey card-text">
+                  Small plates, salads & sandwiches in an intimate setting.
+                </div>
+              </q-card-section>
+              <q-separator />
+              <q-card-actions class="container">
+                <q-btn flat color="primary">
+                  <router-link :to="modificarRuta(rest.id)"
+                    class="text-primary text-weight-bold cursor-pointer card-text" style="text-decoration: none">{{
+          $t('book') }}</router-link>
+                </q-btn>
+              </q-card-actions>
+            </q-card>
           </div>
-        </q-card-section>
-        <q-card-section class="q-pt-none">
-          <div class="text-overline text-orange-9">{{ rest.attributes.category }}</div>
-          <div class="text-caption text-grey">
-            Small plates, salads & sandwiches in an intimate setting.
-          </div>
-        </q-card-section>
-        <q-separator />
-        <q-card-actions class="container">
-          <q-btn flat color="primary">
-            <router-link :to="modificarRuta(rest.id)" class="text-primary text-weight-bold cursor-pointer"
-              style="text-decoration: none">{{ $t('book') }}</router-link>
-          </q-btn>
-        </q-card-actions>
-      </q-card>
+        </div>
+        <div class="swiper-button-next" v-show="restaurantsFilter.length > 0"></div>
+        <div class="swiper-button-prev" v-show="restaurantsFilter.length > 0"></div>
+        <div class="swiper-pagination" v-show="restaurantsFilter.length > 0"></div>
+        <br>
+        <br>
+      </div>
+      <br>
+      <br>
     </div>
-    <h5 class="text-center text-h5 font-lato" style="font-weight: bold; text-transform: uppercase;">{{ $t('offer') }}</h5>
+    <h5 class="text-center text-h5 font-lato" style="font-weight: bold; text-transform: uppercase; margin-top: -6px;">{{
+          $t('offer') }}
+    </h5>
     <div class="q-pa-md" style="width: 90%;">
       <div class="q-gutter-md">
         <q-carousel v-model="slide" transition-prev="scale" transition-next="scale" swipeable animated
@@ -70,12 +87,14 @@
         <q-card-section horizontal>
           <q-img class="col-5" src="../assets/unete-a-nosotros.jpg" />
           <q-card-section class="bg-grey-4">
-            <div class="col text-h6 text-caption text-center text-bold font-lato" style="font-size: 22px; padding-top: 2%;">
+            <div class="col text-h6 text-caption text-center text-bold font-lato"
+              style="font-size: 22px; padding-top: 2%;">
               {{ $t('joinUs') }}
             </div>
-            <h6 class="left text-black-9 text-caption font-lato" style="font-size: 18px;">{{ $t('joinUsDescription') }}</h6>
+            <h6 class="left text-black-9 text-caption font-lato" style="font-size: 18px;">{{ $t('joinUsDescription') }}
+            </h6>
             <div class="text-center">
-              <q-btn class="custom bg-grey-4 font-lato" to="/send-mail" :label="$t('joinUsBtn')" />
+              <q-btn class="custom bg-grey-4 font-lato" to="/send-mail" :label="$t('joinUsBtn') " />
             </div>
           </q-card-section>
         </q-card-section>
@@ -86,10 +105,14 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 import FooterComponent from '../components/FooterComponent.vue'
 import GeolocationComponent from '../components/Geolocation.vue'
 import { apiUrl } from 'boot/axios'
+import 'swiper/css/bundle'
+import Swiper from 'swiper'
+import { Navigation, Pagination } from 'swiper/modules'
+import 'swiper/css/bundle';
 
 export default defineComponent({
   name: 'Home',
@@ -104,12 +127,16 @@ export default defineComponent({
       restaurants: [],
       restaurantsFilter: [],
       slide: ref('style'),
+      swiper: null,
     };
   },
 
   async created() {
     await this.fetchRestaurants();
     this.searchByCode();
+  },
+  mounted() {
+    this.initSwiper();
   },
   computed: {
     searchByInput() {
@@ -139,6 +166,9 @@ export default defineComponent({
     clearSearch() {
       this.searchRestaurant = '';
       this.restaurantsFilter = this.restaurants
+      localStorage.removeItem('zip_code');
+      localStorage.removeItem('zip_code_1');
+      localStorage.removeItem('zip_code_2');
     },
     searchByCode() {
       const zip_code = localStorage.getItem("zip_code");
@@ -167,6 +197,26 @@ export default defineComponent({
       const nuevoValor = generarCadenaAleatoria(8);
       return `/restaurant?id=${restId}&${nuevoParametro}${nuevoValor}`;
     },
+
+    initSwiper() {
+      this.swiper = new Swiper('.swiper-container', {
+        direction: 'horizontal',
+        loop: false,
+        modules: [Navigation, Pagination],
+        spaceBetween: 20,
+        slidesPerView: 'auto',
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+      });
+    },
+
   },
 });
 </script>
@@ -195,7 +245,6 @@ export default defineComponent({
 .search-div {
   display: inline-flex;
   margin-top: 4vh;
-
 }
 
 .search-input {
@@ -219,16 +268,55 @@ export default defineComponent({
 
 .card-div {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   width: 90%;
+  margin-bottom: 20px;
+  overflow: hidden;
+  position: relative;
+
+}
+
+.no-results {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.no-results-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding-bottom: 30px;
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    overflow: hidden
+  }
 }
 
 .my-card {
-  width: 100%;
   max-width: 250px;
+  width: 100%;
   margin: 0.5%;
+}
+
+.card-section {
+  max-height: 100px;
+  overflow: hidden;
+}
+
+.card-img {
+  max-width: 100%;
+}
+
+.card-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .title-container {
@@ -244,13 +332,75 @@ export default defineComponent({
 .restRegister {
   width: 100%;
   max-width: 84vw;
-  padding: 0%
+  padding: 0%;
 }
 
 .custom {
   border: 1px solid #1480ed;
   background-color: white;
   color: #1480ed;
+}
+
+.swiper-container {
+  width: 100%;
+  height: auto;
+  position: relative;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  background-color: black;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 16px;
+}
+
+.swiper-button-next {
+  right: 10px;
+}
+
+.swiper-button-prev {
+  left: 10px;
+}
+
+.swiper-pagination {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.swiper-slide {
+  width: 250px;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1;
+}
+
+.swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background-color: black;
+  opacity: 0.5;
+  margin: 0 5px;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 375px) and (max-height: 667px) {
@@ -270,7 +420,7 @@ export default defineComponent({
     width: 80%;
   }
 
-  .disc{
+  .disc {
     margin-top: 25px;
   }
 }

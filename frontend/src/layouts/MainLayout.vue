@@ -4,7 +4,7 @@
       <q-toolbar>
         <q-toolbar-title>
           <div class="layout-container">
-            <a href="" class="router-link-active doc-header__logo row items-center no-wrap cursor-pointer">
+            <a href="" class="router-link-active doc-header__logo row items-center no-wrap cursor-pointer" @click="clearLocalStorage">
               <img class="doc-header__logo-img" src="../assets/bn-logo-1.png" alt="Book-now-logo" width="48"
                 height="48">
             </a>
@@ -57,6 +57,11 @@ export default {
       import(`quasar/lang/${locale}`).then(language => {
         this.$q.lang.set(language.default);
       });
+    },
+    clearLocalStorage() {
+      localStorage.removeItem('zip_code');
+      localStorage.removeItem('zip_code_1');
+      localStorage.removeItem('zip_code_2');
     }
   },
   watch: {
