@@ -94,7 +94,7 @@
             <h6 class="left text-black-9 text-caption font-lato" style="font-size: 18px;">{{ $t('joinUsDescription') }}
             </h6>
             <div class="text-center">
-              <q-btn class="custom bg-grey-4 font-lato" to="/send-mail" :label="$t('joinUsBtn') " />
+              <q-btn class="custom bg-grey-4 font-lato" to="/send-mail" :label="$t('joinUsBtn')" />
             </div>
           </q-card-section>
         </q-card-section>
@@ -291,12 +291,13 @@ export default defineComponent({
   left: 50%;
   transform: translate(-50%, -50%);
   padding-bottom: 30px;
-
-  .swiper-button-next,
-  .swiper-button-prev {
-    overflow: hidden
-  }
 }
+
+.swiper-button-next,
+.swiper-button-prev {
+  overflow: hidden
+}
+
 
 .my-card {
   max-width: 250px;
