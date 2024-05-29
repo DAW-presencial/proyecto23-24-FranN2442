@@ -9,13 +9,12 @@
     </div>
     <q-page class="card-container font-lato">
       <div class="max-width">
-
       </div>
       <div style="width: 50%">
         <div class="col">
           <div class="row">
             <h3 class="q-ma-md noMargin">{{ restaurant.name }}</h3>
-            <hr c>
+            <hr>
           </div>
           <div class="row q-gutter-md">
           </div>
@@ -46,7 +45,6 @@
         </div>
       </div>
       <div class="row q-pa-md bg-blue-2 card-container" style="width: 50%;">
-        <div></div>
         <div class="col q-ma-md font-lato">
           <div>
             <q-stepper v-model="step" ref="stepper" color="primary" animated>
