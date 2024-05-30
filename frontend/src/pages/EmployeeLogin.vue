@@ -26,7 +26,6 @@
               dense
               v-model="employee_pin"
               autofocus
-              @keyup.enter="prompt = false"
             />
           </q-card-section>
 

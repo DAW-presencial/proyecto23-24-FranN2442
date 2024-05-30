@@ -365,6 +365,16 @@ export default {
             this.loading = false
             this.card = false
 
+            LocalStorage.remove('dsid')
+            LocalStorage.remove('table')
+
+            Notify.create({
+
+              message: "Reserva realizada con exito!",
+              type : "positive"
+
+            })
+
           }).catch((error) => {
 
             console.log(error);

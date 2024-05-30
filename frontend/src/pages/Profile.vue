@@ -186,14 +186,17 @@ export default defineComponent({
         method: "DELETE",
       })
         .then(() => {
+
+          let courrentRoute = this.$route.query
           Notify.create({
             message: this.t('reservationCancelled'),
             type: "positive",
+            actions: [
+            { label: 'Reiniciar', color: 'white', handler: () => {window.location.reload() } }
+          ]
           });
 
-          setTimeout(() => {
-            this.$router.push(this.$route.path)
-          }, 2000);
+          
         })
         .catch((error) => {
           console.log(error);
@@ -306,7 +309,7 @@ export default defineComponent({
   justify-content: left;
   align-items: left;
   width: 50vw;
-  height: 55vh;
+  height: max-content;
   margin-top: 4vh;
   border-radius: 20px;
 }
