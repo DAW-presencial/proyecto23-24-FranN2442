@@ -28,13 +28,13 @@
       </q-card-section>
       <q-card-section>
         <q-form @submit="submitForm" class="q-gutter-md">
-          <q-input v-model="formData.full_name" class="" dense outlined :label="$t('fullName')" /><br>
+          <q-input v-model="formData.full_name" class="" dense outlined :label="$t('fullName')" :rules="nameRules" style=""/>
           <q-input v-model="formData.email" dense outlined :label="$t('registerMail')" type="email"
             :rules="emailRules" />
           <q-input v-model="formData.password" dense outlined :label="$t('pass')" type="password"
             :rules="passwordRules" />
           <q-input v-model="formData.tel_num" dense outlined :label="$t('registerPhone')" type="tel"
-            class="custom-input" /><br>
+            class="custom-input":rules="phoneRules"/><br>
           <div class="text-center">
             <q-btn style="border-radius: 8px;" type="submit" color="primary" :label="$t('register')" class="full-width" />
           </div>
@@ -54,9 +54,15 @@
 import { useQuasar } from 'quasar'
 import { defineComponent, ref } from 'vue'
 import { apiUrl } from 'boot/axios'
+import { useI18n } from 'vue-i18n';
+
 
 export default defineComponent({
   name: 'Home',
+  setup() {
+    const { t } = useI18n();
+    return { t };
+  },
   data() {
     return {
       formData: {
@@ -66,12 +72,21 @@ export default defineComponent({
         tel_num: ''
       },
       emailRules: [
-        v => !!v || 'El correo electrónico es requerido',
-        v => /.+@.+\..+/.test(v) || 'Correo electrónico no válido'
+        v => !!v || this.$t('emailRequired'),
+        v => /.+@.+\..+/.test(v) || this.$t('validEmail')
       ],
       passwordRules: [
-        v => !!v || 'La contraseña es requerida',
-        v => v.length >= 6 || 'La contraseña debe tener al menos 6 caracteres'
+        v => !!v || this.$t('passwordRequired'),,
+        v => v.length >= 6 || this.$t('minPassLength')
+      ],
+      nameRules: [
+        val => !!val || this.$t('nameRequired'),
+        val => /^[a-zA-Z\s]+$/.test(val) || this.$t('validName'),
+        val => val.length >= 6 || this.$t('minNameLength')
+      ],
+      phoneRules: [
+        val => !!val || this.$t('phoneRequired'),
+        val => /^\d{10}$/.test(val) || this.$t('validPhone')
       ],
       errorMessage: '',
       alert: ref(false),
