@@ -21,12 +21,11 @@
             <div class="text-h6">PIN DE ACCESSO</div>
           </q-card-section>
 
-          <q-card-section class="q-pt-none">
+          <q-card-section class="q-pt-none"  @keydown.enter="login">
             <q-input
               dense
               v-model="employee_pin"
               autofocus
-              @keyup.enter="prompt = false"
             />
           </q-card-section>
 
