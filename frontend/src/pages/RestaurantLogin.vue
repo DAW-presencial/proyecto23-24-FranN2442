@@ -7,7 +7,7 @@
         <div class="div-letras" style="font-size: 70px; margin-left: 370px;;"><p>ERP</p></div>
 
       </div>
-      <q-form class=" rounded-border q-pa-xl bg-primary">
+      <q-form class=" rounded-border q-pa-xl bg-primary"  @keydown.enter="login">
         <div class="labels-div q-ma-xl">
 
             <q-input

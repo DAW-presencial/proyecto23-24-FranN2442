@@ -1,8 +1,8 @@
 <template>
   <div class="q-pa-md q-gutter-sm bg-grey-2 flex flex-center mgTop4 font-lato">
     <q-breadcrumbs>
-      <q-breadcrumbs-el label="Home" icon="home" to="/" />
-      <q-breadcrumbs-el :label="$t('profileIcon')" icon="person" to="/profile" />
+      <q-breadcrumbs-el label="Home" icon="home" to="/" @click="handleBreadcrumbClick('home')" />
+      <q-breadcrumbs-el :label="$t('profileIcon')" icon="person" to="/profile" @click="handleBreadcrumbClick('person')"/>
     </q-breadcrumbs>
   </div>
   <q-page class="bg-grey-2 flex flex-center font-lato">
@@ -87,8 +87,9 @@
             </template>
           </q-field>
           <q-card-actions class="flex">
-            <q-btn flat @click="deleteReservation(reservation.id)"
-              class="bg-red text-white justify-end">{{ $t('reserveBtn') }}</q-btn>
+            <q-btn flat @click="deleteReservation(reservation.id)" class="bg-red text-white justify-end">{{
+        $t('reserveBtn')
+      }}</q-btn>
           </q-card-actions>
         </div>
       </q-card-section>
@@ -103,13 +104,18 @@
 <script>
 import { defineComponent } from "vue";
 import { LocalStorage, Notify } from "quasar";
-import FooterComponent from '../components/FooterComponent.vue'
-import { apiUrl } from 'boot/axios'
+import FooterComponent from '../components/FooterComponent.vue';
+import { apiUrl } from 'boot/axios';
+import { useI18n } from 'vue-i18n';
 
 export default defineComponent({
   name: "Home",
   components: {
     FooterComponent
+  },
+  setup() {
+    const { t } = useI18n();
+    return { t };
   },
   data() {
     return {
@@ -151,8 +157,7 @@ export default defineComponent({
       let token = LocalStorage.getItem("token");
 
       fetch(
-        apiUrl + "/reservations?filter[user_id]=" +
-        user_id,
+        apiUrl + "/reservations?filter[user_id]=" + user_id,
         {
           headers: {
             Accept: "application/vnd.api+json",
@@ -181,23 +186,31 @@ export default defineComponent({
         method: "DELETE",
       })
         .then(() => {
+
+          let courrentRoute = this.$route.query
           Notify.create({
-            message: "Reserva cancelada!",
+            message: this.t('reservationCancelled'),
             type: "positive",
+            actions: [
+            { label: 'Reiniciar', color: 'white', handler: () => {window.location.reload() } }
+          ]
           });
 
-          setTimeout(() => {
-
-            this.$router.push(this.$route.path)
-
-          },2000)
+          
         })
         .catch((error) => {
           console.log(error);
         });
     },
-
     updatePassword() {
+      if (!this.current_pass || !this.new_pass || !this.confirm_pass) {
+        Notify.create({
+          message: this.t('errorUpdatingProfile'),
+          type: 'negative'
+        });
+        return;
+      }
+
       let params = {
         "old_password": this.current_pass,
         "new_password": this.confirm_pass,
@@ -218,29 +231,27 @@ export default defineComponent({
           if (response.ok) {
             console.log(response);
             Notify.create({
-              message: 'Contraseña actualizada',
+              message: this.t('passwordUpdated'),
               type: 'positive'
             });
           } else {
-            throw new Error('Error al actualizar la contraseña');
+            throw new Error(this.t('errorUpdatingPassword'));
           }
         })
         .catch(error => {
           console.error(error);
         });
     },
-
     savePassword() {
       if (this.new_pass === this.confirm_pass) {
         this.updatePassword();
       } else {
         Notify.create({
-          message: 'Error al actualizar la contraseña',
+          message: this.t('passwordMismatch'),
           type: 'negative'
         });
       }
     },
-
     updateProfile() {
       let params = {
         "full_name": this.data.attributes.full_name,
@@ -262,21 +273,31 @@ export default defineComponent({
         .then(response => {
           if (response.ok) {
             Notify.create({
-              message: 'Perfil actualizado, reinicia sesión',
+              message: this.t('profileUpdated'),
               type: 'positive'
             });
           } else {
             Notify.create({
-              message: 'Error al actualizar perfil',
+              message: this.t('errorUpdatingProfile'),
               type: 'negative'
             });
-            throw new Error('Error al actualizar');
+            throw new Error(this.t('errorUpdating'));
           };
         })
         .catch(error => {
           console.error(error);
         });
     },
+    handleBreadcrumbClick(icon) {
+      if (icon === 'person' || icon === 'login' || icon === 'home') {
+        this.clearLocalStorage();
+      }
+    },
+    clearLocalStorage() {
+      localStorage.removeItem('zip_code');
+      localStorage.removeItem('zip_code_1');
+      localStorage.removeItem('zip_code_2');
+    }
   },
 });
 </script>
@@ -288,7 +309,7 @@ export default defineComponent({
   justify-content: left;
   align-items: left;
   width: 50vw;
-  height: 55vh;
+  height: max-content;
   margin-top: 4vh;
   border-radius: 20px;
 }
@@ -298,7 +319,7 @@ export default defineComponent({
 }
 
 @media screen and (max-width: 600px) {
- .q-pa-md {
+  .q-pa-md {
     padding: 10px;
   }
 
