@@ -44,11 +44,12 @@
           </div>
         </div>
       </div>
+      <!--Calendar-->
       <div class="row q-pa-md bg-blue-2 card-container" style="width: 50%;">
         <div class="col q-ma-md font-lato">
           <div>
             <q-stepper v-model="step" ref="stepper" color="primary" animated>
-              <q-step :name="1" title="DIA" :caption="reservation.date" icon="calendar_today"
+              <q-step :name="1" :title="$t('day')" :caption="reservation.date" icon="calendar_today"
                 :done="step > 1 && reservation.date != ''">
                 <div class="row justify-center">
                   <div class="q-pa-md">
@@ -59,13 +60,13 @@
                 <div class="row">
                   <q-stepper-navigation>
                     <q-btn v-if="reservation.date != ''" @click="$refs.stepper.next()" color="primary"
-                      :label="step === 4 ? 'Finish' : 'Continue'" />
-                    <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back"
+                      :label="step === 4 ? $t('btnF') : $t('btnR')" />
+                    <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" :label="$t('btnB')"
                       class="q-ml-sm" />
                   </q-stepper-navigation>
                 </div>
               </q-step>
-              <q-step :name="2" title="HORA" :caption="reservation.hour" icon="schedule" :done="step > 2">
+              <q-step :name="2" :title="$t('hour')" :caption="reservation.hour" icon="schedule" :done="step > 2">
                 <div class="row q-ma-md" v-for="horario in this.horarios" :key="horario">
                   <div class="col">
                     <div class="row justify-center">
@@ -80,33 +81,33 @@
                 <div class="row">
                   <q-stepper-navigation>
                     <q-btn v-if="reservation.hour != ''" @click="$refs.stepper.next()" color="primary"
-                      :label="step === 4 ? 'Finish' : 'Continue'" />
-                    <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back"
+                      :label="step === 4 ? $t('btnF') : $t('btnR')" />
+                    <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" :label="$t('btnB')"
                       class="q-ml-sm" />
                   </q-stepper-navigation>
                 </div>
-             </q-step>
-              <q-step :name="3" title="COMENSALES" :caption="reservation.diners" icon="group" :done="step > 3">
+              </q-step>
+              <q-step :name="3" :title="$t('eaters')" :caption="reservation.diners" icon="group" :done="step > 3">
                 <div class="row justify-center card-body">
                   <q-btn @click="setDiners(diners_num)" class="q-ma-sm boton diners-btn"
                     v-for="diners_num in diners_arr" :label="diners_num" :key="diners_num"></q-btn>
                 </div>
                 <q-stepper-navigation>
                   <q-btn v-if="reservation.diners != ''" @click="$refs.stepper.next()" color="primary"
-                    :label="step === 4 ? 'Finish' : 'Continue'" />
-                  <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back"
+                    :label="step === 4 ? $t('btnF') : $t('btnR')" />
+                  <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" :label="$t('btnB')"
                     class="q-ml-sm" />
                 </q-stepper-navigation>
               </q-step>
 
-              <q-step :name="4" title="MESA RESERVA" :caption="reservation.table_number" icon="table_restaurant">
+              <q-step :name="4" :title="$t('table')" :caption="reservation.table_number" icon="table_restaurant">
                 <div class="row justify-center">
-                  <q-btn label="Selecionar Mesa" color="blue-9" @click="dialog = true" class="mesa-btn" />
+                  <q-btn :label="$t('chooseT')" color="blue-9" @click="dialog = true" class="mesa-btn" />
                 </div>
                 <div class="row">
                   <q-stepper-navigation>
-                    <q-btn @click="makeReservation()" color="primary" :label="step === 4 ? 'Finish' : 'Continue'" />
-                    <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back"
+                    <q-btn @click="makeReservation()" color="primary" :label="step === 4 ? $t('btnF') : $t('btnR')" />
+                    <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" :label="$t('btnB')"
                       class="q-ml-sm" />
                   </q-stepper-navigation>
                 </div>
@@ -126,32 +127,32 @@
       </q-dialog>
       <!-- ! Confirmation card -->
       <q-dialog v-model="card">
-        <q-card class="my-card font-lato">
-          <q-card-section>
-            <h4 class="q-ma-2">CONFIRMACIÓN RESERVA</h4>
+        <q-card class="my-card font-lato elevated-card">
+          <q-card-section class="text-center bg-primary">
+            <h4 class="q-ma-2 text-yellow font-lato">{{ $t('confR') }}</h4>
           </q-card-section>
           <q-separator />
-          <q-card-section class="column items-center">
-            <div class="column items-center">
-              <h6 class="q-ma-sm text-primary">Dia Reserva</h6>
-              <p class="q-ml-sm">{{ reservation.date }}</p>
+          <q-card-section class="column items-center q-pa-lg">
+            <div class="column items-center q-pa-sm q-gutter-sm">
+              <h6 class="q-ma-none text-primary">{{ $t('dayR') }}</h6>
+              <p class="q-ma-none">{{ reservation.date }}</p>
             </div>
-            <div class="column items-center">
-              <h6 class="q-ma-sm  text-primary">Hora Reserva</h6>
-              <p class="q-ml-sm">{{ reservation.hour }}</p>
+            <div class="column items-center q-pa-sm q-gutter-sm">
+              <h6 class="q-ma-none text-primary">{{ $t('hourR') }}</h6>
+              <p class="q-ma-none">{{ reservation.hour }}</p>
             </div>
-            <div class="column items-center">
-              <h6 class="q-ma-sm  text-primary">Nº de Comensales</h6>
-              <p class="q-ml-sm">{{ reservation.diners }}</p>
+            <div class="column items-center q-pa-sm q-gutter-sm">
+              <h6 class="q-ma-none text-primary">{{ $t('numD') }}</h6>
+              <p class="q-ma-none">{{ reservation.diners }}</p>
             </div>
-            <div class="column items-center">
-              <h6 class="q-ma-sm  text-primary">Nº de Mesa</h6>
-              <p class="q-ml-sm">{{ reservation.table_number }}</p>
+            <div class="column items-center q-pa-sm q-gutter-sm">
+              <h6 class="q-ma-none text-primary">{{ $t('numT') }}</h6>
+              <p class="q-ma-none">{{ reservation.table_number }}</p>
             </div>
           </q-card-section>
           <q-separator />
-          <q-card-actions align="right">
-            <q-btn @click="confirmReservation()" flat color="primary" label="Confirmar" :loading="loading" />
+          <q-card-actions align="right" class="q-pa-sm">
+            <q-btn @click="confirmReservation()" flat color="primary" :label="$t('confBtn')" :loading="loading" />
             <q-btn v-close-popup flat color="red" round icon="close" />
           </q-card-actions>
         </q-card>
@@ -167,6 +168,7 @@ import ResFormComponent from "src/components/ResFormComponent.vue";
 import SvgComponent from "src/components/SvgComponent.vue";
 import { LocalStorage, Notify } from "quasar";
 import { apiUrl } from 'boot/axios'
+import { useI18n } from 'vue-i18n';
 
 export default {
   name: "RestaurantPage",
@@ -174,6 +176,10 @@ export default {
     FooterComponent,
     ResFormComponent,
     SvgComponent
+  },
+  setup() {
+    const { t } = useI18n();
+    return { t };
   },
   data() {
     return {
@@ -312,6 +318,14 @@ export default {
       let reservation_code = Math.floor(Math.random() * (999999999999 - 100000000000 + 1)) + 100000000000
       this.reservation.reservation_code = reservation_code.toString()
       this.reservation.design_id = parseInt(LocalStorage.getItem('dsid'))
+      const tableNumber = LocalStorage.getItem('table');
+      if (!tableNumber || isNaN(parseInt(tableNumber))) {
+        Notify.create({
+          message: this.t('selectTable'),
+          type: "negative"
+        });
+        return;
+      }
       this.reservation.table_number = LocalStorage.getItem('table')
 
       console.log(this.reservation);
@@ -330,7 +344,7 @@ export default {
         }, 1500)
         Notify.create({
 
-          message: "Inicia sesión para continuar",
+          message: this.t('logN'),
           type: "warning"
 
         })
@@ -340,7 +354,7 @@ export default {
 
           Notify.create({
 
-            message: "Selecciona una mesa",
+            message: this.t('selectTable'),
             type: "negative"
 
           })
@@ -370,8 +384,8 @@ export default {
 
             Notify.create({
 
-              message: "Reserva realizada con exito!",
-              type : "positive"
+              message: this.t('reserveOk'),
+              type: "positive"
 
             })
 
@@ -449,25 +463,29 @@ p {
 }
 
 .card-container {
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 16px;
 }
 
-
 .horario-title {
-  background-color: #e0e0e0;
+  background-color: #f0f0f0;
   color: #333;
-  padding: 8px 12px;
-  border-radius: 4px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 16px;
 }
 
 .hora-btn {
-  background-color: #1976d2;
-  color: #fff;
+  background-color: #1e88e5;
+  color: #ffffff;
   margin: 4px;
-  border-radius: 4px;
+  border-radius: 8px;
   text-transform: uppercase;
+  padding: 10px 20px;
+  transition: background-color 0.3s;
 }
 
 .hora-btn:hover {
@@ -475,32 +493,37 @@ p {
 }
 
 .diners-btn {
-  background-color: #26a69a;
-  color: #fff;
+  background-color: #00897b;
+  color: #ffffff;
   margin: 4px;
-  border-radius: 4px;
+  border-radius: 8px;
   text-transform: uppercase;
+  padding: 10px 20px;
+  transition: background-color 0.3s;
 }
 
 .diners-btn:hover {
-  background-color: #00796b;
+  background-color: #00695c;
 }
 
 .mesa-btn {
-  background-color: #ff7043;
-  color: #fff;
-  border-radius: 4px;
+  background-color: #d84315;
+  color: #ffffff;
+  border-radius: 8px;
   text-transform: uppercase;
+  padding: 10px 20px;
+  transition: background-color 0.3s;
 }
 
 .mesa-btn:hover {
-  background-color: #f4511e;
+  background-color: #bf360c;
 }
 
 .q-stepper {
-  background-color: #fafafa;
-  border-radius: 8px;
-  padding: 16px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .q-stepper-navigation .q-btn {
@@ -513,4 +536,81 @@ p {
   margin-bottom: 16px;
 }
 
+.q-step:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.q-btn {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  border-radius: 8px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.q-btn:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.q-btn {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  border-radius: 8px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  padding: 10px 20px;
+}
+
+.q-btn:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.elevated-card {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.header-section {
+  background-color: #343a40;
+  color: white;
+  padding: 16px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.details-section {
+  background-color: #f9f9f9;
+  padding: 16px;
+}
+
+.action-section {
+  background-color: #f0f0f0;
+  border-top: 1px solid #ddd;
+  padding: 16px;
+  text-align: right;
+}
+
+.q-card h4 {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin: 0;
+  padding-bottom: 16px;
+  color: #343a40;
+}
+
+.q-item-label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #343a40;
+}
+
+.q-item-label[caption] {
+  font-size: 0.875rem;
+  color: #666;
+}
 </style>
