@@ -109,10 +109,8 @@ class EmployeeController extends Controller
 
             'full_name' => $request->input('data.attributes.full_name'),
             'email' => $request->input('data.attributes.email'),
-            'pin' => $request->input('data.attributes.pin'),
             'tel_num' => $request->input('data.attributes.tel_num'),
             'role' => $request->input('data.attributes.role'),
-            'restaurant_id' => $request->input('data.attributes.restaurant_id')
 
 
         ]);

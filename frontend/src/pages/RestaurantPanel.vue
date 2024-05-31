@@ -8,12 +8,13 @@
             </div>
             <div class="flex">
                 <q-btn label="Employees" color="green" stack icon="person" class="q-ma-md" @click="this.getEmployees()"></q-btn>
-                <q-btn label="Designs" color="purple" stack icon="table_restaurant" class="q-ma-md"></q-btn>
+                <q-btn label="Designs" color="purple" stack icon="table_restaurant" class="q-ma-md" @click="goToDesigns()"></q-btn>
                 <q-btn label="Restaurant" color="primary" stack icon="settings" class="q-ma-md"></q-btn>
             </div>
         </div>
 
-        <q-dialog v-model="icon">
+        <!-- * Dialogo de selección de Empleado -->
+        <q-dialog v-model="icon" class="bg-info">
             <q-card>
                 <q-card-section class="row items-center q-pb-none">
                     <div class="text-h6">Employees</div>
@@ -32,9 +33,10 @@
                 </q-card-section>
             </q-card>
         </q-dialog>
+        <!-- * Dialogo de edición de Empleado -->
         <q-dialog v-model="icon2" persistent transition-show="scale" transition-hide="scale">
             <q-card class="bg-teal text-white" style="width: 300px">
-                <q-card-section>
+                <q-card-section class="flex justify-between">
                     <div class="text-h6">Editing Employee</div>
                     <q-btn icon="close" flat round dense v-close-popup />
                 </q-card-section>
@@ -45,9 +47,10 @@
                             filled
                             bg-color="white"
                             label-color="primary"
-                            v-model="this.employeeEdit.full_name"
+                            v-model="this.employeeEdit.name"
                             label="Name"
                             class="q-ma-md"
+                            :rules="[val => !!val || 'Required']"
                             />
                         <q-input
                             filled
@@ -56,6 +59,8 @@
                             v-model="this.employeeEdit.email"
                             label="Email"
                             class="q-ma-md"
+                            type="email"
+                            :rules="[val => !!val || 'Required']"
                             />
                         <q-input
                             filled
@@ -64,6 +69,7 @@
                             v-model="this.employeeEdit.role"
                             label="Role"
                             class="q-ma-md"
+                            :rules="[val => val in ['employee','admin'] || 'Role needs to be admin or employee']"
                             />
                         <q-input
                             filled
@@ -72,19 +78,22 @@
                             v-model="this.employeeEdit.tel_num"
                             label="Phone Number"
                             class="q-ma-md"
+                            :rules="[   val => val.length == 9  || 'Phone number needs to be 9 numbers']"
+                            
                             />
                     </q-form>
                 </q-card-section>
 
                 <q-card-actions align="right" class="bg-white text-teal">
-                <q-btn flat label="OK" v-close-popup />
+                <q-btn flat label="Edit" @click="this.putEmployee()"  />
                 </q-card-actions>
             </q-card>
         </q-dialog>
+        <!-- * Dialogo de creación de Empleado -->
         <q-dialog v-model="dlPass" persistent transition-show="scale" transition-hide="scale">
-            <q-card class="bg-teal text-white" style="width: 300px">
-                <q-card-section>
-                    <div class="text-h6">Editing Employee</div>
+            <q-card class="bg-white" style="width: 300px">
+                <q-card-section class="flex justify-between bg-info text-white">
+                    <div class="text-h6">New Employee</div>
                     <q-btn icon="close" flat round dense v-close-popup />
                 </q-card-section>
 
@@ -97,6 +106,7 @@
                             v-model="this.employeeCreate.name"
                             label="Name"
                             class="q-ma-md"
+                            :rules="[val => !!val || 'Required']"
                             />
                         <q-input
                             filled
@@ -105,6 +115,7 @@
                             v-model="this.employeeCreate.email"
                             label="Email"
                             class="q-ma-md"
+                            :rules="[val => !!val || 'Required']"
                             />
                         <q-input
                             filled
@@ -113,6 +124,7 @@
                             v-model="this.employeeCreate.role"
                             label="Role"
                             class="q-ma-md"
+                            :rules="[val => !!val || 'Required']"
                             />
                         <q-input
                             filled
@@ -121,7 +133,7 @@
                             v-model="this.employeeCreate.tel_num"
                             label="Phone Number"
                             class="q-ma-md"
-                            :rules="[ val => val.length != 9  || 'Phone number needs to be 9 numbers']"
+                            :rules="[   val => val.length == 9  || 'Phone number needs to be 9 numbers']"
                             />
                         <q-input
                             filled
@@ -130,12 +142,12 @@
                             v-model="this.employeeCreate.pass"
                             label="Password"
                             class="q-ma-md"
-                            :rules="[ val => val.length != 4 || 'Please password needs to be 4 numbers ']"
+                            :rules="[ val => val.length == 4 || 'Please password needs to be 4 numbers ']"
                             />
                     </q-form>
                 </q-card-section>
 
-                <q-card-actions align="right" class="bg-white text-teal">
+                <q-card-actions align="right" class="bg-info text-white">
                 <q-btn flat label="Create" v-close-popup @click="storeEmployee()"/>
                 </q-card-actions>
             </q-card>
@@ -154,7 +166,7 @@ export default {
 
         return {
             rest_id : '',
-            token : '',
+            token_rest : '',
             restaurant: {},
             employees: {},
             icon : false,
@@ -185,12 +197,13 @@ export default {
 
         let local_arr = LocalStorage.getAll();
         this.rest_id = local_arr.restaurant_id;
-        this.token = local_arr.token_rest;
+        this.token_rest = local_arr.token_rest;
+        this.token = local_arr.token
 
         fetch(apiUrl + '/restaurants/' + this.rest_id, {
             headers: {
                 'Accept': 'application/vnd.api+json',
-                'Authorization': `Bearer ${this.token}`
+                'Authorization': `Bearer ${this.token_rest}`
             }
         }).then((res) => res.json()).then((response) => {
 
@@ -206,7 +219,7 @@ export default {
             fetch(apiUrl + '/employees?filter[restaurant_id]=' + this.rest_id,{
                 headers: {
                     'Accept': 'application/vnd.api+json',
-                    'Authorization': `Bearer ${this.token}`
+                    'Authorization': `Bearer ${this.token_rest}`
                 }
             }).then((res) => res.json()).then((response) => {
 
@@ -219,18 +232,34 @@ export default {
         },
         deleteEmployee(employee){
 
+            let notification = Notify.create({
 
-            // fetch(apiUrl + '/employees/' + employee,{
-            //     headers: {
-            //         'Accept': 'application/vnd.api+json',
-            //         'Authorization': `Bearer ${this.token}`
-            //     },
-            //     method:"DELETE"
-            // }).then((res) => {
+                message: "Estas seguro de eliminar este usuario?",
+                type : "warning",
+                timeout: 0,
+                actions: [{ label: 'Confirmar', color: 'white', handler: () => {
 
-            //     console.log(res);
+                            fetch(apiUrl + '/employees/' + employee,{
+                        headers: {
+                            'Accept': 'application/vnd.api+json',
+                            'Authorization': `Bearer ${this.token}`
+                        },
+                        method:"DELETE"
+                        }).then((res) => {
 
-            // })
+                            console.log(res);
+
+                        })
+
+                } },{
+            icon: 'cancel',
+            color: 'white',
+            handler: () => {
+              notification(); // This will close the notification
+            }}
+            ]
+
+            })
 
         },
         editEmployee(employee){
@@ -239,10 +268,53 @@ export default {
 
             this.employeeEdit.email = employee.attributes.email
             this.employeeEdit.role = employee.attributes.role
-            this.employeeEdit.full_name = employee.attributes.full_name
+            this.employeeEdit.name = employee.attributes.full_name
             this.employeeEdit.tel_num = employee.attributes.tel_num
 
             console.log(employee);
+
+        },
+        putEmployee(){  
+
+            console.log(this.employeeEdit);
+
+            fetch(apiUrl + '/employees',{
+                headers: {
+                    'Accept': 'application/vnd.api+json',
+                    'Content-Type' : 'application/vnd.api+json',
+                    'Authorization': `Bearer ${this.token}`
+                },
+                method: 'PUT',
+                body: JSON.stringify({data:{ attributes : {
+
+                    full_name : this.employeeEdit.name,
+                    email : this.employeeEdit.email,
+                    role : this.employeeEdit.role,
+                    tel_num : this.employeeEdit.tel_num,
+
+                }}})
+            }).then((res) => res.json()).then((response) => {
+
+                
+                Notify.create({
+
+                    message: "Empleado editado",
+                    type : "positive"
+
+                })
+
+                console.log(response);
+
+            }).catch((error) => {
+
+                Notify.create({
+
+                    message: error,
+                    type : "negative"
+
+                })
+
+            })
 
         },
         creteEmployee(){
@@ -261,14 +333,50 @@ export default {
                     'Authorization': `Bearer ${this.token}`
                 },
                 method: 'POST',
-                body: JSON.stringify(this.employeeCreate)
+                body: JSON.stringify({data:{ attributes : {
+
+                    full_name : this.employeeCreate.name,
+                    email : this.employeeCreate.email,
+                    role : this.employeeCreate.role,
+                    tel_num : this.employeeCreate.tel_num,
+                    pin : this.employeeCreate.pass,
+                    restaurant_id : this.rest_id
+
+                }}})
             }).then((res) => res.json()).then((response) => {
 
-                this.employees = response.data
-                console.log(this.employees);
-                this.icon = true
+                
+                Notify.create({
+
+                    message: "Nuevo empleado creado",
+                    type : "positive"
+
+                })
+
+                this.employeeCreate = {
+
+                    name : "",
+                    email : "",
+                    role : "",
+                    tel_num : "",
+                    pass : ""
+                }
+
+            }).catch((error) => {
+
+                Notify.create({
+
+                    message: error,
+                    type : "negative"
+
+                })
 
             })
+
+        },
+        goToDesigns(){
+
+            this.$router.push('restaurant-sales')
 
         }
     }
