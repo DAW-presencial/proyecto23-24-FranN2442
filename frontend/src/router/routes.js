@@ -22,7 +22,7 @@ const routes = [
       { path: 'restaurant-login', component: () => import('pages/RestaurantLogin.vue') },
       { path: 'employee-login', component: () => import('pages/EmployeeLogin.vue') },
       { path: 'restaurant-sales', component: () => import('pages/RestaurantSales.vue') },
-
+      { path: 'restaurant-panel', component: () => import('pages/RestaurantPanel.vue') },
 
     ]
   },

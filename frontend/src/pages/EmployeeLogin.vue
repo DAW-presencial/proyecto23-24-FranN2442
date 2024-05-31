@@ -139,7 +139,18 @@ export default {
 
             console.log(resultado)
 
-            this.$router.push('restaurant-sales')
+            if(resultado.data.attributes.role == 'admin'){
+
+              console.log('Is admin');
+
+              this.$router.push('restaurant-panel')
+
+            } else {
+              
+              this.$router.push('restaurant-sales')
+
+            }
+
 
           }
 
