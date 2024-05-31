@@ -177,6 +177,7 @@ export default {
                 email : "",
                 role : "",
                 tel_num : "",
+                id: ""
 
             },
             employeeCreate : {
@@ -248,7 +249,25 @@ export default {
                         }).then((res) => {
 
                             console.log(res);
+                            if(res.status == 204){
 
+                                Notify.create({
+
+                                    message: "Empleado eliminado",
+                                    type : 'positive'
+
+                                })
+
+                            }
+
+                        }).catch((error) => {
+
+                            Notify.create({
+
+                                message: error,
+                                type : 'negative'
+
+                            })
                         })
 
                 } },{
@@ -270,6 +289,7 @@ export default {
             this.employeeEdit.role = employee.attributes.role
             this.employeeEdit.name = employee.attributes.full_name
             this.employeeEdit.tel_num = employee.attributes.tel_num
+            this.employeeEdit.id = employee.id
 
             console.log(employee);
 
@@ -278,13 +298,13 @@ export default {
 
             console.log(this.employeeEdit);
 
-            fetch(apiUrl + '/employees',{
+            fetch(apiUrl + '/employees/' + this.employeeEdit.id,{
                 headers: {
                     'Accept': 'application/vnd.api+json',
                     'Content-Type' : 'application/vnd.api+json',
                     'Authorization': `Bearer ${this.token}`
                 },
-                method: 'PUT',
+                method: 'PATCH',
                 body: JSON.stringify({data:{ attributes : {
 
                     full_name : this.employeeEdit.name,
