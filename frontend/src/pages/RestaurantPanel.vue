@@ -1,19 +1,100 @@
 <template>
-    <div class="bg-info q-pa-md" style="height: 100vh">
-        <h3 class="q-ma-md bg-white q-pa-md rounded-borders" style="width: max-content;height: 10%">
-            {{ this.restaurant.name }}</h3>
-        <div class="bg-white q-ma-md rounded-borders " style="height: 80%">
-            <div class="q-pa-md">
-                <h4 class="q-ma-md ">Configurations</h4>
+    <div class="bg-white" style="height: 100vh">
+        <h3 class="q-pa-md text-primary rounded-borders" style="width: max-content;height: 10%">{{ this.restaurant.name }}</h3>
+        <div class="bg-blue-2" style="height: 90%;width: 100%;display: flex;">
+            <div class="q-ma-md rounded-borders " style="height: 100%;width: 50%;">
+                <div class="q-pa-md" style="height: 20%;">
+                    <h4 class="q-ma-md ">Configurations</h4>
+                </div>
+                <div class="flex justify-between q-pa-md" style="height: 80%">
+                    <div class="flex" style="height: 100%;width: 50%;">
+                        <q-btn label="Employees" color="primary" stack icon="person" class="q-ma-md shadow-2" @click="this.getEmployees()" style="height: max-content;"></q-btn>
+                        <q-btn label="Designs" color="primary" stack icon="table_restaurant" class="q-ma-md shadow-2" @click="goToDesigns()" style="height: max-content"></q-btn>
+                    </div>
+                </div>
             </div>
-            <div class="flex">
-                <q-btn label="Employees" color="green" stack icon="person" class="q-ma-md" @click="this.getEmployees()"></q-btn>
-                <q-btn label="Designs" color="purple" stack icon="table_restaurant" class="q-ma-md"></q-btn>
-                <q-btn label="Restaurant" color="primary" stack icon="settings" class="q-ma-md"></q-btn>
+            <div class="bg-blue-2" style="height: 100%;width: 50%;">
+                <h4>Restaurant Parameters</h4>
+                <q-form>
+                    <q-input
+                        filled
+                        bg-color="white"
+                        label-color="primary"
+                        v-model="this.restaurantEdit.name"
+                        label="Restaurant Name"
+                        class="q-ma-md"
+                        :rules="[val => !!val || 'Required']"
+                            />
+                            <div class="flex">
+                        <q-input
+                            filled
+                            bg-color="white"
+                            label-color="primary"
+                            v-model="this.restaurantEdit.tel_num"
+                            label="Phone Number"
+                            class="q-ma-md"
+                            style="width: 46%;"
+                            :rules="[val => val.length == 9 || 'Required']"
+                                />
+                        <q-input
+                            filled
+                            bg-color="white"
+                            label-color="primary"
+                            v-model="this.restaurantEdit.email"
+                            label="Email"
+                            class="q-ma-md"
+                            style="width: 46%;"
+                            :rules="[val => !!val || 'Required']"
+                                />
+                    </div>    
+                    <q-input
+                        filled
+                        bg-color="white"
+                        label-color="primary"
+                        v-model="this.restaurantEdit.address"
+                        label="Address"
+                        class="q-ma-md"
+                        :rules="[val => !!val || 'Required']"/>
+                    <div class="flex">
+                        <q-input
+                            filled
+                            bg-color="white"
+                            label-color="primary"
+                            v-model="this.restaurantEdit.location"
+                            label="Location"
+                            class="q-ma-md"
+                            style="width: 46%;"
+                            :rules="[val => !!val || 'Required']"
+                                />
+                        <q-input
+                            filled
+                            bg-color="white"
+                            label-color="primary"
+                            v-model="this.restaurantEdit.postal_code"
+                            label="Postal Code"
+                            class="q-ma-md"
+                            style="width: 46%;"
+                            :rules="[val => val.length == 5 || 'Required']"
+                                />
+                    </div>
+                    <q-input
+                        filled
+                        bg-color="white"
+                        label-color="primary"
+                        v-model="this.restaurantEdit.category"
+                        label="Category"
+                        class="q-ma-md"
+                        :rules="[val => !!val || 'Required']"/>
+                    <div class="flex justify-between">
+                        <q-btn class="q-ma-md" color="orange" @click="this.dlTourns = true">Modify Tourns</q-btn>         
+                        <q-btn class="q-ma-md" color="green">Send</q-btn>         
+                    </div>      
+                </q-form>
             </div>
         </div>
 
-        <q-dialog v-model="icon">
+        <!-- * Dialogo de selección de Empleado -->
+        <q-dialog v-model="icon" class="bg-info">
             <q-card>
                 <q-card-section class="row items-center q-pb-none">
                     <div class="text-h6">Employees</div>
@@ -32,9 +113,10 @@
                 </q-card-section>
             </q-card>
         </q-dialog>
+        <!-- * Dialogo de edición de Empleado -->
         <q-dialog v-model="icon2" persistent transition-show="scale" transition-hide="scale">
             <q-card class="bg-teal text-white" style="width: 300px">
-                <q-card-section>
+                <q-card-section class="flex justify-between">
                     <div class="text-h6">Editing Employee</div>
                     <q-btn icon="close" flat round dense v-close-popup />
                 </q-card-section>
@@ -45,9 +127,10 @@
                             filled
                             bg-color="white"
                             label-color="primary"
-                            v-model="this.employeeEdit.full_name"
+                            v-model="this.employeeEdit.name"
                             label="Name"
                             class="q-ma-md"
+                            :rules="[val => !!val || 'Required']"
                             />
                         <q-input
                             filled
@@ -56,6 +139,8 @@
                             v-model="this.employeeEdit.email"
                             label="Email"
                             class="q-ma-md"
+                            type="email"
+                            :rules="[val => !!val || 'Required']"
                             />
                         <q-input
                             filled
@@ -64,6 +149,7 @@
                             v-model="this.employeeEdit.role"
                             label="Role"
                             class="q-ma-md"
+                            :rules="[val => val in ['employee','admin'] || 'Role needs to be admin or employee']"
                             />
                         <q-input
                             filled
@@ -72,19 +158,22 @@
                             v-model="this.employeeEdit.tel_num"
                             label="Phone Number"
                             class="q-ma-md"
+                            :rules="[   val => val.length == 9  || 'Phone number needs to be 9 numbers']"
+                            
                             />
                     </q-form>
                 </q-card-section>
 
                 <q-card-actions align="right" class="bg-white text-teal">
-                <q-btn flat label="OK" v-close-popup />
+                <q-btn flat label="Edit" @click="this.putEmployee()"  />
                 </q-card-actions>
             </q-card>
         </q-dialog>
+        <!-- * Dialogo de creación de Empleado -->
         <q-dialog v-model="dlPass" persistent transition-show="scale" transition-hide="scale">
-            <q-card class="bg-teal text-white" style="width: 300px">
-                <q-card-section>
-                    <div class="text-h6">Editing Employee</div>
+            <q-card class="bg-white" style="width: 300px">
+                <q-card-section class="flex justify-between bg-info text-white">
+                    <div class="text-h6">New Employee</div>
                     <q-btn icon="close" flat round dense v-close-popup />
                 </q-card-section>
 
@@ -97,6 +186,7 @@
                             v-model="this.employeeCreate.name"
                             label="Name"
                             class="q-ma-md"
+                            :rules="[val => !!val || 'Required']"
                             />
                         <q-input
                             filled
@@ -105,6 +195,7 @@
                             v-model="this.employeeCreate.email"
                             label="Email"
                             class="q-ma-md"
+                            :rules="[val => !!val || 'Required']"
                             />
                         <q-input
                             filled
@@ -113,6 +204,7 @@
                             v-model="this.employeeCreate.role"
                             label="Role"
                             class="q-ma-md"
+                            :rules="[val => !!val || 'Required']"
                             />
                         <q-input
                             filled
@@ -121,7 +213,7 @@
                             v-model="this.employeeCreate.tel_num"
                             label="Phone Number"
                             class="q-ma-md"
-                            :rules="[ val => val.length != 9  || 'Phone number needs to be 9 numbers']"
+                            :rules="[   val => val.length == 9  || 'Phone number needs to be 9 numbers']"
                             />
                         <q-input
                             filled
@@ -130,14 +222,49 @@
                             v-model="this.employeeCreate.pass"
                             label="Password"
                             class="q-ma-md"
-                            :rules="[ val => val.length != 4 || 'Please password needs to be 4 numbers ']"
+                            :rules="[ val => val.length == 4 || 'Please password needs to be 4 numbers ']"
                             />
                     </q-form>
                 </q-card-section>
 
-                <q-card-actions align="right" class="bg-white text-teal">
+                <q-card-actions align="right" class="bg-info text-white">
                 <q-btn flat label="Create" v-close-popup @click="storeEmployee()"/>
                 </q-card-actions>
+            </q-card>
+        </q-dialog>
+        <!-- * Diálogo de edicion de los turnos -->
+        <q-dialog v-model="dlTourns" class="bg-info">
+            <q-card>
+                <q-card-section class="row items-center q-pb-none">
+                    <div class="text-h6">Tourns</div>
+                    <q-space />
+                    <q-btn icon="close" flat round dense v-close-popup />
+                </q-card-section>
+
+                <q-card-section v-for="( tourn, key) in this.restaurantEdit.tourns" :key="key" >
+                    <span class="text-primary q-ma-md text-h6">{{ tourn.tourn_name }}</span>
+                    <div class="flex">
+                        <q-input
+                        filled
+                        bg-color="blue-2"
+                        label-color="black"
+                        v-model="this.restaurantEdit.tourns[key].start"
+                        label="Start"
+                        class="q-ma-md"
+                        :rules="[val => !!val || 'Required']"/>
+                    <q-input
+                        filled
+                        bg-color="blue-2"
+                        label-color="black"
+                        v-model="this.restaurantEdit.tourns[key].end"
+                        label="End"
+                        class="q-ma-md"
+                        :rules="[val => !!val || 'Required']"/>
+                    </div>
+                </q-card-section>
+                <q-card-section class="row items-center q-pb-none">
+                    <q-btn color="green" label="Save Tourns" class="q-mb-md" @click="this.setStringTourn()"/>
+                </q-card-section>
             </q-card>
         </q-dialog>
     </div>
@@ -154,7 +281,7 @@ export default {
 
         return {
             rest_id : '',
-            token : '',
+            token_rest : '',
             restaurant: {},
             employees: {},
             icon : false,
@@ -165,6 +292,7 @@ export default {
                 email : "",
                 role : "",
                 tel_num : "",
+                id: ""
 
             },
             employeeCreate : {
@@ -176,7 +304,23 @@ export default {
                 pass : ""
 
             },
-            dlPass : false
+            restaurantEdit : {
+
+                name : "",
+                address: "",
+                location: "",
+                postal_code : "",
+                tel_num : "",
+                category : "",
+                email: "",
+                tourns : {},
+                capacity : ""
+
+
+            },
+            tourns : "",
+            dlPass : false,
+            dlTourns : false
 
         }
 
@@ -185,16 +329,30 @@ export default {
 
         let local_arr = LocalStorage.getAll();
         this.rest_id = local_arr.restaurant_id;
-        this.token = local_arr.token_rest;
+        this.token_rest = local_arr.token_rest;
+        this.token = local_arr.token
 
         fetch(apiUrl + '/restaurants/' + this.rest_id, {
             headers: {
                 'Accept': 'application/vnd.api+json',
-                'Authorization': `Bearer ${this.token}`
+                'Authorization': `Bearer ${this.token_rest}`
             }
         }).then((res) => res.json()).then((response) => {
 
             this.restaurant = response.data.attributes
+
+            console.log(this.restaurant);
+
+            this.restaurantEdit.address = this.restaurant.address
+            this.restaurantEdit.category = this.restaurant.category
+            this.restaurantEdit.name = this.restaurant.name
+            this.restaurantEdit.tel_num = this.restaurant.tel_num
+            this.restaurantEdit.capacity = this.restaurant.address
+            this.restaurantEdit.email = this.restaurant.email
+            this.restaurantEdit.location = this.restaurant.location
+            this.restaurantEdit.postal_code = this.restaurant.postal_code
+            this.restaurantEdit.tourns = JSON.parse(this.restaurant.tourns)
+
             
 
         })
@@ -206,7 +364,7 @@ export default {
             fetch(apiUrl + '/employees?filter[restaurant_id]=' + this.rest_id,{
                 headers: {
                     'Accept': 'application/vnd.api+json',
-                    'Authorization': `Bearer ${this.token}`
+                    'Authorization': `Bearer ${this.token_rest}`
                 }
             }).then((res) => res.json()).then((response) => {
 
@@ -219,18 +377,52 @@ export default {
         },
         deleteEmployee(employee){
 
+            let notification = Notify.create({
 
-            // fetch(apiUrl + '/employees/' + employee,{
-            //     headers: {
-            //         'Accept': 'application/vnd.api+json',
-            //         'Authorization': `Bearer ${this.token}`
-            //     },
-            //     method:"DELETE"
-            // }).then((res) => {
+                message: "Estas seguro de eliminar este usuario?",
+                type : "warning",
+                timeout: 0,
+                actions: [{ label: 'Confirmar', color: 'white', handler: () => {
 
-            //     console.log(res);
+                            fetch(apiUrl + '/employees/' + employee,{
+                        headers: {
+                            'Accept': 'application/vnd.api+json',
+                            'Authorization': `Bearer ${this.token}`
+                        },
+                        method:"DELETE"
+                        }).then((res) => {
 
-            // })
+                            console.log(res);
+                            if(res.status == 204){
+
+                                Notify.create({
+
+                                    message: "Empleado eliminado",
+                                    type : 'positive'
+
+                                })
+
+                            }
+
+                        }).catch((error) => {
+
+                            Notify.create({
+
+                                message: error,
+                                type : 'negative'
+
+                            })
+                        })
+
+                } },{
+            icon: 'cancel',
+            color: 'white',
+            handler: () => {
+              notification(); // This will close the notification
+            }}
+            ]
+
+            })
 
         },
         editEmployee(employee){
@@ -239,10 +431,54 @@ export default {
 
             this.employeeEdit.email = employee.attributes.email
             this.employeeEdit.role = employee.attributes.role
-            this.employeeEdit.full_name = employee.attributes.full_name
+            this.employeeEdit.name = employee.attributes.full_name
             this.employeeEdit.tel_num = employee.attributes.tel_num
+            this.employeeEdit.id = employee.id
 
             console.log(employee);
+
+        },
+        putEmployee(){  
+
+            console.log(this.employeeEdit);
+
+            fetch(apiUrl + '/employees/' + this.employeeEdit.id,{
+                headers: {
+                    'Accept': 'application/vnd.api+json',
+                    'Content-Type' : 'application/vnd.api+json',
+                    'Authorization': `Bearer ${this.token}`
+                },
+                method: 'PATCH',
+                body: JSON.stringify({data:{ attributes : {
+
+                    full_name : this.employeeEdit.name,
+                    email : this.employeeEdit.email,
+                    role : this.employeeEdit.role,
+                    tel_num : this.employeeEdit.tel_num,
+
+                }}})
+            }).then((res) => res.json()).then((response) => {
+
+                
+                Notify.create({
+
+                    message: "Empleado editado",
+                    type : "positive"
+
+                })
+
+                console.log(response);
+
+            }).catch((error) => {
+
+                Notify.create({
+
+                    message: error,
+                    type : "negative"
+
+                })
+
+            })
 
         },
         creteEmployee(){
@@ -261,14 +497,61 @@ export default {
                     'Authorization': `Bearer ${this.token}`
                 },
                 method: 'POST',
-                body: JSON.stringify(this.employeeCreate)
+                body: JSON.stringify({data:{ attributes : {
+
+                    full_name : this.employeeCreate.name,
+                    email : this.employeeCreate.email,
+                    role : this.employeeCreate.role,
+                    tel_num : this.employeeCreate.tel_num,
+                    pin : this.employeeCreate.pass,
+                    restaurant_id : this.rest_id
+
+                }}})
             }).then((res) => res.json()).then((response) => {
 
-                this.employees = response.data
-                console.log(this.employees);
-                this.icon = true
+                
+                Notify.create({
+
+                    message: "Nuevo empleado creado",
+                    type : "positive"
+
+                })
+
+                this.employeeCreate = {
+
+                    name : "",
+                    email : "",
+                    role : "",
+                    tel_num : "",
+                    pass : ""
+                }
+
+            }).catch((error) => {
+
+                Notify.create({
+
+                    message: error,
+                    type : "negative"
+
+                })
 
             })
+
+        },
+        goToDesigns(){
+
+            this.$router.push('restaurant-sales')
+
+        },
+        editTourns(){
+
+
+
+        },
+        setStringTourn(){
+
+            this.dlTourns = false
+            console.log(JSON.stringify(this.restaurantEdit.tourns));
 
         }
     }

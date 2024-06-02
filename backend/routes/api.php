@@ -41,7 +41,7 @@ Route::middleware('auth:sanctum')->patch('passwordReset/{user}',[UserController:
 
 // ! Routes for Employees with role Admin can do:
 
-Route::middleware(['auth:sanctum','abilaities:update-employees,delete-employees,create-employees'])->group(function(){
+Route::middleware(['auth:sanctum','abilities:update-employees,delete-employees,create-employees'])->group(function(){
 
     Route::post('employees',[EmployeeController::class,'store'])
         ->name('api.v1.employees.store'); // HECHO
