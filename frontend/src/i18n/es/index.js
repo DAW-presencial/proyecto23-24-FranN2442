@@ -121,4 +121,9 @@ export default {
   logN: "Inicia sesión para continuar",
   selectTable: "Selecciona una mesa",
   reserveOk: "Reserva realizada con éxito!",
+  // SVGComponent
+  numTables: "Número de mesa seleccionado",
+  noTable: "No has seleccionado ninguna mesa",
+  btnSvg: "Cerrar",
+  notifyT: "Mesa reservada, selecciona otra",
 };

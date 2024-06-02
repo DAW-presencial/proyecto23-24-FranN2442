@@ -122,7 +122,13 @@ export default {
   numD: "Number of diners",
   numT: "Table number",
   confBtn: "Confirm",
-  logN: 'Log in to continue',
-  selectTable: 'Select a table',
-  reserveOk: 'Reservation successful!', reserveOk: 'Reservation successful!'
+  logN: "Log in to continue",
+  selectTable: "Select a table",
+  reserveOk: "Reservation successful!",
+  reserveOk: "Reservation successful!",
+  // SVGComponent
+  numTables: "Selected table number",
+  noTable: "You have not selected any table",
+  btnSvg: "Close",
+  notifyT: "Table reserved, select another table",
 };
