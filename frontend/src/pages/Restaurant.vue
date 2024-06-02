@@ -119,8 +119,8 @@
       <q-dialog v-model="dialog" persistent :maximized="maximizedToggle" transition-show="slide-up"
         transition-hide="slide-down">
         <q-card class="bg-primary max-height">
-          <q-card-section>
-            <SvgComponent svg-height="800px" svg-width="100%" :hour="reservation.hour" :day="reservation.date"
+          <q-card-section class="text-center">
+            <SvgComponent svg-height="500px" :hour="reservation.hour" :day="reservation.date"
               :diners="reservation.diners"></SvgComponent>
           </q-card-section>
         </q-card>
