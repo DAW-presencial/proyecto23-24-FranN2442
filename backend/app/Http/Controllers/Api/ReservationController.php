@@ -14,7 +14,7 @@ class ReservationController extends Controller
     public function index()
     {
 
-        $reservations = Reservation::query()->allowedFilters(['restaurant_id','user_id','date','table_number','hour'])->get();
+        $reservations = Reservation::query()->allowedFilters(['restaurant_id','user_id','date','table_number','hour','design_id'])->get();
 
         return ReservationCollection::make($reservations);
 
