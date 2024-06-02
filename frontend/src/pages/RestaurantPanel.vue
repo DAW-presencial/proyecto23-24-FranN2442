@@ -235,18 +235,18 @@
         <!-- * Diálogo de edicion de los turnos -->
         <q-dialog v-model="dlTourns" class="bg-info">
             <q-card>
-                <q-card-section class="row items-center q-pb-none">
+                <q-card-section class="row items-center">
                     <div class="text-h6">Tourns</div>
                     <q-space />
                     <q-btn icon="close" flat round dense v-close-popup />
                 </q-card-section>
 
-                <q-card-section v-for="( tourn, key) in this.restaurantEdit.tourns" :key="key" >
+                <q-card-section v-for="( tourn, key) in this.restaurantEdit.tourns" :key="key" class="bg-blue-2">
                     <span class="text-primary q-ma-md text-h6">{{ tourn.tourn_name }}</span>
                     <div class="flex">
                         <q-input
                         filled
-                        bg-color="blue-2"
+                        bg-color="white"
                         label-color="black"
                         v-model="this.restaurantEdit.tourns[key].start"
                         label="Start"
@@ -254,7 +254,7 @@
                         :rules="[val => !!val || 'Required']"/>
                     <q-input
                         filled
-                        bg-color="blue-2"
+                        bg-color="white"
                         label-color="black"
                         v-model="this.restaurantEdit.tourns[key].end"
                         label="End"

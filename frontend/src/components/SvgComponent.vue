@@ -11,7 +11,7 @@
       </q-card-section>
       <q-separator />
       <q-card-actions>
-        <q-btn class="text-subtitle2 text-white" flat v-for="design in designs" :key="design.id" @click="changeSelectedSvg(design.id)">{{
+        <q-btn class="text-subtitle2 text-white" flat v-for="design in designs" :key="design.id" @click="changeSvg(design.id)">{{
         design.attributes.hal_name }}</q-btn>
         <q-space />
         <q-btn class="text-subtitle2 bg-primary text-white" v-close-popup>{{ $t('btnSvg') }}</q-btn>
@@ -64,8 +64,6 @@ export default {
     this.diaReserva = this.day
     this.comensalesReserva = this.diners
 
-    this.getReservas()
-
     fetch(apiUrl + "/designs?filter[restaurant_id]=" + this.$route.query.id, {
       method: "GET",
       headers: {
@@ -87,118 +85,114 @@ export default {
   },
   methods: {
 
-    changeSelectedSvg(id) {
-
+  
+    changeSvg(id) {
+      const scale = 0.5;
       this.selected_hall = id
       LocalStorage.set('dsid', id)
-      this.changeSvg()
-      // this.tables = this.designs.filter(design => design.attributtes.id.toLowerCase().includes(this.selected_hall))
+      this.getReservas(id)
 
-    },
+      setTimeout(() => {
 
 
-    changeSvg() {
-      const scale = 0.5;
-      let filtredDesign = this.designs.filter(design => design.id.toLowerCase().includes(this.selected_hall));
-      console.log(filtredDesign);
-      this.tables = filtredDesign[0].attributes.tables;
-      console.log(this.tables);
-      let card_section = document.getElementById('svg');
-      card_section.innerHTML = "";
 
-      let svg = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
 
-      svg.setAttribute('width', this.svgWidth);
-      svg.setAttribute('height', this.svgHeight);
-
-      let backgroundImage = document.createElementNS("http://www.w3.org/2000/svg", 'image');
-      backgroundImage.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImage);
-      backgroundImage.setAttribute("x", "0");
-      backgroundImage.setAttribute("y", "0");
-      backgroundImage.setAttribute("width", this.svgWidth);
-      backgroundImage.setAttribute("height", this.svgHeight);
-      svg.appendChild(backgroundImage);
-
-      let selectedTable = null;
-
-      this.tables = JSON.parse(this.tables);
-      for (let table in this.tables) {
-        let tableData = this.tables[table];
-
-        let image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-
-        image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImage);
-        image.setAttribute("x", tableData.x * scale);
-        image.setAttribute("y", tableData.y * scale);
-        image.setAttribute("width", tableData.w * scale + "px");
-        image.setAttribute("height", tableData.h * scale + "px");
-
-        if (tableData.ocupated_hours.includes(this.hour)) {
-          image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImageRed);
-          image.addEventListener('click', () => {
-            this.mesa_seleccionada = "";
-            LocalStorage.remove('table');
-            Notify.create({
-              message: this.t('notifyT'),
-              type: 'negative'
-            });
-          });
-        } else {
-          image.addEventListener('click', () => {
-            if (selectedTable !== null) {
-              selectedTable.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImage);
-            }
-            image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImageGreen);
-            selectedTable = image;
-            this.mesa_seleccionada = tableData.number;
-            LocalStorage.set('table', tableData.number);
-          });
+        let filtredDesign = this.designs.filter(design => design.id.toLowerCase().includes(id));
+        console.log(filtredDesign);
+        this.tables = filtredDesign[0].attributes.tables;
+        // console.log(this.tables);
+        let card_section = document.getElementById('svg');
+        card_section.innerHTML = "";
+  
+        let svg = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
+  
+        svg.setAttribute('width', this.svgWidth);
+        svg.setAttribute('height', this.svgHeight);
+  
+        let backgroundImage = document.createElementNS("http://www.w3.org/2000/svg", 'image');
+        backgroundImage.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImage);
+        backgroundImage.setAttribute("x", "0");
+        backgroundImage.setAttribute("y", "0");
+        backgroundImage.setAttribute("width", this.svgWidth);
+        backgroundImage.setAttribute("height", this.svgHeight);
+        svg.appendChild(backgroundImage);
+  
+        let selectedTable = null;
+  
+        this.tables = JSON.parse(this.tables);
+        for (let table in this.tables) {
+          let tableData = this.tables[table];
+  
+          let image = document.createElementNS("http://www.w3.org/2000/svg", "image");
+  
+          image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImage);
+          image.setAttribute("x", tableData.x * scale);
+          image.setAttribute("y", tableData.y * scale);
+          image.setAttribute("width", tableData.w * scale + "px");
+          image.setAttribute("height", tableData.h * scale + "px");
+  
+          if(this.reservas.length != 0){
+  
+            this.reservas.forEach((reserva) => {
+  
+              // console.log(reserva);
+  
+              if(tableData.number == reserva.attributes.table_number){
+  
+                image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImageRed);
+                image.addEventListener('click', () => {
+                  this.mesa_seleccionada = "";
+                  LocalStorage.remove('table');
+                  Notify.create({
+                    message: this.t('notifyT'),
+                    type: 'negative'
+                  });
+                });
+              } else {
+  
+                image.addEventListener('click', () => {
+                  if (selectedTable !== null) {
+                    selectedTable.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImage);
+                  }
+                  image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImageGreen);
+                  selectedTable = image;
+                  this.mesa_seleccionada = tableData.number;
+                  LocalStorage.set('table', tableData.number);
+                });
+  
+              }
+  
+            })
+  
+          }
+  
+          svg.appendChild(image);
         }
-
-        svg.appendChild(image);
-      }
-
-      card_section.appendChild(svg);
-    }
-
-
-
-    ,
-    setTables() {
-
-      let svg = document.getElementById("svg");
-
-
-      for (let table in this.tables) {
-
-        let table_attr = this.tables[table];
-
-        console.log(table_attr);
-
-        let rect = document.createElementNS("http://www.w3.org/2000/svg", "rect")
-
-        rect.setAttribute("x", table_attr.x)
-        rect.setAttribute("y", table_attr.y)
-        rect.setAttribute("width", table_attr.w)
-        rect.setAttribute("heigth", table_attr.h)
-        rect.setAttribute("fill", table_attr.color)
-
-        svg.appendChild(rect);
-
-      }
-
-
+  
+        card_section.appendChild(svg);
+      },500)
+      // console.log("Reservas: ", this.reservas);
     },
-    getReservas() {
+    getReservas(id) {
 
-      //   fetch("http://127.0.0.1:8000/api/v1/reservations?filter[restaurant_id]=" + this.$route.query.id + "&filter[date]=" + this.diaReserva, {
-      //   method: "GET",
-      //   headers: {
-      //     Accept: "application/vnd.api+json",
-      //   },
-      // }).then((res) => res.json()).then((resultado) => {
-      //     console.log(resultado);
-      // });
+      console.log(id,this.day,this.$route.query.id);
+
+      fetch(apiUrl + "/reservations?filter[restaurant_id]=" + this.$route.query.id + "&filter[date]=" + this.day, {
+      method: "GET",
+      headers: {
+        Accept: "application/vnd.api+json",
+      },
+      }).then((res) => res.json()).then((resultado) => {
+          this.reservas = resultado.data
+          console.log("LOG FETCH: ",resultado.data);
+
+          if(this.reservas.length != 0){
+    
+            this.reservas = this.reservas.filter(reservation => reservation.attributes.design_id == id)
+            console.log("RESERVAS: ",this.reservas);
+          }
+      });
+
 
     }
 
