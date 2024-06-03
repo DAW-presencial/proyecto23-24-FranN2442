@@ -52,7 +52,7 @@ Route::middleware(['auth:sanctum','abilities:update-employees,delete-employees,c
 
 });
         // ! Routes for where logged Users can do:
-Route::middleware(['auth:sanctum','abilities:update-users,delete-users,show-users,create-reservations'])->group(function(){
+Route::middleware(['auth:sanctum','ability:update-users,delete-users,show-users,create-reservations'])->group(function(){
 
     Route::get('users/{user}',[UserController::class,'show'])
         ->name('api.v1.users.show'); // HECHO
