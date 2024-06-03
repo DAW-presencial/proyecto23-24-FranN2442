@@ -52,14 +52,14 @@ class EmployeeController extends Controller
 
         if($employee->role == 'admin'){
 
-            $token = $employee->createToken($request->device_name,[ 'index-reservations','show-reservations', // Reservations
+            $token = $employee->createToken($request->device_name,[ 'index-reservations','show-reservations','create-reservations','delete-reservations', // Reservations
                                                                     'update-employees','delete-employees','create-employees', // Employees
                                                                     'delete-restaurants','update-restaurants', // Restaurants
                                                                     'create-designs','delete-designs','update-designs']); // Designs
 
         } else {
 
-            $token = $employee->createToken($request->device_name,['index-reservations','show-reservations']);
+            $token = $employee->createToken($request->device_name,['index-reservations','show-reservations','create-reservations','delete-reservations']);
 
         }
 

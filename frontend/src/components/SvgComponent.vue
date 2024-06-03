@@ -192,7 +192,7 @@ export default {
 
       console.log(id,this.day,this.$route.query.id);
 
-      fetch(apiUrl + "/reservations?filter[restaurant_id]=" + this.$route.query.id + "&filter[date]=" + this.day, {
+      fetch(apiUrl + "/reservations?filter[restaurant_id]=" + this.$route.query.id + "&filter[date]=" + this.day + "&filter[hour]=" + this.horaReserva, {
       method: "GET",
       headers: {
         Accept: "application/vnd.api+json",
