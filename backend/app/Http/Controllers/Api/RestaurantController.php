@@ -70,9 +70,23 @@ class RestaurantController extends Controller
     public function update(Restaurant $restaurant,Request $request)
     {
 
+        $restaurant->update([
 
+            'name' => $request->input('data.attributes.name'),
+            'email' => $request->input('data.attributes.email'),
+            'tel_num' => $request->input('data.attributes.tel_num'),
+            'address' => $request->input('data.attributes.address'),
+            'location' => $request->input('data.attributes.location'),
+            'postal_code' => $request->input('data.attributes.postal_code'),
+            'category' => $request->input('data.attributes.category'),
+            'tourns' => $request->input('data.attributes.tourns'),
+            'capacity' => $request->input('data.attributes.capacity'),
+            
+        ]);
+
+        return RestaurantResource::make($restaurant);
 
     }
 
-    public function getAviableHours(){}
+ 
 }
