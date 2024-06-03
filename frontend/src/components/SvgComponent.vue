@@ -130,6 +130,16 @@ export default {
           image.setAttribute("y", tableData.y * scale);
           image.setAttribute("width", tableData.w * scale + "px");
           image.setAttribute("height", tableData.h * scale + "px");
+
+          image.addEventListener('click', () => {
+                  if (selectedTable !== null) {
+                    selectedTable.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImage);
+                  }
+                  image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImageGreen);
+                  selectedTable = image;
+                  this.mesa_seleccionada = tableData.number;
+                  LocalStorage.set('table', tableData.number);
+                });
   
           if(this.reservas.length != 0){
   
@@ -148,19 +158,7 @@ export default {
                     type: 'negative'
                   });
                 });
-              } else {
-  
-                image.addEventListener('click', () => {
-                  if (selectedTable !== null) {
-                    selectedTable.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImage);
-                  }
-                  image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImageGreen);
-                  selectedTable = image;
-                  this.mesa_seleccionada = tableData.number;
-                  LocalStorage.set('table', tableData.number);
-                });
-  
-              }
+              } 
   
             })
   

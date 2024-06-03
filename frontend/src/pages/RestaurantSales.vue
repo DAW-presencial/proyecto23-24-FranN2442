@@ -6,6 +6,7 @@
         </div>
         <div class="flex justify-center">
             <q-select v-model="selected" :options="options" label="Pantalla" style="background-color: white;width: 200px;" class="q-mr-md rounded-borders" id="bar"/>
+            <q-btn v-if="this.admin == true" class="bg-primary text-white q-mr-md" to="/erp/restaurant-panel">Admin Panel</q-btn>
             <q-btn class="bg-red text-white" @click="logOut()">Cerrar sesión</q-btn>
         </div>
     </div>
@@ -36,6 +37,7 @@ export default {
             token  : '',
             restaurant_id : '',
             newSvgs : {},
+            admin : false
      
 
         }
@@ -91,6 +93,21 @@ export default {
         // console.log('BeforeCreate: ' + this.stopInterval);
 
     },
+    created(){
+
+        let usrRole = LocalStorage.getItem('usr')
+        console.log(usrRole);
+        if(usrRole == 'admin'){
+
+            this.admin = true
+            console.log(this.admin);
+
+        } else {
+
+            this.admin = false
+        }
+
+    },    
     beforeUnmount() {
 
         clearInterval(this.stopInterval)
@@ -232,6 +249,7 @@ export default {
         },
         logOut(){
             LocalStorage.remove('token')
+            LocalStorage.remove('usr')
             clearInterval(this.stopInterval)
             // console.log('LogOut:' + this.stopInterval);
             this.$router.push('employee-login')
