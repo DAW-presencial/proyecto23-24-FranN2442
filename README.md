@@ -10,13 +10,15 @@
 
 # Introducción
 
+![Book Now Banner](https://github.com/DAW-presencial/proyecto23-24-FranN2442/blob/development/docs/img/banner.png "Book Now Banner")
+
 **Book Now** es una API REST creada para restaurantes y clientes, en la cual podrás encontrar restaurantes, bares y cualquier tipo de establecimiento culinario, tanto cercano a ti como más alejado. Una vez hayas elegido el sitio idóneo, podrás reservar una mesa o contactar con el establecimiento para un trato más personalizado. Es una aplicación versátil con la que podrás disfrutar de tus platos favoritos en cualquier momento del día, con un sistema de descuentos y promociones para usuarios registrados.
 
 Entre sus funcionalidades, dispone de un portal de gestión para empleados y reservas. Además, permite registrar un negocio o establecimiento que quiera trabajar con nosotros.
 
-## Especificaciones
+### Especificaciones
 
-Para ver las instrucciones y detalles sobre la estructura de este proyecto, [haz clic aquí](#).
+Para ver las instrucciones y detalles sobre la estructura de este proyecto, [haz clic aquí](https://github.com/DAW-presencial/proyecto23-24-FranN2442/tree/development/docs/pdfs/proyecto_final_instrucciones.pdf).
 
 # Frameworks
 
