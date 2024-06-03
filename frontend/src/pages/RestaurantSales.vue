@@ -115,7 +115,7 @@
         </q-card-section>
 
         <q-card-section>
-          <q-form>
+          <q-form @submit="createReservation()">
             <div class="q-pa-md" style="max-width: 400px">
               <q-input filled v-model="reservation.date" mask="date" :rules="['date']">
                 <template v-slot:append>
@@ -145,19 +145,19 @@
               <q-input filled v-model="reservation.hour" readonly style="width: 30%;" ></q-input>
             </div>
             <div class="q-pa-md ">
-              <q-input filled v-model="reservation.userEmail" style="width: 100%;" label="User Email"></q-input>
+              <q-input filled v-model="reservation.userEmail" style="width: 100%;" label="User Email" :rules="[val => !!val || 'Email required']"></q-input>
             </div>
             <div class="flex q-pa-md justify-between">
                 <q-btn label="Select diners" style="width: 40%;" @click="this.dlSelecDiners = true" color="primary" />
-                <q-input filled v-model="reservation.diners" style="width: 40%;" label="Diners" readonly></q-input>
+                <q-input filled v-model="reservation.diners" style="width: 40%;" label="Diners" readonly :rules="[val => !!val || 'Number of diners required']"></q-input>
             </div>
+            <q-card-actions align="right">
+              <q-btn flat label="Close" color="primary" v-close-popup />
+              <q-btn label="Create Reservation" color="green" type="submit" />
+            </q-card-actions>
           </q-form>
         </q-card-section>
 
-        <q-card-actions align="right">
-          <q-btn flat label="Close" color="primary" v-close-popup />
-          <q-btn label="Create Reservation" color="green" @click="createReservation()" v-close-popup />
-        </q-card-actions>
       </q-card>
     </q-dialog>
   </div>
@@ -202,7 +202,8 @@ export default {
         diners : "",
         code: "",
         dsid : "",
-        resid : ""
+        resid : "",
+        usrid : 0
       },
       hours: [],
       diners : ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
@@ -591,12 +592,63 @@ export default {
         this.reservation.resid = this.restaurant_id
 
         
-        this.verifyEmail(this.reservation.userEmail)
-        setTimeout(()=> {
+        if(this.verifyEmail(this.reservation.userEmail)){
 
+          setTimeout(()=> {
+  
             console.log(this.reservation);
-            console.log(this.svg.id);
-        })
+            let token = LocalStorage.getItem('token');
+            fetch(apiUrl + "/reservations", {
+              method: 'POST',
+              headers: {
+  
+                'Accept': "application/vnd.api+json",
+                'Content-Type': "application/vnd.api+json",
+                'Authorization': `Bearer ${token}`
+              },
+              body: JSON.stringify({ data: { attributes: {
+  
+                reservation_code : this.reservation.code,
+                date : this.reservation.date,
+                hour : this.reservation.hour,
+                diners : this.reservation.diners,
+                table_number : this.reservation.table,
+                user_id : parseInt(this.reservation.usrid),
+                restaurant_id : parseInt(this.reservation.resid),
+                design_id : parseInt(this.reservation.dsid)
+  
+              } } })
+            }).then((res) => res.json()).then((response) => {
+  
+              console.log(response);
+        
+              this.makeReserve = false
+  
+              Notify.create({
+  
+                message: "Created Reservation",
+                type: "positive"
+  
+              })
+  
+            }).catch((error) => {
+  
+              console.log(error);
+  
+            })
+          },1000)
+
+        } else {
+
+          Notify.create({
+
+            message : "El usuario no existe,registralo para iniciar sessión.",
+            type : "negative"
+          })
+
+          this.makeReserve = false
+        }
+
 
     },
     verifyEmail(email){
@@ -611,7 +663,8 @@ export default {
 
             if(response.data.length != 0){
 
-                this.reservation.user_id = response.data[0].id
+              this.reservation.usrid = parseInt(response.data[0].id)
+              return true
 
             } else {
 
