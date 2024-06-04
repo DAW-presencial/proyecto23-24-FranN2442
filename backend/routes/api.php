@@ -101,6 +101,8 @@ Route::middleware(['auth:sanctum','ability:create-designs,delete-designs,update-
         ->name(('api.v1.designs.update'));
     Route::delete('designs/{design}',[DesignController::class,'destroy'])
         ->name(('api.v1.designs.destroy'));
+    Route::patch('designs/confassis/{design}',[DesignController::class,'confirmAssistance'])
+        ->name(('api.v1.designs.confassis'));
 
 });
 

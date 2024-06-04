@@ -68,4 +68,24 @@ class DesignController extends Controller
         return response()->noContent();
 
     }
+
+    public function confirmAssistance(Design $design,Request $request){
+
+        $request->validate([
+
+            "next" => ['required'],
+            "actual" => ['required'],
+            "table" => ['required']
+        ]);
+
+        $tables = $design->tables;
+        dd($tables);
+        
+        // $design->update([
+        //     'hall_name' => $design->hall_name,
+        //     'tables' =>  $decoded_tables,
+        //     'restaurant_id' => $design->restaurant_id
+        // ]);
+
+    }
 }
