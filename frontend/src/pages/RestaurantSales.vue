@@ -44,6 +44,28 @@
             label="Make reserve"
             @click="getHoursOnDialog()"
             color="primary"
+            class="q-mx-sm"
+          />
+          <q-btn
+            label="Confirm assis"
+            @click="confirmTableAssistance()"
+            color="green"
+            v-if="confirmAsis == true"
+            class="q-mx-sm"
+          />
+          <q-btn
+            label="Cancel Reservation"
+            @click="cancelActualReservation()"
+            color="red"
+            v-if="cancelReservation == true"
+            class="q-mx-sm"
+          />
+          <q-btn
+            label="Ocupate table"
+            @click="ocupateTable()"
+            color="purple"
+            v-if="ocupatedTable == true"
+            class="q-mx-sm"
           />
         </q-card-section>
 
@@ -74,8 +96,14 @@
         </q-card-section>
 
         <q-card-section class="flex justify-center">
-            <q-btn @click="setDiners(diners_num)" class="q-ma-sm boton diners-btn"
-                    v-for="diners_num in diners" :label="diners_num" :key="diners_num" v-close-popup></q-btn>
+          <q-btn
+            @click="setDiners(diners_num)"
+            class="q-ma-sm boton diners-btn"
+            v-for="diners_num in diners"
+            :label="diners_num"
+            :key="diners_num"
+            v-close-popup
+          ></q-btn>
         </q-card-section>
 
         <q-card-actions align="right">
@@ -90,17 +118,26 @@
         </q-card-section>
 
         <q-card-section class="flex justify-center">
-            <div class="row q-ma-md" v-for="horario in this.hours" :key="horario">
-                  <div class="col">
-                    <div class="row justify-center">
-                      <h6 class="rounded-borders q-ma-sm q-pa-sm horario-title">{{ horario[0] }}</h6>
-                    </div>
-                    <div class="row justify-center card-body">
-                      <q-btn v-for="hora in horario[1]" @click="updateHour(hora)" :active="reservation.hour === hora"
-                        :key="hora" class="hora-btn" v-close-popup>{{ hora }}</q-btn>
-                    </div>
-                  </div>
-                </div>
+          <div class="row q-ma-md" v-for="horario in this.hours" :key="horario">
+            <div class="col">
+              <div class="row justify-center">
+                <h6 class="rounded-borders q-ma-sm q-pa-sm horario-title">
+                  {{ horario[0] }}
+                </h6>
+              </div>
+              <div class="row justify-center card-body">
+                <q-btn
+                  v-for="hora in horario[1]"
+                  @click="updateHour(hora)"
+                  :active="reservation.hour === hora"
+                  :key="hora"
+                  class="hora-btn"
+                  v-close-popup
+                  >{{ hora }}</q-btn
+                >
+              </div>
+            </div>
+          </div>
         </q-card-section>
 
         <q-card-actions align="right">
@@ -117,7 +154,12 @@
         <q-card-section>
           <q-form @submit="createReservation()">
             <div class="q-pa-md" style="max-width: 400px">
-              <q-input filled v-model="reservation.date" mask="date" :rules="['date']">
+              <q-input
+                filled
+                v-model="reservation.date"
+                mask="date"
+                :rules="['date']"
+              >
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy
@@ -141,15 +183,42 @@
               </q-input>
             </div>
             <div class="flex q-pa-md justify-between">
-              <q-btn label="Select hour" @click="this.dlSelecHour = true" color="primary" />
-              <q-input filled v-model="reservation.hour" readonly style="width: 30%;" ></q-input>
+              <q-btn
+                label="Select hour"
+                @click="this.dlSelecHour = true"
+                color="primary"
+              />
+              <q-input
+                filled
+                v-model="reservation.hour"
+                readonly
+                style="width: 30%"
+              ></q-input>
             </div>
-            <div class="q-pa-md ">
-              <q-input filled v-model="reservation.userEmail" style="width: 100%;" label="User Email" :rules="[val => !!val || 'Email required']"></q-input>
+            <div class="q-pa-md">
+              <q-input
+                filled
+                v-model="reservation.userEmail"
+                style="width: 100%"
+                label="User Email"
+                :rules="[(val) => !!val || 'Email required']"
+              ></q-input>
             </div>
             <div class="flex q-pa-md justify-between">
-                <q-btn label="Select diners" style="width: 40%;" @click="this.dlSelecDiners = true" color="primary" />
-                <q-input filled v-model="reservation.diners" style="width: 40%;" label="Diners" readonly :rules="[val => !!val || 'Number of diners required']"></q-input>
+              <q-btn
+                label="Select diners"
+                style="width: 40%"
+                @click="this.dlSelecDiners = true"
+                color="primary"
+              />
+              <q-input
+                filled
+                v-model="reservation.diners"
+                style="width: 40%"
+                label="Diners"
+                readonly
+                :rules="[(val) => !!val || 'Number of diners required']"
+              ></q-input>
             </div>
             <q-card-actions align="right">
               <q-btn flat label="Close" color="primary" v-close-popup />
@@ -157,7 +226,6 @@
             </q-card-actions>
           </q-form>
         </q-card-section>
-
       </q-card>
     </q-dialog>
   </div>
@@ -191,24 +259,28 @@ export default {
       dialog: false,
       dialogRed: false,
       makeReserve: false,
-      dlSelecHour : false,
-      dlSelecDiners : false,
+      dlSelecHour: false,
+      dlSelecDiners: false,
       reservation: {
-
         date: "",
-        hour : "",
-        userEmail : "",
-        table : "",
-        diners : "",
+        hour: "",
+        userEmail: "",
+        table: "",
+        diners: "",
         code: "",
-        dsid : "",
-        resid : "",
-        usrid : 0
+        dsid: "",
+        resid: "",
+        usrid: 0,
       },
       hours: [],
-      diners : ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+      diners: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
       backdrop: "brightness(60%)",
-      tableHoursOcupated : []
+      tableHoursOcupated: [],
+      confirmAsis: false,
+      cancelReservation: false,
+      ocupatedTable: false,
+      tableNextReserveHour: "",
+      tableNextReserveKey: "",
     };
   },
   watch: {
@@ -326,7 +398,9 @@ export default {
           rect.addEventListener("click", () => {
             this.dialog = true;
             LocalStorage.set("slctbl", tables[table].number);
-
+            this.confirmAsis = false;
+            this.cancelReservation = false;
+            this.ocupateTabled = true;
           });
         } else {
           // console.log(ocupated_h);
@@ -335,8 +409,10 @@ export default {
             rect.addEventListener("click", () => {
               this.dialog = true;
               LocalStorage.set("slctbl", tables[table].number);
-              this.tableHoursOcupated = ocupated_h
-              console.log("HORAS OCUPADAS MESA: ",this.tableHoursOcupated);
+              this.tableHoursOcupated = ocupated_h;
+              this.confirmAsis = false;
+              this.cancelReservation = false;
+              this.ocupatedTable = true;
             });
 
             // console.log('Hora reserva: ' + ocupated_h[i] + " Hora actual: " + formated_h_actu);
@@ -358,6 +434,7 @@ export default {
                   message: "Mesa ocupada",
                   type: "negative",
                 });
+                this.ocupatedTable = false;
               });
             }
             let arr_format_hour = ocupated_h[i].split(":");
@@ -376,6 +453,12 @@ export default {
                   message: "Reserva a las " + ocupated_h[i],
                   type: "warning",
                 });
+
+                this.ocupatedTable = false;
+                this.cancelReservation = true;
+                this.confirmAsis = true;
+                this.tableNextReserveHour = ocupated_h[i];
+                this.tableNextReserveKey = table;
               });
             }
           }
@@ -499,194 +582,204 @@ export default {
           }
         });
     },
-    getHoursOnDialog(){
-        this.hours = []
+    getHoursOnDialog() {
+      this.hours = [];
 
-        fetch(apiUrl + "/restaurants/" + this.restaurant_id, {
+      fetch(apiUrl + "/restaurants/" + this.restaurant_id, {
         method: "GET",
         headers: {
-            'Accept': "application/vnd.api+json",
-        }
-        })
+          Accept: "application/vnd.api+json",
+        },
+      })
         .then((res) => res.json())
         .then((resultado) => {
+          this.makeReserve = true;
 
-            this.makeReserve = true
+          this.restaurant = resultado.data.attributes;
 
-            this.restaurant = resultado.data.attributes;
-    
-            this.tourns = JSON.parse(this.restaurant.tourns)
-    
-            let intervalo = 30 // Meter valor en la base de datos
-    
-    
-            for (let tourn in this.tourns) {
-    
-            let horas_int = []
-    
+          this.tourns = JSON.parse(this.restaurant.tourns);
+
+          let intervalo = 30; // Meter valor en la base de datos
+
+          for (let tourn in this.tourns) {
+            let horas_int = [];
+
             console.log(this.tourns[tourn].start, this.tourns[tourn].end);
-    
-            let split_start = this.tourns[tourn].start.split(':')
-            let split_end = this.tourns[tourn].end.split(':')
-            let start = parseInt(split_start[0]) * 60 + parseInt(split_start[1])
-            let end = parseInt(split_end[0]) * 60 + parseInt(split_end[1])
+
+            let split_start = this.tourns[tourn].start.split(":");
+            let split_end = this.tourns[tourn].end.split(":");
+            let start =
+              parseInt(split_start[0]) * 60 + parseInt(split_start[1]);
+            let end = parseInt(split_end[0]) * 60 + parseInt(split_end[1]);
             console.log(start, end);
-    
-            horas_int.push(start)
-    
+
+            horas_int.push(start);
+
             while (start <= end) {
-    
-                start = start + intervalo
-                if (start > end) {
-    
-                continue
-                }
-                horas_int.push(start)
-    
-    
+              start = start + intervalo;
+              if (start > end) {
+                continue;
+              }
+              horas_int.push(start);
             }
-    
-            let aux_arr = []
-    
+
+            let aux_arr = [];
+
             for (let i = 0; i < horas_int.length; i++) {
-    
-                let horas = Math.floor(horas_int[i] / 60)
-                let minutos = horas_int[i] % 60
-    
-                let fecha = new Date();
-                fecha.setHours(horas, minutos, 0, 0)
-    
-                let horaFormateada = fecha.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
-    
-                if(!this.tableHoursOcupated.includes(horaFormateada)){
+              let horas = Math.floor(horas_int[i] / 60);
+              let minutos = horas_int[i] % 60;
 
-                    aux_arr.push(horaFormateada)
+              let fecha = new Date();
+              fecha.setHours(horas, minutos, 0, 0);
 
-                }
-    
-                // console.log(horaFormateada);
+              let horaFormateada = fecha.toLocaleTimeString("es-ES", {
+                hour: "2-digit",
+                minute: "2-digit",
+              });
+
+              if (!this.tableHoursOcupated.includes(horaFormateada)) {
+                aux_arr.push(horaFormateada);
+              }
+
+              // console.log(horaFormateada);
             }
-            this.hours.push([this.tourns[tourn].tourn_name, aux_arr])
-    
-            }
-    
-            console.log(this.hours);
-        }
-        ).catch(() => {
+            this.hours.push([this.tourns[tourn].tourn_name, aux_arr]);
+          }
 
-            Notify.create({
-
-                message : "Ha habido un error, intenta de nuevo!",
-                type : "warning"
-
-            })
-
+          console.log(this.hours);
         })
-
-    },
-    async createReservation(){
-
-        this.reservation.table = LocalStorage.getItem('slctbl')
-        this.reservation.code = Math.floor(Math.random() * (999999999999 - 100000000000 + 1)) + 100000000000
-        this.reservation.dsid = this.svg.id
-        this.reservation.resid = this.restaurant_id
-
-        
-        if(this.verifyEmail(this.reservation.userEmail)){
-
-          setTimeout(()=> {
-  
-            console.log(this.reservation);
-            let token = LocalStorage.getItem('token');
-            fetch(apiUrl + "/reservations", {
-              method: 'POST',
-              headers: {
-  
-                'Accept': "application/vnd.api+json",
-                'Content-Type': "application/vnd.api+json",
-                'Authorization': `Bearer ${token}`
-              },
-              body: JSON.stringify({ data: { attributes: {
-  
-                reservation_code : this.reservation.code,
-                date : this.reservation.date,
-                hour : this.reservation.hour,
-                diners : this.reservation.diners,
-                table_number : this.reservation.table,
-                user_id : parseInt(this.reservation.usrid),
-                restaurant_id : parseInt(this.reservation.resid),
-                design_id : parseInt(this.reservation.dsid)
-  
-              } } })
-            }).then((res) => res.json()).then((response) => {
-  
-              console.log(response);
-        
-              this.makeReserve = false
-  
-              Notify.create({
-  
-                message: "Created Reservation",
-                type: "positive"
-  
-              })
-  
-            }).catch((error) => {
-  
-              console.log(error);
-  
-            })
-          },1000)
-
-        } else {
-
+        .catch(() => {
           Notify.create({
-
-            message : "El usuario no existe,registralo para iniciar sessión.",
-            type : "negative"
-          })
-
-          this.makeReserve = false
-        }
-
-
+            message: "Ha habido un error, intenta de nuevo!",
+            type: "warning",
+          });
+        });
     },
-    verifyEmail(email){
+    async createReservation() {
+      this.reservation.table = LocalStorage.getItem("slctbl");
+      this.reservation.code =
+        Math.floor(Math.random() * (999999999999 - 100000000000 + 1)) +
+        100000000000;
+      this.reservation.dsid = this.svg.id;
+      this.reservation.resid = this.restaurant_id;
 
-        fetch(apiUrl + "/users?filter[email]=" + email,{
-            headers : {
-
-                'Accept' : 'application/vnd.api+json'
+      if (this.verifyEmail(this.reservation.userEmail)) {
+        setTimeout(() => {
+          console.log(this.reservation);
+          let token = LocalStorage.getItem("token");
+          fetch(apiUrl + "/reservations", {
+            method: "POST",
+            headers: {
+              Accept: "application/vnd.api+json",
+              "Content-Type": "application/vnd.api+json",
+              Authorization: `Bearer ${token}`,
             },
-            method : "GET"
-        }).then((res) => res.json()).then((response) => {
+            body: JSON.stringify({
+              data: {
+                attributes: {
+                  reservation_code: this.reservation.code,
+                  date: this.reservation.date,
+                  hour: this.reservation.hour,
+                  diners: this.reservation.diners,
+                  table_number: this.reservation.table,
+                  user_id: parseInt(this.reservation.usrid),
+                  restaurant_id: parseInt(this.reservation.resid),
+                  design_id: parseInt(this.reservation.dsid),
+                },
+              },
+            }),
+          })
+            .then((res) => res.json())
+            .then((response) => {
+              console.log(response);
 
-            if(response.data.length != 0){
+              this.makeReserve = false;
 
-              this.reservation.usrid = parseInt(response.data[0].id)
-              return true
+              Notify.create({
+                message: "Created Reservation",
+                type: "positive",
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }, 1000);
+      } else {
+        Notify.create({
+          message: "El usuario no existe,registralo para iniciar sessión.",
+          type: "negative",
+        });
 
-            } else {
-
-                // TODO: Si el usuario no existe, dar la opcion de crear uno y almacenar los en LocalStorage de la reserva
-                // this.dlNoUserExist = true
-
-
-            }
-
-
-        })
-
+        this.makeReserve = false;
+      }
     },
-    setDiners(diners_num){
-
-        this.reservation.diners = diners_num
-
+    verifyEmail(email) {
+      fetch(apiUrl + "/users?filter[email]=" + email, {
+        headers: {
+          Accept: "application/vnd.api+json",
+        },
+        method: "GET",
+      })
+        .then((res) => res.json())
+        .then((response) => {
+          if (response.data.length != 0) {
+            this.reservation.usrid = parseInt(response.data[0].id);
+            return true;
+          } else {
+            // TODO: Si el usuario no existe, dar la opcion de crear uno y almacenar los en LocalStorage de la reserva
+            // this.dlNoUserExist = true
+          }
+        });
     },
-    updateHour(hora){
+    setDiners(diners_num) {
+      this.reservation.diners = diners_num;
+    },
+    updateHour(hora) {
+      this.reservation.hour = hora;
+    },
+    confirmTableAssistance() {
 
-        this.reservation.hour = hora
-    }
+      let actHour = this.getActualHour()
+      
+
+      console.log(this.tableNextReserveHour, this.tableNextReserveKey,actHour,this.selected);
+
+      // fetch(apiUrl + "/designs/confassis" + this.selected,{
+
+      //   method : 'POST',
+      //   headers : {
+
+      //     "Accept" : "application/vnd.api+json",
+      //     "Content-Type" : "application/vnd.api+json",
+      //     "Authorization" : `Bearer ${this.token}`
+      //   },
+      //   body : JSON.stringify({
+
+      //     next : this.tableNextReserveHour,
+      //     actual : actHour,
+      //     table : this.tableNextReserveKey
+
+      //   })
+      // }).then((res) => res.json()).then((response) => {
+
+
+      //   // l
+
+      // })
+    },
+    cancelActualReservation() {
+      // TODO: Eliminar la hora en las horas ocupadas de la mesa y eliminar reserva
+    },
+    ocupateTable() {
+      // TODO:
+    },
+    getActualHour() {
+      let date = new Date();
+      let horas_actu = (date.getHours() < 10 ? "0" : "") + date.getHours();
+      let mins_actu = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
+
+      return horas_actu + ":" + mins_actu; // Hora actual
+    },
   },
 };
 </script>
@@ -708,9 +801,7 @@ rect {
   background-color: #00695c;
 }
 .boton {
-
-width: 20%;
-
+  width: 20%;
 }
 .hora-btn {
   background-color: #1e88e5;
