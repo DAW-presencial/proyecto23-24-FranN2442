@@ -222,7 +222,7 @@
             </div>
             <q-card-actions align="right">
               <q-btn flat label="Close" color="primary" v-close-popup />
-              <q-btn label="Create Reservation" color="green" type="submit" />
+              <q-btn :loading="this.loadingBtnCR" label="Create Reservation" color="green" type="submit" />
             </q-card-actions>
           </q-form>
         </q-card-section>
@@ -281,7 +281,8 @@ export default {
       ocupatedTable: false,
       tableNextReserveHour: "",
       tableNextReserveKey: "",
-      verify : false
+      verify : false,
+      loadingBtnCR : false
     };
   },
   watch: {
@@ -657,6 +658,7 @@ export default {
         });
     },
     createReservation() {
+      this.loadingBtnCR = true
       this.reservation.table = LocalStorage.getItem("slctbl");
       this.reservation.code =
         Math.floor(Math.random() * (999999999999 - 100000000000 + 1)) +
@@ -704,6 +706,18 @@ export default {
                   message: "Created Reservation",
                   type: "positive",
                 });
+
+                this.loadingBtnCR = false
+                this.verify = false
+
+                this.reservation.hour = ""
+                this.reservation.code = "",
+                this.reservation.diners = "",
+                this.reservation.table = "",
+                this.reservation.dsid = 0,
+                this.reservation.resid = 0,
+                this.reservation.userEmail = "",
+                this.reservation.usrid = 0
               })
               .catch((error) => {
                 console.log(error);
