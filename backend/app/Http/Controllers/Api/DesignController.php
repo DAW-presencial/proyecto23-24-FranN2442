@@ -78,16 +78,18 @@ class DesignController extends Controller
             "table" => ['required']
         ]);
 
-        $tables = $design->tables;
-        $table = $tables->$request->table;
+        $tables = json_decode($design->tables,true);
+        $nextIndex = array_search($request->next,$tables[$request->table]['ocupated_hours']);
+        $tables[$request->table]['ocupated_hours'] = array_replace($tables[$request->table]['ocupated_hours'],array($nextIndex => $request->actual));
+        $decoded_tables = json_encode($tables);
         
-        dd($table);
-        
-        // $design->update([
-        //     'hall_name' => $design->hall_name,
-        //     'tables' =>  $decoded_tables,
-        //     'restaurant_id' => $design->restaurant_id
-        // ]);
+        $design->update([
+            'hall_name' => $design->hall_name,
+            'tables' =>  $decoded_tables,
+            'restaurant_id' => $design->restaurant_id
+        ]);
+
+        return DesignResource::make($design);
 
     }
 }
