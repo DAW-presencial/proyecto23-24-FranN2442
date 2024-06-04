@@ -79,7 +79,9 @@ class DesignController extends Controller
         ]);
 
         $tables = $design->tables;
-        dd($tables);
+        $table = $tables->$request->table;
+        
+        dd($table);
         
         // $design->update([
         //     'hall_name' => $design->hall_name,
