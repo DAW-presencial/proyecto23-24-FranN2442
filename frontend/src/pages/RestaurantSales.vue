@@ -281,6 +281,7 @@ export default {
       ocupatedTable: false,
       tableNextReserveHour: "",
       tableNextReserveKey: "",
+      verify : false
     };
   },
   watch: {
@@ -655,81 +656,88 @@ export default {
           });
         });
     },
-    async createReservation() {
+    createReservation() {
       this.reservation.table = LocalStorage.getItem("slctbl");
       this.reservation.code =
         Math.floor(Math.random() * (999999999999 - 100000000000 + 1)) +
         100000000000;
       this.reservation.dsid = this.svg.id;
       this.reservation.resid = this.restaurant_id;
+      this.verifyEmail(this.reservation.userEmail)
 
-      if (this.verifyEmail(this.reservation.userEmail)) {
-        setTimeout(() => {
-          console.log(this.reservation);
-          let token = LocalStorage.getItem("token");
-          fetch(apiUrl + "/reservations", {
-            method: "POST",
-            headers: {
-              Accept: "application/vnd.api+json",
-              "Content-Type": "application/vnd.api+json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              data: {
-                attributes: {
-                  reservation_code: this.reservation.code,
-                  date: this.reservation.date,
-                  hour: this.reservation.hour,
-                  diners: this.reservation.diners,
-                  table_number: this.reservation.table,
-                  user_id: parseInt(this.reservation.usrid),
-                  restaurant_id: parseInt(this.reservation.resid),
-                  design_id: parseInt(this.reservation.dsid),
-                },
+      setTimeout(() => {
+        console.log(this.verify);
+        if (this.verify) {
+          console.log("Entra");
+          setTimeout(() => {
+            console.log(this.reservation);
+            let token = LocalStorage.getItem("token");
+            fetch(apiUrl + "/reservations", {
+              method: "POST",
+              headers: {
+                "Accept": "application/vnd.api+json",
+                "Content-Type": "application/vnd.api+json",
+                "Authorization": `Bearer ${token}`,
               },
-            }),
-          })
-            .then((res) => res.json())
-            .then((response) => {
-              console.log(response);
-
-              this.makeReserve = false;
-
-              Notify.create({
-                message: "Created Reservation",
-                type: "positive",
-              });
+              body: JSON.stringify({
+                data: {
+                  attributes: {
+                    reservation_code: this.reservation.code,
+                    date: this.reservation.date,
+                    hour: this.reservation.hour,
+                    diners: this.reservation.diners,
+                    table_number: this.reservation.table,
+                    user_id: parseInt(this.reservation.usrid),
+                    restaurant_id: parseInt(this.reservation.resid),
+                    design_id: parseInt(this.reservation.dsid),
+                  },
+                },
+              }),
             })
-            .catch((error) => {
-              console.log(error);
-            });
-        }, 1000);
-      } else {
-        Notify.create({
-          message: "El usuario no existe,registralo para iniciar sessión.",
-          type: "negative",
-        });
-
-        this.makeReserve = false;
-      }
+              .then((res) => res.json())
+              .then((response) => {
+                console.log(response);
+  
+                this.makeReserve = false;
+  
+                Notify.create({
+                  message: "Created Reservation",
+                  type: "positive",
+                });
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }, 1000);
+  
+        } else {
+          Notify.create({
+            message: "El usuario no existe,registralo para iniciar sessión.",
+            type: "negative",
+          });
+  
+          this.makeReserve = false;
+        }
+      },1000)
     },
     verifyEmail(email) {
+      console.log("DOING VERIFY EMAIL");
       fetch(apiUrl + "/users?filter[email]=" + email, {
         headers: {
           Accept: "application/vnd.api+json",
         },
         method: "GET",
-      })
-        .then((res) => res.json())
-        .then((response) => {
-          if (response.data.length != 0) {
-            this.reservation.usrid = parseInt(response.data[0].id);
-            return true;
-          } else {
-            // TODO: Si el usuario no existe, dar la opcion de crear uno y almacenar los en LocalStorage de la reserva
-            // this.dlNoUserExist = true
-          }
-        });
+      }).then((res) => res.json()).then((response) => {
+
+        if (response.data.length != 0) {
+          this.reservation.usrid = parseInt(response.data[0].id);
+          this.verify = true
+        } else {
+          // TODO: Si el usuario no existe, dar la opcion de crear uno y almacenar los en LocalStorage de la reserva
+          // this.dlNoUserExist = true
+        }
+        
+      });
     },
     setDiners(diners_num) {
       this.reservation.diners = diners_num;
@@ -741,31 +749,31 @@ export default {
 
       let actHour = this.getActualHour()
       
-
+      let token = LocalStorage.getItem("token_rest");
       console.log(this.tableNextReserveHour, this.tableNextReserveKey,actHour,this.selected);
 
-      // fetch(apiUrl + "/designs/confassis" + this.selected,{
+      fetch(apiUrl + "/designs/confassis/" + this.selected,{
 
-      //   method : 'POST',
-      //   headers : {
+        method : 'PATCH',
+        headers : {
 
-      //     "Accept" : "application/vnd.api+json",
-      //     "Content-Type" : "application/vnd.api+json",
-      //     "Authorization" : `Bearer ${this.token}`
-      //   },
-      //   body : JSON.stringify({
+          "Accept" : "application/vnd.api+json",
+          "Content-Type" : "application/vnd.api+json",
+          "Authorization" : `Bearer ${token}`
+        },
+        body : JSON.stringify({
 
-      //     next : this.tableNextReserveHour,
-      //     actual : actHour,
-      //     table : this.tableNextReserveKey
+          next : this.tableNextReserveHour,
+          actual : actHour,
+          table : this.tableNextReserveKey
 
-      //   })
-      // }).then((res) => res.json()).then((response) => {
+        })
+      }).then((res) => res.json()).then((response) => {
 
 
-      //   // l
+        console.log(response);
 
-      // })
+      })
     },
     cancelActualReservation() {
       // TODO: Eliminar la hora en las horas ocupadas de la mesa y eliminar reserva
