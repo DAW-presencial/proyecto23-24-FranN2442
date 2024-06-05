@@ -94,9 +94,6 @@ export default {
 
       setTimeout(() => {
 
-
-
-
         let filtredDesign = this.designs.filter(design => design.id.toLowerCase().includes(id));
         console.log(filtredDesign);
         this.tables = filtredDesign[0].attributes.tables;
@@ -192,7 +189,7 @@ export default {
 
       console.log(id,this.day,this.$route.query.id);
 
-      fetch(apiUrl + "/reservations?filter[restaurant_id]=" + this.$route.query.id + "&filter[date]=" + this.day + "&filter[hour]=" + this.horaReserva, {
+      fetch(apiUrl + "/reservations?filter[restaurant_id]=" + this.$route.query.id + "&filter[date]=" + this.day, {
       method: "GET",
       headers: {
         Accept: "application/vnd.api+json",
@@ -203,7 +200,7 @@ export default {
 
           if(this.reservas.length != 0){
     
-            this.reservas = this.reservas.filter(reservation => reservation.attributes.design_id == id)
+            this.reservas = this.reservas.filter(reservation => reservation.attributes.design_id == id && (reservation.attributes.hour == this.horaReserva || reservation.attributes.old_hour == this.horaReserva) )
             console.log("RESERVAS: ",this.reservas);
           }
       });
