@@ -87,7 +87,7 @@
             </template>
           </q-field>
           <q-card-actions class="flex">
-            <q-btn flat @click="deleteReservation(reservation.id)" class="bg-red text-white justify-end">{{
+            <q-btn flat @click="deleteReservation(reservation)" class="bg-red text-white justify-end">{{
         $t('reserveBtn')
       }}</q-btn>
           </q-card-actions>
@@ -107,6 +107,7 @@ import { LocalStorage, Notify } from "quasar";
 import FooterComponent from '../components/FooterComponent.vue';
 import { apiUrl } from 'boot/axios';
 import { useI18n } from 'vue-i18n';
+import moment from "moment";
 
 export default defineComponent({
   name: "Home",
@@ -130,12 +131,15 @@ export default defineComponent({
       userReservations: [],
       current_pass: '',
       new_pass: '',
-      confirm_pass: ''
+      confirm_pass: '',
+      todayString : ''
     };
   },
   created() {
     this.loadData();
     this.getUserReservations();
+    let today = moment().format("L").split("/");
+    this.todayString = today[2] + "/" + today[0] + "/" + today[1];
   },
   methods: {
     loadData() {
@@ -174,20 +178,31 @@ export default defineComponent({
           console.log(error);
         });
     },
-    deleteReservation(reservation_id) {
+    deleteReservation(reservation) {
       let token = LocalStorage.getItem("token");
-      console.log(token);
+      let day = ""
 
-      fetch(apiUrl + "/reservations/" + reservation_id, {
+      if(this.todayString == reservation.attributes.date){
+
+        day = "today"
+
+      }
+
+      fetch(apiUrl + "/reservations/" + reservation.id + "?filter[id]=" + reservation.attributes.design_id, {
         headers: {
           Accept: "application/vnd.api+json",
           Authorization: `Bearer ${token}`,
         },
         method: "DELETE",
+        body: JSON.stringify({
+
+          table: reservation.attributes.table_number,
+          today: day
+
+        })
       })
         .then(() => {
 
-          let courrentRoute = this.$route.query
           Notify.create({
             message: this.t('reservationCancelled'),
             type: "positive",
