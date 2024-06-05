@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ReservationCollection;
 use App\Http\Resources\ReservationResource;
+use App\Models\Design;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 
@@ -47,8 +48,34 @@ class ReservationController extends Controller
 
     }
 
-    public function destroy(Reservation $reservation)
+    public function destroy(Reservation $reservation,Request $request)
     {
+
+        $reservation_hour = $reservation->hour;
+
+        $designs = Design::query()->allowedFilters(['id'])->get();
+        $design = $designs[0];
+       
+        $tables = json_decode($design->tables,true);
+
+        foreach($tables as $key => $table){
+
+            if($table["number"] == $request->table){
+
+                $val_index = array_search($reservation_hour,$table["ocupated_hours"]);
+                $table["ocupated_hours"] = array_splice($table["ocupated_hours"],$val_index,$val_index);
+                $tables[$key] = $table;
+
+            }
+
+        }
+
+        $design->update([
+
+            "tables" => json_encode($tables)
+
+        ]);
+
 
         $reservation->delete();
 
