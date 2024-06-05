@@ -12,6 +12,7 @@ class JsonApiQuery
     {
 
         return function($allowedFilters){
+
             /** @var Builder $this */
             foreach(request('filter',[]) as $filter => $value){
 

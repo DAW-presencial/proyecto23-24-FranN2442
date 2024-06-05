@@ -24,6 +24,7 @@ class ReservationResource extends JsonResource
                 'reservation_code' => $this->resource->reservation_code,
                 'date' => $this->resource->date,
                 'hour' => $this->resource->hour,
+                'old_hour' => $this->resource->old_hour,
                 'diners' => $this->resource->diners,
                 'table_number' => $this->resource->table_number,
                 'user_id' => $this->resource->user->id,

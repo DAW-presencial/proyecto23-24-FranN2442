@@ -14,7 +14,7 @@ class ReservationController extends Controller
     public function index()
     {
 
-        $reservations = Reservation::query()->allowedFilters(['restaurant_id','user_id','date','table_number','hour','design_id'])->get();
+        $reservations = Reservation::query()->allowedFilters(['restaurant_id','user_id','date','table_number','hour','old_hour','design_id'])->get();
 
         return ReservationCollection::make($reservations);
 
@@ -33,6 +33,7 @@ class ReservationController extends Controller
             'reservation_code' => $request->input('data.attributes.reservation_code'),
             'date' => $request->input('data.attributes.date'),
             'hour' => $request->input('data.attributes.hour'),
+            "old_hour" => null,
             'diners' => $request->input('data.attributes.diners'),
             'table_number' => $request->input('data.attributes.table_number'),
             'user_id' => $request->input('data.attributes.user_id'),

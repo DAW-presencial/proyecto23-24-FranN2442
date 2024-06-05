@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('reservation_code', 12)->unique();
             $table->string('date', 10);
             $table->string('hour', 5);
+            $table->string('old_hour', 5)->nullable(true);
             $table->string('diners',3);
             $table->string('table_number', 9);
             $table->foreignId('user_id')->constrained();
