@@ -174,16 +174,21 @@ export default defineComponent({
           console.log(error);
         });
     },
-    deleteReservation(reservation_id) {
+    deleteReservation(reservation) {
       let token = LocalStorage.getItem("token");
       console.log(token);
 
-      fetch(apiUrl + "/reservations/" + reservation_id, {
+      fetch(apiUrl + "/reservations/" + reservation.id + "?filter[id]=" + reservation.attributes.design_id, {
         headers: {
           Accept: "application/vnd.api+json",
           Authorization: `Bearer ${token}`,
         },
         method: "DELETE",
+        body: JSON.stringify({
+
+          table: reservation.attributes.table_number
+
+        })
       })
         .then(() => {
 
