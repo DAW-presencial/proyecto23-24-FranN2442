@@ -72,9 +72,11 @@
                     <div class="row justify-center">
                       <h6 class="rounded-borders q-ma-sm q-pa-sm horario-title">{{ horario[0] }}</h6>
                     </div>
-                    <div class="row justify-center card-body">
-                      <q-btn v-for="hora in horario[1]" @click="updateHour(hora)" :active="reservation.hour === hora"
-                        :key="hora" class="hora-btn">{{ hora }}</q-btn>
+                    <div class="row justify-center card-body" >
+                      <div v-for="hora in horario[1]" :key="hora">
+                        <q-btn v-if="this.hourCompareActual(hora)" @click="updateHour(hora)" :active="reservation.hour === hora" class="hora-btn">{{ hora }}</q-btn>
+                        <q-btn v-else class="hora-btn" disabled>{{ hora }}</q-btn>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -398,6 +400,23 @@ export default {
 
         }
       }
+
+    },
+    hourCompareActual(hour){
+
+      let date = new Date();
+      let horas_actu = (date.getHours() < 10 ? "0" : "") + date.getHours();
+      let mins_actu = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
+
+      let hourActual = horas_actu + ":" + mins_actu; // Hora actual
+
+      let splitHourActual = hourActual.split(":")
+      let numMinsHourActual = (parseInt(splitHourActual[0]) * 60) + parseInt(splitHourActual[1])
+
+      let splitHour = hour.split(":")
+      let numMinsHour = (parseInt(splitHour[0]) * 60) + parseInt(splitHour[1])
+
+      return numMinsHour > numMinsHourActual
 
     }
   }
