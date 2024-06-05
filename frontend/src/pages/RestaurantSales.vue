@@ -125,16 +125,35 @@
                   {{ horario[0] }}
                 </h6>
               </div>
-              <div class="row justify-center card-body">
-                <q-btn
-                  v-for="hora in horario[1]"
-                  @click="updateHour(hora)"
-                  :active="reservation.hour === hora"
-                  :key="hora"
-                  class="hora-btn"
-                  v-close-popup
-                  >{{ hora }}</q-btn
-                >
+              <div class="row justify-center card-body" v-if="this.reservation.date == this.today">
+                <div v-for="hora in horario[1]" :key="hora">
+                  <q-btn
+                    v-if="this.hourCompareActual(hora)"
+                    @click="updateHour(hora)"
+                    :active="reservation.hour === hora"
+                    :key="hora"
+                    class="hora-btn"
+                    v-close-popup
+                    >{{ hora }}</q-btn
+                  >
+                  <q-btn
+                    v-else
+                    class="hora-btn"
+                    disable
+                    >{{ hora }}</q-btn
+                  >
+                </div>
+              </div>
+              <div class="row justify-center card-body" v-if="this.reservation.date != this.today">
+                <div v-for="hora in horario[1]" :key="hora">
+                  <q-btn
+                    @click="updateHour(hora)"
+                    :active="reservation.hour === hora"
+                    class="hora-btn"
+                    v-close-popup
+                    >{{ hora }}</q-btn
+                  >
+                </div>
               </div>
             </div>
           </div>
@@ -282,7 +301,8 @@ export default {
       tableNextReserveHour: "",
       tableNextReserveKey: "",
       verify : false,
-      loadingBtnCR : false
+      loadingBtnCR : false,
+      today : ""
     };
   },
   watch: {
@@ -339,7 +359,9 @@ export default {
     }
 
     let today = moment().format("L").split("/");
+    this.today = today[2] + "/" + today[0] + "/" + today[1];
     this.reservation.date = today[2] + "/" + today[0] + "/" + today[1];
+    console.log(this.today,this.reservation.date);
   },
   beforeUnmount() {
     clearInterval(this.stopInterval);
@@ -804,6 +826,19 @@ export default {
 
       return horas_actu + ":" + mins_actu; // Hora actual
     },
+    hourCompareActual(hour){
+
+      let hourActual = this.getActualHour() // Hora actual
+
+      let splitHourActual = hourActual.split(":")
+      let numMinsHourActual = (parseInt(splitHourActual[0]) * 60) + parseInt(splitHourActual[1])
+
+      let splitHour = hour.split(":")
+      let numMinsHour = (parseInt(splitHour[0]) * 60) + parseInt(splitHour[1])
+
+      return numMinsHour > numMinsHourActual
+
+    }
   },
 };
 </script>
