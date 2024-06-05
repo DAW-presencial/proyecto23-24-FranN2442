@@ -27,6 +27,7 @@ class ReservationFactory extends Factory
             'reservation_code' => $this->faker->regexify('[A-Za-z0-9]{12}'),
             'date' => $this->faker->regexify('[A-Za-z0-9]{10}'),
             'hour' => $this->faker->time,
+            'old_hour' => null,
             'diners' => parse_str($this->faker->numberBetween(0,100)),
             'table_number' => $this->faker->regexify('[0-9]{4}'),
             'user_id' => User::factory(),

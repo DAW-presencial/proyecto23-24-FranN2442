@@ -19,6 +19,7 @@ class Reservation extends Model
         'reservation_code',
         'date',
         'hour',
+        'old_hour',
         'diners',
         'table_number',
         'user_id',
