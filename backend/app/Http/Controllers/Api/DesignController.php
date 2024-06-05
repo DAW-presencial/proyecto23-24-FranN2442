@@ -81,16 +81,16 @@ class DesignController extends Controller
 
         // ! Mirar como hacer tener igualmente la hora antigua antes de actualizar la nueva en la reserva
 
-        // $reservations = Reservation::query()->allowedFilters(['design_id','table_number','hour'])->get();
+        $reservations = Reservation::query()->allowedFilters(['design_id','table_number','hour'])->get();
 
-        // $reservation = $reservations[0];
+        $reservation = $reservations[0];
 
-        // $reservation->update([
+        $reservation->update([
 
-        //      "hour" => $request->actual,
-        //      "old_hour" => $request->next
+             "hour" => $request->actual,
+             "old_hour" => $request->next
 
-        // ]);
+        ]);
 
         $tables = json_decode($design->tables,true);
         $nextIndex = array_search($request->next,$tables[$request->table]['ocupated_hours']);
