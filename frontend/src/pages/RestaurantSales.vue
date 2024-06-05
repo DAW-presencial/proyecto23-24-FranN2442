@@ -430,6 +430,7 @@ export default {
               formated_h_actu >= ocupated_h[i] &&
               formated_h_actu <= formated_past
             ) {
+              console.log('Mesa ocupada',table);
               rect.setAttribute("fill", "red");
               rect.addEventListener("click", () => {
                 Notify.create({
@@ -461,6 +462,7 @@ export default {
                 this.confirmAsis = true;
                 this.tableNextReserveHour = ocupated_h[i];
                 this.tableNextReserveKey = table;
+                LocalStorage.set("slctbl", tables[table].number);
               });
             }
           }
@@ -762,11 +764,11 @@ export default {
     confirmTableAssistance() {
 
       let actHour = this.getActualHour()
-      
+      let number = LocalStorage.getItem('slctbl');
       let token = LocalStorage.getItem("token_rest");
       console.log(this.tableNextReserveHour, this.tableNextReserveKey,actHour,this.selected);
 
-      fetch(apiUrl + "/designs/confassis/" + this.selected,{
+      fetch(`${apiUrl}/designs/confassis/${this.selected}?filter[design_id]=${this.selected}&filter[table_number]=${number}&filter[hour]=${this.tableNextReserveHour}`,{
 
         method : 'PATCH',
         headers : {

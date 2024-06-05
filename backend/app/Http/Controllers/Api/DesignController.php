@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\DesignCollection;
 use App\Http\Resources\DesignResource;
 use App\Models\Design;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -76,6 +77,16 @@ class DesignController extends Controller
             "next" => ['required'],
             "actual" => ['required'],
             "table" => ['required']
+        ]);
+
+        $reservations = Reservation::query()->allowedFilters(['design_id','table_number','hour'])->get();
+
+        $reservation = $reservations[0];
+
+        $reservation->update([
+
+            "hour" => $request->actual
+
         ]);
 
         $tables = json_decode($design->tables,true);
