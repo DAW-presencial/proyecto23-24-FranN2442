@@ -184,89 +184,76 @@ export default defineComponent({
     },
     deleteReservation(reservation) {
       let token = LocalStorage.getItem("token");
-      let day = ""
-
-      if(this.todayString == reservation.attributes.date){
-
-        day = "today"
-
-      }
-
-      console.log(reservation.attributes.table_number,day,reservation.attributes.design_id);
-
-      setTimeout(() => {
-
-
-        fetch(apiUrl + "/reservations/" + reservation.id + "?filter[id]=" + reservation.attributes.design_id, {
-          headers: {
-            Accept: "application/vnd.api+json",
-            Authorization: `Bearer ${token}`,
-          },
-          method: "DELETE",
-          body: JSON.stringify({
-  
-            table: reservation.attributes.table_number,
-            today: day
-  
+    
+          fetch(apiUrl + "/reservations/" + reservation.id + "?filter[id]=" + reservation.attributes.design_id, {
+            headers: {
+              Accept: "application/vnd.api+json",
+              Authorization: `Bearer ${token}`,
+            },
+            method: "DELETE",
+            body: JSON.stringify({
+    
+              table : reservation.attributes.table_number,
+    
+            })
           })
-        })
-          .then(() => {
-  
-            Notify.create({
-              message: this.t('reservationCancelled'),
-              type: "positive",
-              actions: [
-              { label: 'Reiniciar', color: 'white', handler: () => {window.location.reload() } }
-            ]
+            .then(() => {
+    
+              Notify.create({
+                message: this.t('reservationCancelled'),
+                type: "positive",
+                actions: [
+                { label: 'Reiniciar', color: 'white', handler: () => {window.location.reload() } }
+              ]
+              });
+    
+              
+            })
+            .catch((error) => {
+              console.log(error);
             });
-  
-            
-          })
-          .catch((error) => {
-            console.log(error);
+    
+
+      },
+      updatePassword() {
+        if (!this.current_pass || !this.new_pass || !this.confirm_pass) {
+          Notify.create({
+            message: this.t('errorUpdatingProfile'),
+            type: 'negative'
           });
-      },1000)
+          return;
+        }
 
-    },
-    updatePassword() {
-      if (!this.current_pass || !this.new_pass || !this.confirm_pass) {
-        Notify.create({
-          message: this.t('errorUpdatingProfile'),
-          type: 'negative'
-        });
-        return;
-      }
+        let params = {
+          "old_password": this.current_pass,
+          "new_password": this.confirm_pass,
+        };
+        let user_id = LocalStorage.getItem("usrid");
+        let token = LocalStorage.getItem("token");
 
-      let params = {
-        "old_password": this.current_pass,
-        "new_password": this.confirm_pass,
-      };
-      let user_id = LocalStorage.getItem("usrid");
-      let token = LocalStorage.getItem("token");
-
-      fetch(apiUrl + "/passwordReset/" + user_id, {
-        method: 'PATCH',
-        headers: {
-          'Accept': 'application/vnd.api+json',
-          'Content-Type': 'application/vnd.api+json',
-          'Authorization': "Bearer " + token
-        },
-        body: JSON.stringify({ data: { type: 'users', attributes: params } })
-      })
-        .then(response => {
-          if (response.ok) {
-            console.log(response);
-            Notify.create({
-              message: this.t('passwordUpdated'),
-              type: 'positive'
-            });
-          } else {
-            throw new Error(this.t('errorUpdatingPassword'));
-          }
+        fetch(apiUrl + "/passwordReset/" + user_id, {
+          method: 'PATCH',
+          headers: {
+            'Accept': 'application/vnd.api+json',
+            'Content-Type': 'application/vnd.api+json',
+            'Authorization': "Bearer " + token
+          },
+          body: JSON.stringify({ data: { type: 'users', attributes: params } })
         })
-        .catch(error => {
-          console.error(error);
-        });
+          .then(response => {
+            if (response.ok) {
+              console.log(response);
+              Notify.create({
+                message: this.t('passwordUpdated'),
+                type: 'positive'
+              });
+            } else {
+              throw new Error(this.t('errorUpdatingPassword'));
+            }
+          })
+          .catch(error => {
+            console.error(error);
+          });
     },
     savePassword() {
       if (this.new_pass === this.confirm_pass) {
