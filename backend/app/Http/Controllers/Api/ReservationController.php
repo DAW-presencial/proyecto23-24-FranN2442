@@ -61,13 +61,13 @@ class ReservationController extends Controller
             $designs = Design::query()->allowedFilters(['id'])->get();
             $design = $designs[0];
 
-            dd($design);
-        
+            
             $tables = json_decode($design->tables,true);
-    
+            
             foreach($tables as $key => $table){
-    
+                
                 if($table["number"] == $request->table){
+                    
     
                     $val_index = array_search($reservation_hour,$table["ocupated_hours"]);
                     $table["ocupated_hours"] = array_splice($table["ocupated_hours"],$val_index,$val_index);
@@ -82,6 +82,8 @@ class ReservationController extends Controller
                 "tables" => json_encode($tables)
     
             ]);
+
+            dd($design);
 
         }
 
