@@ -52,6 +52,8 @@ class ReservationController extends Controller
     {
         $today = date('Y/m/d');
 
+        dd($today == $reservation->date);
+
         if($reservation->date == $today){
 
             $reservation_hour = $reservation->hour;

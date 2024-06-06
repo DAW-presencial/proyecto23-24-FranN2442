@@ -196,19 +196,17 @@ export default defineComponent({
               table : reservation.attributes.table_number,
     
             })
-          })
-            .then(() => {
-    
-              Notify.create({
-                message: this.t('reservationCancelled'),
-                type: "positive",
-                actions: [
-                { label: 'Reiniciar', color: 'white', handler: () => {window.location.reload() } }
-              ]
-              });
-    
-              
+          }).then((res) => res.json()).then((response) => {
+
+            Notify.create({
+
+              message : "Reserva Cancelada",
+              type : "positive"
+
             })
+
+
+          })
             .catch((error) => {
               console.log(error);
             });
