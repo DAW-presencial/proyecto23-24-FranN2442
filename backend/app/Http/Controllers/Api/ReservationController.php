@@ -50,15 +50,15 @@ class ReservationController extends Controller
 
     public function destroy(Reservation $reservation,Request $request)
     {
+        $today = date('Y/m/d');
 
-        if($request->today == "today" ){
-            
-            
+        if($reservation->date == $today){
+
             $reservation_hour = $reservation->hour;
     
             $designs = Design::query()->allowedFilters(['id'])->get();
             $design = $designs[0];
-           
+        
             $tables = json_decode($design->tables,true);
     
             foreach($tables as $key => $table){
@@ -78,10 +78,8 @@ class ReservationController extends Controller
                 "tables" => json_encode($tables)
     
             ]);
-        
-        }
-            
 
+        }
 
         $reservation->delete();
 
