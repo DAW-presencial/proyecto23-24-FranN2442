@@ -83,7 +83,6 @@ class ReservationController extends Controller
     
             ]);
 
-            dd($design);
 
         }
 
