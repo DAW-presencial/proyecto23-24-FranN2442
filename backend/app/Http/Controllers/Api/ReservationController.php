@@ -72,7 +72,6 @@ class ReservationController extends Controller
                     $val_index = array_search($reservation_hour,$table["ocupated_hours"]);
                     unset($table["ocupated_hours"][$val_index]);
                     $tables[$key] = $table;
-                    dd($tables);
     
                 }
     
