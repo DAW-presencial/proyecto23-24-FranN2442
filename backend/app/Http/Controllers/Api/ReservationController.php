@@ -50,6 +50,7 @@ class ReservationController extends Controller
 
     public function destroy(Reservation $reservation,Request $request)
     {
+
         if($request->today == "today" ){
             
             
@@ -77,7 +78,7 @@ class ReservationController extends Controller
                 "tables" => json_encode($tables)
     
             ]);
-            dd($design);
+        
         }
             
 
