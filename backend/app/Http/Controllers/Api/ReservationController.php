@@ -52,7 +52,7 @@ class ReservationController extends Controller
     {
         $today = date('Y/m/d');
 
-        dd($today == $reservation->date);
+        
 
         if($reservation->date == $today){
 
@@ -60,6 +60,8 @@ class ReservationController extends Controller
     
             $designs = Design::query()->allowedFilters(['id'])->get();
             $design = $designs[0];
+
+            dd($design);
         
             $tables = json_decode($design->tables,true);
     
