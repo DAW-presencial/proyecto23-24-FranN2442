@@ -1,104 +1,106 @@
 <template>
-  <div class="q-pa-md q-gutter-sm bg-grey-2 flex flex-center mgTop4 font-lato">
-    <q-breadcrumbs>
-      <q-breadcrumbs-el label="Home" icon="home" to="/" @click="handleBreadcrumbClick('home')" />
-      <q-breadcrumbs-el :label="$t('profileIcon')" icon="person" to="/profile" @click="handleBreadcrumbClick('person')"/>
-    </q-breadcrumbs>
+  <div>
+    <div class="q-pa-md q-gutter-sm bg-grey-2 flex flex-center mgTop4 font-lato">
+      <q-breadcrumbs>
+        <q-breadcrumbs-el label="Home" icon="home" to="/" @click="handleBreadcrumbClick('home')" />
+        <q-breadcrumbs-el :label="$t('profileIcon')" icon="person" to="/profile" @click="handleBreadcrumbClick('person')"/>
+      </q-breadcrumbs>
+    </div>
+    <q-page class="bg-grey-2 flex flex-center font-lato">
+      <div class="q-pa-md shadow-2 my_card bg-white container mgTop4">
+        <q-card-section class="text-center">
+          <div class="q-gutter-md" style="max-width: 500px">
+            <div class="text-h5 text-weight-bold text-left">{{ $t('profileTitle') }}</div>
+            <div class="text-left text-caption" style="font-size: 15px;">{{ $t('profileName') }}</div>
+            <q-input v-model="this.data.attributes.full_name" outlined />
+            <div class="text-left text-caption" style="font-size: 15px;">{{ $t('profilePhone') }}</div>
+            <q-input v-model="this.data.attributes.tel_num" outlined />
+            <div class="text-left text-caption" style="font-size: 15px;">{{ $t('profileMail') }}</div>
+            <q-input v-model="this.data.attributes.email" outlined />
+            <div class="text-left q-gutter-md">
+              <q-btn class="btn" style="margin-left: 0px;" :label="$t('saveBtn')" color="green" @click="updateProfile" />
+            </div>
+          </div>
+        </q-card-section>
+      </div>
+      <div class="q-pa-md shadow-2 my_card bg-white container">
+        <q-card-section class="text-center">
+          <div class="q-gutter-md" style="max-width: 500px">
+            <div class="text-h5 text-weight-bold text-left">{{ $t('updatePass') }}</div>
+            <div class="text-left text-caption" style="font-size: 15px;">{{ $t('currentPass') }}</div>
+            <q-input v-model="current_pass" outlined
+              :rules="[val => !!val || 'Password is required', val => val.length >= 8 || 'La contraseña debe tener al menos 8 caracteres']"
+              type="password" />
+            <div class="text-left text-caption" style="font-size: 15px;">{{ $t('newPass') }}</div>
+            <q-input v-model="new_pass" outlined
+              :rules="[val => !!val || 'Password is required', val => val.length >= 8 || 'La contraseña debe tener al menos 8 caracteres']"
+              type="password" />
+            <div class="text-left text-caption" style="font-size: 15px;">{{ $t('confirmPass') }}</div>
+            <q-input v-model="confirm_pass" outlined
+              :rules="[val => !!val || 'Password is required', val => val.length >= 8 || 'La contraseña debe tener al menos 8 caracteres']"
+              type="password" />
+            <div class="text-left q-gutter-md">
+              <q-btn class="btn" style="margin-left: 0px;" :label="$t('saveBtn')" color="green" @click="savePassword" />
+            </div>
+          </div>
+        </q-card-section>
+      </div>
+      <div class="q-pa-md shadow-2 my_card bg-white container">
+        <q-card-section>
+          <div class="text-h5 text-weight-bold text-left">{{ $t('reserve') }}</div>
+        </q-card-section>
+        <q-card-section class="text-center flex" v-if="userReservations != []" style="padding: 0px;">
+          <div class="q-pa-md" v-for="reservation in this.userReservations" :key="reservation.id">
+            <q-field outlined :label="$t('reserveCode')" label-color="primary" stack-label class="q-ma-sm"
+              style="width: 250px;">
+              <template v-slot:control>
+                <div class="self-center full-width no-outline" tabindex="0">
+                  {{ reservation.attributes.reservation_code }}
+                </div>
+              </template>
+            </q-field>
+            <q-field outlined :label="$t('reserveDate')" label-color="primary" stack-label class="q-ma-sm">
+              <template v-slot:control>
+                <div class="self-center full-width no-outline" tabindex="0">
+                  {{ reservation.attributes.date }}
+                </div>
+              </template>
+            </q-field>
+            <q-field outlined :label="$t('reserveHour')" label-color="primary" stack-label class="q-ma-sm">
+              <template v-slot:control>
+                <div class="self-center full-width no-outline" tabindex="0">
+                  {{ reservation.attributes.hour }}
+                </div>
+              </template>
+            </q-field>
+            <q-field outlined :label="$t('reserveDiners')" label-color="primary" stack-label class="q-ma-sm">
+              <template v-slot:control>
+                <div class="self-center full-width no-outline" tabindex="0">
+                  {{ reservation.attributes.diners }}
+                </div>
+              </template>
+            </q-field>
+            <q-field outlined :label="$t('reserveTable')" label-color="primary" stack-label class="q-ma-sm">
+              <template v-slot:control>
+                <div class="self-center full-width no-outline" tabindex="0">
+                  {{ reservation.attributes.table_number }}
+                </div>
+              </template>
+            </q-field>
+            <q-card-actions class="flex">
+              <q-btn flat @click="deleteReservation(reservation)" class="bg-red text-white justify-end">{{
+          $t('reserveBtn')
+        }}</q-btn>
+            </q-card-actions>
+          </div>
+        </q-card-section>
+        <q-card-section class="text-center" v-if="userReservations.length === 0">
+          <div class="text-caption" style="font-size: 15px;">{{ $t('noReserve') }}</div>
+        </q-card-section>
+      </div>
+      <FooterComponent></FooterComponent>
+    </q-page>
   </div>
-  <q-page class="bg-grey-2 flex flex-center font-lato">
-    <div class="q-pa-md shadow-2 my_card bg-white container mgTop4">
-      <q-card-section class="text-center">
-        <div class="q-gutter-md" style="max-width: 500px">
-          <div class="text-h5 text-weight-bold text-left">{{ $t('profileTitle') }}</div>
-          <div class="text-left text-caption" style="font-size: 15px;">{{ $t('profileName') }}</div>
-          <q-input v-model="this.data.attributes.full_name" outlined />
-          <div class="text-left text-caption" style="font-size: 15px;">{{ $t('profilePhone') }}</div>
-          <q-input v-model="this.data.attributes.tel_num" outlined />
-          <div class="text-left text-caption" style="font-size: 15px;">{{ $t('profileMail') }}</div>
-          <q-input v-model="this.data.attributes.email" outlined />
-          <div class="text-left q-gutter-md">
-            <q-btn class="btn" style="margin-left: 0px;" :label="$t('saveBtn')" color="green" @click="updateProfile" />
-          </div>
-        </div>
-      </q-card-section>
-    </div>
-    <div class="q-pa-md shadow-2 my_card bg-white container">
-      <q-card-section class="text-center">
-        <div class="q-gutter-md" style="max-width: 500px">
-          <div class="text-h5 text-weight-bold text-left">{{ $t('updatePass') }}</div>
-          <div class="text-left text-caption" style="font-size: 15px;">{{ $t('currentPass') }}</div>
-          <q-input v-model="current_pass" outlined
-            :rules="[val => !!val || 'Password is required', val => val.length >= 8 || 'La contraseña debe tener al menos 8 caracteres']"
-            type="password" />
-          <div class="text-left text-caption" style="font-size: 15px;">{{ $t('newPass') }}</div>
-          <q-input v-model="new_pass" outlined
-            :rules="[val => !!val || 'Password is required', val => val.length >= 8 || 'La contraseña debe tener al menos 8 caracteres']"
-            type="password" />
-          <div class="text-left text-caption" style="font-size: 15px;">{{ $t('confirmPass') }}</div>
-          <q-input v-model="confirm_pass" outlined
-            :rules="[val => !!val || 'Password is required', val => val.length >= 8 || 'La contraseña debe tener al menos 8 caracteres']"
-            type="password" />
-          <div class="text-left q-gutter-md">
-            <q-btn class="btn" style="margin-left: 0px;" :label="$t('saveBtn')" color="green" @click="savePassword" />
-          </div>
-        </div>
-      </q-card-section>
-    </div>
-    <div class="q-pa-md shadow-2 my_card bg-white container">
-      <q-card-section>
-        <div class="text-h5 text-weight-bold text-left">{{ $t('reserve') }}</div>
-      </q-card-section>
-      <q-card-section class="text-center flex" v-if="userReservations != []" style="padding: 0px;">
-        <div class="q-pa-md" v-for="reservation in this.userReservations" :key="reservation.id">
-          <q-field outlined :label="$t('reserveCode')" label-color="primary" stack-label class="q-ma-sm"
-            style="width: 250px;">
-            <template v-slot:control>
-              <div class="self-center full-width no-outline" tabindex="0">
-                {{ reservation.attributes.reservation_code }}
-              </div>
-            </template>
-          </q-field>
-          <q-field outlined :label="$t('reserveDate')" label-color="primary" stack-label class="q-ma-sm">
-            <template v-slot:control>
-              <div class="self-center full-width no-outline" tabindex="0">
-                {{ reservation.attributes.date }}
-              </div>
-            </template>
-          </q-field>
-          <q-field outlined :label="$t('reserveHour')" label-color="primary" stack-label class="q-ma-sm">
-            <template v-slot:control>
-              <div class="self-center full-width no-outline" tabindex="0">
-                {{ reservation.attributes.hour }}
-              </div>
-            </template>
-          </q-field>
-          <q-field outlined :label="$t('reserveDiners')" label-color="primary" stack-label class="q-ma-sm">
-            <template v-slot:control>
-              <div class="self-center full-width no-outline" tabindex="0">
-                {{ reservation.attributes.diners }}
-              </div>
-            </template>
-          </q-field>
-          <q-field outlined :label="$t('reserveTable')" label-color="primary" stack-label class="q-ma-sm">
-            <template v-slot:control>
-              <div class="self-center full-width no-outline" tabindex="0">
-                {{ reservation.attributes.table_number }}
-              </div>
-            </template>
-          </q-field>
-          <q-card-actions class="flex">
-            <q-btn flat @click="deleteReservation(reservation)" class="bg-red text-white justify-end">{{
-        $t('reserveBtn')
-      }}</q-btn>
-          </q-card-actions>
-        </div>
-      </q-card-section>
-      <q-card-section class="text-center" v-if="userReservations.length === 0">
-        <div class="text-caption" style="font-size: 15px;">{{ $t('noReserve') }}</div>
-      </q-card-section>
-    </div>
-    <FooterComponent></FooterComponent>
-  </q-page>
 </template>
 
 <script>
@@ -132,10 +134,13 @@ export default defineComponent({
       current_pass: '',
       new_pass: '',
       confirm_pass: '',
-      todayString : ''
+      todayString : '',
+      usrid : ""
     };
   },
   created() {
+    this.usrid = LocalStorage.getItem("usrid");
+    
     this.loadData();
     this.getUserReservations();
     let today = moment().format("L").split("/");
@@ -157,11 +162,10 @@ export default defineComponent({
       window.location.href = "/unathorized";
     },
     getUserReservations() {
-      let user_id = LocalStorage.getItem("usrid");
       let token = LocalStorage.getItem("token");
 
       fetch(
-        apiUrl + "/reservations?filter[user_id]=" + user_id,
+        apiUrl + "/reservations?filter[user_id]=" + this.usrid,
         {
           headers: {
             Accept: "application/vnd.api+json",
@@ -284,23 +288,26 @@ export default defineComponent({
           'Authorization': "Bearer " + token
         },
         body: JSON.stringify({ data: { type: 'users', attributes: params } })
+      }).then((res) => res.json()).then(response => {
+
+        Notify.create({
+          message: this.t('profileUpdated'),
+          type: 'positive'
+        });
+        this.data.full_name = response.data.attributes.full_name
+        this.data.email = response.data.attributes.email
+        this.data.tel_num = response.data.attributes.tel_num
+
+        LocalStorage.set('data',this.data)
+          
       })
-        .then(response => {
-          if (response.ok) {
-            Notify.create({
-              message: this.t('profileUpdated'),
-              type: 'positive'
-            });
-          } else {
-            Notify.create({
-              message: this.t('errorUpdatingProfile'),
-              type: 'negative'
-            });
-            throw new Error(this.t('errorUpdating'));
-          };
-        })
         .catch(error => {
-          console.error(error);
+          Notify.create({
+            message: this.t('errorUpdatingProfile'),
+            type: 'negative'
+          });
+          throw new Error(this.t('errorUpdating'));
+          
         });
     },
     handleBreadcrumbClick(icon) {
