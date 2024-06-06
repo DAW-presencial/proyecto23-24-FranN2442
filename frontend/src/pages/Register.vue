@@ -86,7 +86,7 @@ export default defineComponent({
       ],
       phoneRules: [
         val => !!val || this.$t('phoneRequired'),
-        val => /^\d{10}$/.test(val) || this.$t('validPhone')
+        val => /^\d{9}$/.test(val) || this.$t('validPhone')
       ],
       errorMessage: '',
       alert: ref(false),
