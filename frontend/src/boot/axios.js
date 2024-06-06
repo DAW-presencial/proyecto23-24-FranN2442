@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Loading, Notify } from 'quasar'
 
 const apiUrl = 'https://booknow-api.randion.es/api/v1'
+// const apiUrl = 'http://127.0.0.1:8000/api/v1'
 
 const api = axios.create({  baseURL: 'http://127.0.0.1:8000/api/v1' ,
                             headers : { post : {
