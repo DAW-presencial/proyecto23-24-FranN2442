@@ -192,6 +192,8 @@ export default defineComponent({
 
       }
 
+      console.log(reservation.attributes.table_number,day);
+
       fetch(apiUrl + "/reservations/" + reservation.id + "?filter[id]=" + reservation.attributes.design_id, {
         headers: {
           Accept: "application/vnd.api+json",
