@@ -192,36 +192,41 @@ export default defineComponent({
 
       }
 
-      console.log(reservation.attributes.table_number,day);
+      console.log(reservation.attributes.table_number,day,reservation.attributes.design_id);
 
-      fetch(apiUrl + "/reservations/" + reservation.id + "?filter[id]=" + reservation.attributes.design_id, {
-        headers: {
-          Accept: "application/vnd.api+json",
-          Authorization: `Bearer ${token}`,
-        },
-        method: "DELETE",
-        body: JSON.stringify({
+      setTimeout(() => {
 
-          table: reservation.attributes.table_number,
-          today: day
 
+        fetch(apiUrl + "/reservations/" + reservation.id + "?filter[id]=" + reservation.attributes.design_id, {
+          headers: {
+            Accept: "application/vnd.api+json",
+            Authorization: `Bearer ${token}`,
+          },
+          method: "DELETE",
+          body: JSON.stringify({
+  
+            table: reservation.attributes.table_number,
+            today: day
+  
+          })
         })
-      })
-        .then(() => {
-
-          Notify.create({
-            message: this.t('reservationCancelled'),
-            type: "positive",
-            actions: [
-            { label: 'Reiniciar', color: 'white', handler: () => {window.location.reload() } }
-          ]
+          .then(() => {
+  
+            Notify.create({
+              message: this.t('reservationCancelled'),
+              type: "positive",
+              actions: [
+              { label: 'Reiniciar', color: 'white', handler: () => {window.location.reload() } }
+            ]
+            });
+  
+            
+          })
+          .catch((error) => {
+            console.log(error);
           });
+      },1000)
 
-          
-        })
-        .catch((error) => {
-          console.log(error);
-        });
     },
     updatePassword() {
       if (!this.current_pass || !this.new_pass || !this.confirm_pass) {
