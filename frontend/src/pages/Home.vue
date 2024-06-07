@@ -37,7 +37,7 @@
               <q-card-section class="q-pt-none card-section">
                 <div class="text-overline text-orange-9 card-text">{{ rest.attributes.category }}</div>
                 <div class="text-caption text-grey card-text">
-                  Small plates, salads & sandwiches in an intimate setting.
+                  {{rest.attributes.description}}
                 </div>
               </q-card-section>
               <q-separator />

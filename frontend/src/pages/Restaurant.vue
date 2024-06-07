@@ -40,6 +40,15 @@
                 <q-icon name="phone" class="icon-wrapper" />
                 <p>{{ restaurant.tel_num }}</p>
               </div>
+              <hr>
+              <div class="row align-center">
+                <div>
+                  <span class="text-h4 text-black">Descripción</span>
+                  <div>
+                    {{ restaurant.description }}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
