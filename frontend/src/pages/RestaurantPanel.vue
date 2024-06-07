@@ -28,6 +28,15 @@
                         class="q-ma-md"
                         :rules="[val => !!val || 'Required']"
                             />
+                            <q-input
+                        filled
+                        bg-color="white"
+                        label-color="primary"
+                        v-model="this.restaurantEdit.description"
+                        label="Restaurant Name"
+                        class="q-ma-md"
+                        :rules="[val => !!val || 'Required']"
+                            />
                             <div class="flex">
                         <q-input
                             filled
@@ -328,7 +337,8 @@ export default {
                 category : "",
                 email: "",
                 tourns : {},
-                capacity : ""
+                capacity : "",
+                description : ""
 
 
             },
@@ -364,6 +374,7 @@ export default {
             this.restaurantEdit.email = this.restaurant.email
             this.restaurantEdit.location = this.restaurant.location
             this.restaurantEdit.postal_code = this.restaurant.postal_code
+            this.restaurantEdit.description = this.restaurant.description
             this.restaurantEdit.tourns = JSON.parse(this.restaurant.tourns)
 
             
@@ -590,6 +601,7 @@ export default {
                     postal_code : this.restaurantEdit.postal_code,
                     category : this.restaurantEdit.category,
                     capacity : this.restaurantEdit.capacity,
+                    description : this.restaurantEdit.description,
                     tourns : JSON.stringify(this.restaurantEdit.tourns)
 
 
