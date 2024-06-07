@@ -90,7 +90,7 @@
               </template>
             </q-field>
             <q-card-actions class="flex">
-              <q-btn flat @click="deleteReservation(reservation)" class="bg-red text-white justify-end">{{
+              <q-btn flat @click="deleteReservationHour(reservation)" class="bg-red text-white justify-end">{{
                 $t('reserveBtn')
                 }}</q-btn>
             </q-card-actions>
@@ -184,7 +184,7 @@ export default defineComponent({
           console.log(error);
         });
     },
-    deleteReservation(reservation) {
+    deleteReservationHour(reservation) {
 
       let token = LocalStorage.getItem("token");
 
@@ -215,8 +215,9 @@ export default defineComponent({
         });
       } else {
 
-        this.deleteReservation(reservation.id)
-        
+        console.log(reservation);
+        // this.deleteReservation(reservation.id)
+
       }
 
     },
