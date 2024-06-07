@@ -187,10 +187,11 @@ export default defineComponent({
     deleteReservationHour(reservation) {
 
       let token = LocalStorage.getItem("token");
+      console.log(token);
 
       if(this.todayString == reservation.attributes.date){
 
-        fetch(apiUrl + "/designs/" + reservation.attributes.design_id , {
+        fetch(apiUrl + "/designs/removehour/" + reservation.attributes.design_id , {
         headers: {
           "Accept" : "application/vnd.api+json",
           "Content-Type" : "application/vnd.api+json",
