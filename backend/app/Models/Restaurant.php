@@ -25,7 +25,8 @@ class Restaurant extends Model
         'email',
         'tourns',
         'capacity',
-        'category'
+        'category',
+        'description'
     ];
 
     /**

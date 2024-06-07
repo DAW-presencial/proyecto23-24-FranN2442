@@ -80,6 +80,7 @@ class RestaurantController extends Controller
             'postal_code' => $request->input('data.attributes.postal_code'),
             'category' => $request->input('data.attributes.category'),
             'tourns' => $request->input('data.attributes.tourns'),
+            'description' => $request->input('data.attributes.description'),
             'capacity' => $request->input('data.attributes.capacity'),
             
         ]);

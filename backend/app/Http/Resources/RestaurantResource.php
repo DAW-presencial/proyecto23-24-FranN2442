@@ -30,6 +30,7 @@ class RestaurantResource extends JsonResource
                     'tel_num' => $this->resource->tel_num,
                     'email' => $this->resource->email,
                     'tourns' => $this->resource->tourns,
+                    'description' => $this->resource->description,
                     'capacity' => $this->resource->capacity,
 
                 ],
