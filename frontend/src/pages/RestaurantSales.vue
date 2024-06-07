@@ -256,6 +256,8 @@ import moment from "moment";
 import SvgComponent from "src/components/SvgComponent.vue";
 import { apiUrl } from "src/boot/axios";
 import { set } from "lodash";
+import { method } from "lodash";
+import { head } from "lodash";
 
 export default {
   name: "RestSalesPage",
@@ -764,7 +766,7 @@ export default {
         headers: {
           Accept: "application/vnd.api+json",
         },
-        method: "GET",
+        method: "GET",  
       }).then((res) => res.json()).then((response) => {
 
         if (response.data.length != 0) {
@@ -814,7 +816,51 @@ export default {
       })
     },
     cancelActualReservation() {
+      let number = LocalStorage.getItem('slctbl');
+      let token = LocalStorage.getItem("token");
       // TODO: Eliminar la hora en las horas ocupadas de la mesa y eliminar reserva
+      fetch(apiUrl + "/reservations?filter[design_id]=" + this.selected + "&filter[table_number]=" + number + "&filter[hour]=" + this.tableNextReserveHour + "&filter[date]=" + this.today,{
+        headers : {
+          'Accept' : 'application/vnd.api+json',
+          "Authorization" : `Bearer ${token}`
+        }
+      })
+      .then((res) => res.json())
+      .then((response) => {
+
+        let reservation = response.data[0]
+        console.log(reservation);
+        if(this.today == reservation.attributes.date){
+
+          fetch(apiUrl + "/designs/removehour/" + reservation.attributes.design_id , {
+          headers: {
+            "Accept" : "application/vnd.api+json",
+            "Content-Type" : "application/vnd.api+json",
+            Authorization: `Bearer ${token}`,
+          },
+          method: "PATCH",
+          body: JSON.stringify({
+
+            table: reservation.attributes.table_number,
+            hour : reservation.attributes.hour
+
+          })
+          }).then((res) => res.json()).then((response) => {
+
+            console.log(response);
+
+            this.deleteReservation(reservation.id)
+
+
+          }).catch((error) => {
+            console.log(error);
+          });
+        } else {
+
+          this.deleteReservation(reservation.id)
+        }
+
+      })
     },
     ocupateTable() {
       // TODO:
@@ -837,6 +883,31 @@ export default {
       let numMinsHour = (parseInt(splitHour[0]) * 60) + parseInt(splitHour[1])
 
       return numMinsHour > numMinsHourActual
+
+    },
+    deleteReservation(reservation_id){
+
+    let token = LocalStorage.getItem("token");
+
+      fetch(apiUrl + "/reservations/" + reservation_id, {
+        headers: {
+          Accept: "application/vnd.api+json",
+          Authorization: `Bearer ${token}`,
+        },
+        method: "DELETE",
+      }).then((res) => {
+
+        Notify.create({
+
+          message: "Reserva Eliminada",
+          type: "positive"
+        })
+
+        console.log(res);
+
+      }).catch((error) => {
+        console.log(error);
+      });
 
     }
   },
