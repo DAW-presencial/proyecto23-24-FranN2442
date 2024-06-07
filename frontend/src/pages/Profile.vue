@@ -215,8 +215,7 @@ export default defineComponent({
         });
       } else {
 
-        console.log(reservation);
-        // this.deleteReservation(reservation.id)
+        this.deleteReservation(reservation.id)
 
       }
 
