@@ -106,4 +106,37 @@ class DesignController extends Controller
         return DesignResource::make($design);
 
     }
+
+    public function removeTableHour(Design $design,Request $request){
+
+
+        
+        $reservation_hour = $request->hour;
+        
+        $tables = json_decode($design->tables,true);
+        
+        foreach($tables as $key => $table){
+            
+            if($table['number'] == $request->table){
+                
+                
+                $val_index = array_search($reservation_hour,$table["ocupated_hours"]);
+                unset($table["ocupated_hours"][$val_index]);
+                $tables[$key] = $table;
+
+            }
+
+        }
+
+        $design->update([
+
+            "tables" => json_encode($tables)
+
+        ]);
+
+        return DesignResource::make($design);
+
+
+    }
+
 }
