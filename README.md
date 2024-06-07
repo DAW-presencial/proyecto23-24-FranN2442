@@ -73,7 +73,7 @@ Aunque se podría usar un solo framework para desarrollar la aplicación web com
   php artisan serve
   ````
 ### Frontend
-* Navega a la carpeta raíz del proyecot y ejecuta
+* Navega a la carpeta raíz del proyecto y ejecuta
   ````
   npm install
   ````
