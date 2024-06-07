@@ -71,6 +71,8 @@ Route::middleware(['auth:sanctum','abilities:index-reservations,show-reservation
     ->name('api.v1.reservations.show'); // HECHO
     Route::delete('reservations/{reservation}',[ReservationController::class,'destroy'])
     ->name('api.v1.reservations.destroy'); // HECHO
+    Route::patch('designs/removehour/{design}',[DesignController::class,'removeTableHour'])
+    ->name('api.v1.designs.removehour'); // HECHO
 
 });
 

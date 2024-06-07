@@ -3,7 +3,8 @@
     <div class="q-pa-md q-gutter-sm bg-grey-2 flex flex-center mgTop4 font-lato">
       <q-breadcrumbs>
         <q-breadcrumbs-el label="Home" icon="home" to="/" @click="handleBreadcrumbClick('home')" />
-        <q-breadcrumbs-el :label="$t('profileIcon')" icon="person" to="/profile" @click="handleBreadcrumbClick('person')"/>
+        <q-breadcrumbs-el :label="$t('profileIcon')" icon="person" to="/profile"
+          @click="handleBreadcrumbClick('person')" />
       </q-breadcrumbs>
     </div>
     <q-page class="bg-grey-2 flex flex-center font-lato">
@@ -18,7 +19,8 @@
             <div class="text-left text-caption" style="font-size: 15px;">{{ $t('profileMail') }}</div>
             <q-input v-model="this.data.attributes.email" outlined />
             <div class="text-left q-gutter-md">
-              <q-btn class="btn" style="margin-left: 0px;" :label="$t('saveBtn')" color="green" @click="updateProfile" />
+              <q-btn class="btn" style="margin-left: 0px;" :label="$t('saveBtn')" color="green"
+                @click="updateProfile" />
             </div>
           </div>
         </q-card-section>
@@ -89,8 +91,8 @@
             </q-field>
             <q-card-actions class="flex">
               <q-btn flat @click="deleteReservation(reservation)" class="bg-red text-white justify-end">{{
-          $t('reserveBtn')
-        }}</q-btn>
+                $t('reserveBtn')
+                }}</q-btn>
             </q-card-actions>
           </div>
         </q-card-section>
@@ -134,13 +136,13 @@ export default defineComponent({
       current_pass: '',
       new_pass: '',
       confirm_pass: '',
-      todayString : '',
-      usrid : ""
+      todayString: '',
+      usrid: ""
     };
   },
   created() {
     this.usrid = LocalStorage.getItem("usrid");
-    
+
     this.loadData();
     this.getUserReservations();
     let today = moment().format("L").split("/");
@@ -183,75 +185,80 @@ export default defineComponent({
         });
     },
     deleteReservation(reservation) {
+
       let token = LocalStorage.getItem("token");
-    
-          fetch(apiUrl + "/reservations/" + reservation.id + "?filter[id]=" + reservation.attributes.design_id, {
-            headers: {
-              Accept: "application/vnd.api+json",
-              Authorization: `Bearer ${token}`,
-            },
-            method: "DELETE",
-            body: JSON.stringify({
-    
-              table : reservation.attributes.table_number,
-    
-            })
-          }).then((res) => res.json()).then((response) => {
 
-            Notify.create({
+      if(this.todayString == reservation.attributes.date){
 
-              message : "Reserva Cancelada",
-              type : "positive"
+        fetch(apiUrl + "/designs/" + reservation.attributes.design_id , {
+        headers: {
+          "Accept" : "application/vnd.api+json",
+          "Content-Type" : "application/vnd.api+json",
+          "Authorization" : `Bearer ${token}`,
+        },
+        method: "PATCH",
+        body: JSON.stringify({
 
-            })
+          table: reservation.attributes.table_number,
+          hour : reservation.attributes.hour
 
-
-          })
-            .catch((error) => {
-              console.log(error);
-            });
-    
-
-      },
-      updatePassword() {
-        if (!this.current_pass || !this.new_pass || !this.confirm_pass) {
-          Notify.create({
-            message: this.t('errorUpdatingProfile'),
-            type: 'negative'
-          });
-          return;
-        }
-
-        let params = {
-          "old_password": this.current_pass,
-          "new_password": this.confirm_pass,
-        };
-        let user_id = LocalStorage.getItem("usrid");
-        let token = LocalStorage.getItem("token");
-
-        fetch(apiUrl + "/passwordReset/" + user_id, {
-          method: 'PATCH',
-          headers: {
-            'Accept': 'application/vnd.api+json',
-            'Content-Type': 'application/vnd.api+json',
-            'Authorization': "Bearer " + token
-          },
-          body: JSON.stringify({ data: { type: 'users', attributes: params } })
         })
-          .then(response => {
-            if (response.ok) {
-              console.log(response);
-              Notify.create({
-                message: this.t('passwordUpdated'),
-                type: 'positive'
-              });
-            } else {
-              throw new Error(this.t('errorUpdatingPassword'));
-            }
-          })
-          .catch(error => {
-            console.error(error);
-          });
+        }).then((res) => res.json()).then((response) => {
+
+          console.log(response);
+
+          this.deleteReservation(reservation.id)
+
+
+        }).catch((error) => {
+          console.log(error);
+        });
+      } else {
+
+        this.deleteReservation(reservation.id)
+        
+      }
+
+    },
+    updatePassword() {
+      if (!this.current_pass || !this.new_pass || !this.confirm_pass) {
+        Notify.create({
+          message: this.t('errorUpdatingProfile'),
+          type: 'negative'
+        });
+        return;
+      }
+
+      let params = {
+        "old_password": this.current_pass,
+        "new_password": this.confirm_pass,
+      };
+      let user_id = LocalStorage.getItem("usrid");
+      let token = LocalStorage.getItem("token");
+
+      fetch(apiUrl + "/passwordReset/" + user_id, {
+        method: 'PATCH',
+        headers: {
+          'Accept': 'application/vnd.api+json',
+          'Content-Type': 'application/vnd.api+json',
+          'Authorization': "Bearer " + token
+        },
+        body: JSON.stringify({ data: { type: 'users', attributes: params } })
+      })
+        .then(response => {
+          if (response.ok) {
+            console.log(response);
+            Notify.create({
+              message: this.t('passwordUpdated'),
+              type: 'positive'
+            });
+          } else {
+            throw new Error(this.t('errorUpdatingPassword'));
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
     },
     savePassword() {
       if (this.new_pass === this.confirm_pass) {
@@ -290,16 +297,15 @@ export default defineComponent({
         this.data.email = response.data.attributes.email
         this.data.tel_num = response.data.attributes.tel_num
 
-        LocalStorage.set('data',this.data)
-          
-      })
-        .catch(error => {
+        LocalStorage.set('data', this.data)
+
+      }).catch(error => {
           Notify.create({
             message: this.t('errorUpdatingProfile'),
             type: 'negative'
           });
           throw new Error(this.t('errorUpdating'));
-          
+
         });
     },
     handleBreadcrumbClick(icon) {
@@ -311,6 +317,31 @@ export default defineComponent({
       localStorage.removeItem('zip_code');
       localStorage.removeItem('zip_code_1');
       localStorage.removeItem('zip_code_2');
+    },
+    deleteReservation(reservation_id){
+
+      let token = LocalStorage.getItem("token");
+      
+      fetch(apiUrl + "/reservations/" + reservation_id, {
+        headers: {
+          Accept: "application/vnd.api+json",
+          Authorization: `Bearer ${token}`,
+        },
+        method: "DELETE",
+      }).then((res) => {
+
+        Notify.create({
+
+          message: "Reserva Eliminada",
+          type: "positive"
+        })
+
+        console.log(res);
+
+      }).catch((error) => {
+        console.log(error);
+      });
+
     }
   },
 });

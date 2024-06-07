@@ -48,43 +48,43 @@ class ReservationController extends Controller
 
     }
 
-    public function destroy(Reservation $reservation,Request $request)
+    public function destroy(Reservation $reservation)
     {
-        $today = date('Y/m/d');
+        // $today = date('Y/m/d');
 
         
 
-        if($reservation->date == $today){
+        // if($reservation->date == $today){
 
-            $reservation_hour = $reservation->hour;
+        //     $reservation_hour = $reservation->hour;
     
-            $designs = Design::query()->allowedFilters(['id'])->get();
-            $design = $designs[0];
+        //     $designs = Design::query()->allowedFilters(['id'])->get();
+        //     $design = $designs[0];
 
             
-            $tables = json_decode($design->tables,true);
+        //     $tables = json_decode($design->tables,true);
             
-            foreach($tables as $key => $table){
+        //     foreach($tables as $key => $table){
                 
-                if($table["number"] == $request->table){
+        //         if($table["number"] == $request->table){
                     
     
-                    $val_index = array_search($reservation_hour,$table["ocupated_hours"]);
-                    unset($table["ocupated_hours"][$val_index]);
-                    $tables[$key] = $table;
+        //             $val_index = array_search($reservation_hour,$table["ocupated_hours"]);
+        //             unset($table["ocupated_hours"][$val_index]);
+        //             $tables[$key] = $table;
     
-                }
+        //         }
     
-            }
+        //     }
     
-            $design->update([
+        //     $design->update([
     
-                "tables" => json_encode($tables)
+        //         "tables" => json_encode($tables)
     
-            ]);
+        //     ]);
 
 
-        }
+        // }
 
         $reservation->delete();
 
