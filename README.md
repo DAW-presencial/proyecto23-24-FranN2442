@@ -6,13 +6,17 @@
   - [**Laravel**](#laravel)
   - [**Quasar**](#quasar)
   - [**Conexión entre Laravel y Quasar**](#conexión-entre-laravel-y-quasar)
+- [**Instalación**](#instalación)
+  - [**Requisitos**](#requisitos)
+  - [**Backend**](#backend)
+  - [**Frontend**](#frontend)
 - [**Bibliografía**](#bibliografía)
 
 # Introducción
 
 ![Book Now Banner](https://github.com/DAW-presencial/proyecto23-24-FranN2442/blob/development/docs/img/banner.png "Book Now Banner")
 
-**Book Now** es una API REST creada para restaurantes y clientes, en la cual podrás encontrar restaurantes, bares y cualquier tipo de establecimiento culinario, tanto cercano a ti como más alejado. Una vez hayas elegido el sitio idóneo, podrás reservar una mesa o contactar con el establecimiento para un trato más personalizado. Es una aplicación versátil con la que podrás disfrutar de tus platos favoritos en cualquier momento del día, con un sistema de descuentos y promociones para usuarios registrados.
+**Book Now** es una API REST creada para restaurantes y clientes, en la cual podrás encontrar restaurantes, bares y cualquier tipo de establecimiento culinario, tanto cercano a ti como más alejado. Una vez hayas elegido el sitio idóneo, podrás reservar una mesa o contactar con el establecimiento para un trato más personalizado. Es una aplicación versátil con la que podrás disfrutar de tus platos favoritos en cualquier momento del día, con una serie ventajas para usuarios registrados.
 
 Entre sus funcionalidades, dispone de un portal de gestión para empleados y reservas. Además, permite registrar un negocio o establecimiento que quiera trabajar con nosotros.
 
@@ -36,6 +40,48 @@ Quasar es un framework que utiliza Vue.js. Ofrece una serie de componentes, rend
 
 Aunque se podría usar un solo framework para desarrollar la aplicación web completa, hemos decidido separar el backend, que estará hecho con Laravel 10, y el frontend, que se desarrollará con Quasar. El objetivo es aprovechar lo mejor de ambos mundos: un backend robusto y un frontend sofisticado.
 
-# Bibliografía
+# Instalación
 
-Fuentes y referencias utilizadas en el proyecto.
+### Requisitos
+
+- PHP: Necesario para ejecutar Laravel, que es un framework de backend PHP.
+- Composer: Gestor de dependencias para PHP. Se utiliza para instalar Laravel y sus dependencias.
+- Node.js: Plataforma que permite ejecutar JavaScript fuera del navegador. Necesario para ejecutar herramientas de desarrollo como Vue CLI y Quasar CLI.
+- Vue CLI: Herramienta de línea de comandos para Vue.js que proporciona una configuración predefinida para proyectos     Vue.js, incluyendo aplicaciones Quasar.
+- Quasar CLI: Herramienta de línea de comandos para Quasar Framework. Se utiliza para crear, desarrollar y compilar      aplicaciones Quasar.
+
+### Backend
+
+* Clona este repositorio
+  ````
+  git clone https://github.com/DAW-presencial/proyecto23-24-FranN2442
+  ````
+* Abre el repositorio y navega a la carpeta de raíz, instala las dependencias con Composer
+  ````
+  composer install
+  ````
+* Configura tu base de datos, copia el archivo de ejemplo de configuración y actualiza los datos con los tuyos.
+  ````
+  copy .env.example .env
+  ````
+* Ejecuta las migraciones para crear las tablas en tu base de datos
+  ````
+  php artisan migrate
+  ````
+* Inicia el servidor de desarollo
+  ````
+  php artisan serve
+  ````
+### Frontend
+* Navega a la carpeta raíz del proyecot y ejecuta
+  ````
+  npm install
+  ````
+* Una vez instaladas todas las dependencias, inicia el servidor de desarollo de Quasar
+  ````
+  quasar dev
+  ````
+
+# Bibliografía
+* [Documentación Laravel](https://laravel.com/docs)
+* [Documentación Quasar](https://quasar.dev)
