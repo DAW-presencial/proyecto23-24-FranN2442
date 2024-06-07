@@ -31,6 +31,7 @@ class RestaurantFactory extends Factory
             'email' => $this->faker->safeEmail(),
             'password' => Hash::make('password'),
             'tourns' => '{"tourn" : {"start" : "12:00", "end" : "24:00"}}',
+            'description' => 'Default Description',
             'capacity' => $this->faker->regexify('[0-9]{2}'),
         ];
     }

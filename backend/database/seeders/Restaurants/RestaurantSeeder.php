@@ -17,7 +17,6 @@ class RestaurantSeeder extends Seeder
 
         $restaurants = [
             [
-
                 'name' => 'Restaurante Rincon del Patio',
                 'address' => 'Avenida Cala Agulla, 116',
                 'postal_code' => '07590',
@@ -31,6 +30,7 @@ class RestaurantSeeder extends Seeder
                     'turno1' => ['start' => '13:00','end' => '16:00','tourn_name' => 'Comida'],
                     'turno2' => ['start' => '19:00','end' => '23:00','tourn_name' => 'Cena'],
                 ]),
+                'description' => 'Ven y come una buena paella con vistas al mar.'
             ],
             [
 
@@ -46,7 +46,8 @@ class RestaurantSeeder extends Seeder
                     'turno0' => ['start' => '09:00','end' => '12:00','tourn_name' => 'Desayuno'],
                     'turno1' => ['start' => '13:00','end' => '16:00','tourn_name' => 'Comida'],
                     'turno2' => ['start' => '19:00','end' => '23:00','tourn_name' => 'Cena'],
-                ])
+                ]),
+                'description' => 'Comida casera con los mejores pescados frescos.'
             ],
             [
                 'name' => 'Restaurante El Mirador',
@@ -61,7 +62,8 @@ class RestaurantSeeder extends Seeder
                     'turno0' => ['start' => '08:00', 'end' => '11:00', 'tourn_name' => 'Desayuno'],
                     'turno1' => ['start' => '12:00', 'end' => '15:00', 'tourn_name' => 'Comida'],
                     'turno2' => ['start' => '18:00', 'end' => '22:00', 'tourn_name' => 'Cena']
-                ])
+                ]),
+                'description' => 'Con estas vistas normal que no te resistas, ven y disfruta del momento con nosotros.'
             ],
             [
                 'name' => 'Bistro del Mar',
@@ -76,7 +78,8 @@ class RestaurantSeeder extends Seeder
                     'turno0' => ['start' => '07:30', 'end' => '10:30', 'tourn_name' => 'Desayuno'],
                     'turno1' => ['start' => '12:30', 'end' => '15:30', 'tourn_name' => 'Comida'],
                     'turno2' => ['start' => '19:00', 'end' => '23:00', 'tourn_name' => 'Cena']
-                ])
+                ]),
+                'description' => 'La playa a un paso, ven come solo o acompañado.'
             ],
             [
                 'name' => 'La Parrilla',
@@ -91,7 +94,8 @@ class RestaurantSeeder extends Seeder
                     'turno0' => ['start' => '08:00', 'end' => '11:00', 'tourn_name' => 'Desayuno'],
                     'turno1' => ['start' => '13:00', 'end' => '16:00', 'tourn_name' => 'Comida'],
                     'turno2' => ['start' => '19:30', 'end' => '23:30', 'tourn_name' => 'Cena']
-                ])
+                ]),
+                'description' => 'Carnes nacionales de la mejor calidad y el mejor sabor.'
             ],
             [
                 'name' => 'Veggie Delight',
@@ -106,7 +110,8 @@ class RestaurantSeeder extends Seeder
                     'turno0' => ['start' => '09:00', 'end' => '12:00', 'tourn_name' => 'Desayuno'],
                     'turno1' => ['start' => '13:00', 'end' => '16:00', 'tourn_name' => 'Comida'],
                     'turno2' => ['start' => '18:00', 'end' => '22:00', 'tourn_name' => 'Cena']
-                ])
+                ]),
+                'description' => 'Comida para veganos de todo tipo.'
             ],
             [
                 'name' => 'Sushi Express',
@@ -121,7 +126,8 @@ class RestaurantSeeder extends Seeder
                     'turno0' => ['start' => '09:00', 'end' => '12:00', 'tourn_name' => 'Desayuno'],
                     'turno1' => ['start' => '12:30', 'end' => '15:30', 'tourn_name' => 'Comida'],
                     'turno2' => ['start' => '18:00', 'end' => '22:00', 'tourn_name' => 'Cena']
-                ])
+                ]),
+                'description' => 'Buffet de sushi con una muy buena calidad en nuestros pescados y al mejor precio.'
             ],
             [
                 'name' => 'Pasta e Basta',
@@ -136,7 +142,8 @@ class RestaurantSeeder extends Seeder
                     'turno0' => ['start' => '08:00', 'end' => '11:00', 'tourn_name' => 'Desayuno'],
                     'turno1' => ['start' => '12:00', 'end' => '15:00', 'tourn_name' => 'Comida'],
                     'turno2' => ['start' => '19:00', 'end' => '23:00', 'tourn_name' => 'Cena']
-                ])
+                ]),
+                'description' => 'Todo el sabor de Italia en un lugar y es aquí, con nosotros.'
             ],
             [
                 'name' => 'Café Central',
@@ -151,7 +158,8 @@ class RestaurantSeeder extends Seeder
                     'turno0' => ['start' => '08:00', 'end' => '11:00', 'tourn_name' => 'Desayuno'],
                     'turno1' => ['start' => '12:30', 'end' => '15:30', 'tourn_name' => 'Comida'],
                     'turno2' => ['start' => '17:00', 'end' => '21:00', 'tourn_name' => 'Cena']
-                ])
+                ]),
+                'description' => 'El café de cada dia en la mejor zona de Madrid.'
             ],
             [
                 'name' => 'Grill & Chill',
@@ -166,7 +174,8 @@ class RestaurantSeeder extends Seeder
                     'turno0' => ['start' => '09:00', 'end' => '12:00', 'tourn_name' => 'Desayuno'],
                     'turno1' => ['start' => '13:00', 'end' => '16:00', 'tourn_name' => 'Comida'],
                     'turno2' => ['start' => '19:00', 'end' => '23:00', 'tourn_name' => 'Cena']
-                ])
+                ]),
+                'description' => 'Disfruta de un asado al lado de la playa.'
             ],
             [
                 'name' => 'El Rincón del Gourmet',
@@ -181,7 +190,8 @@ class RestaurantSeeder extends Seeder
                     'turno0' => ['start' => '08:30', 'end' => '11:30', 'tourn_name' => 'Desayuno'],
                     'turno1' => ['start' => '13:00', 'end' => '16:00', 'tourn_name' => 'Comida'],
                     'turno2' => ['start' => '19:00', 'end' => '22:30', 'tourn_name' => 'Cena']
-                ])
+                ]),
+                'description' => 'Comida delux, acompañada de una buena experiencia.'
             ],
             [
                 'name' => 'Taco Fiesta',
@@ -197,6 +207,7 @@ class RestaurantSeeder extends Seeder
                     'turno1' => ['start' => '12:30', 'end' => '15:30', 'tourn_name' => 'Comida'],
                     'turno2' => ['start' => '18:00', 'end' => '22:00', 'tourn_name' => 'Cena']
                 ]),
+                'description' => 'Sabes la de TBBB, tacos buenos, bonitos y baratos.'
             ]
         ];
 
