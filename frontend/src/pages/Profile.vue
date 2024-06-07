@@ -194,7 +194,7 @@ export default defineComponent({
         headers: {
           "Accept" : "application/vnd.api+json",
           "Content-Type" : "application/vnd.api+json",
-          "Authorization" : `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         method: "PATCH",
         body: JSON.stringify({
