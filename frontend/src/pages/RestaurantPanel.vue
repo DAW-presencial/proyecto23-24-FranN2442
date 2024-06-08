@@ -7,24 +7,24 @@
         <div class="bg-blue-2" style="height: 90%;width: 100%;display: flex;">
             <div class="q-ma-md rounded-borders " style="height: 100%;width: 50%;">
                 <div class="q-pa-md" style="height: 10%;">
-                    <h4 class="q-ma-md ">Configurations</h4>
+                    <h4 class="q-ma-md ">Configuraciones</h4>
                 </div>
                 <div class="flex justify-between q-pa-md rounded-borders" style="height: 90%">
                     <div class="flex " style="height: 100%;width: 50%;">
-                        <q-btn label="Employees" color="primary" stack icon="person" class="q-ma-md shadow-2" @click="this.getEmployees()" style="height: max-content;"></q-btn>
-                        <q-btn label="Designs" color="primary" stack icon="table_restaurant" class="q-ma-md shadow-2" @click="goToDesigns()" style="height: max-content"></q-btn>
+                        <q-btn label="Empleados" color="primary" stack icon="person" class="q-ma-md shadow-2" @click="this.getEmployees()" style="height: max-content;"></q-btn>
+                        <q-btn label="Punto de venta" color="primary" stack icon="table_restaurant" class="q-ma-md shadow-2" @click="goToDesigns()" style="height: max-content"></q-btn>
                     </div>
                 </div>
             </div>
             <div class="bg-blue-2" style="height: 100%;width: 50%;">
-                <h4>Restaurant Parameters</h4>
+                <h4>Información Restaurante</h4>
                 <q-form>
                     <q-input
                         filled
                         bg-color="white"
                         label-color="primary"
                         v-model="this.restaurantEdit.name"
-                        label="Restaurant Name"
+                        label="Nombre Restaurante"
                         class="q-ma-md"
                         :rules="[val => !!val || 'Required']"
                             />
@@ -33,7 +33,7 @@
                         bg-color="white"
                         label-color="primary"
                         v-model="this.restaurantEdit.description"
-                        label="Restaurant Name"
+                        label="Descripción"
                         class="q-ma-md"
                         :rules="[val => !!val || 'Required']"
                             />
@@ -43,7 +43,7 @@
                             bg-color="white"
                             label-color="primary"
                             v-model="this.restaurantEdit.tel_num"
-                            label="Phone Number"
+                            label="Numero de Teléfono"
                             class="q-ma-md"
                             style="width: 46%;"
                             :rules="[val => val.length == 9 || 'Required']"
@@ -64,7 +64,7 @@
                         bg-color="white"
                         label-color="primary"
                         v-model="this.restaurantEdit.address"
-                        label="Address"
+                        label="Dirección"
                         class="q-ma-md"
                         :rules="[val => !!val || 'Required']"/>
                     <div class="flex">
@@ -73,7 +73,7 @@
                             bg-color="white"
                             label-color="primary"
                             v-model="this.restaurantEdit.location"
-                            label="Location"
+                            label="Localidad"
                             class="q-ma-md"
                             style="width: 46%;"
                             :rules="[val => !!val || 'Required']"
@@ -83,7 +83,7 @@
                             bg-color="white"
                             label-color="primary"
                             v-model="this.restaurantEdit.postal_code"
-                            label="Postal Code"
+                            label="Código Postal"
                             class="q-ma-md"
                             style="width: 46%;"
                             :rules="[val => val.length == 5 || 'Required']"
@@ -95,7 +95,7 @@
                             bg-color="white"
                             label-color="primary"
                             v-model="this.restaurantEdit.category"
-                            label="Category"
+                            label="Categoria"
                             class="q-ma-md"
                             :rules="[val => !!val || 'Required']"/>
                             <q-input
@@ -103,14 +103,14 @@
                             bg-color="white"
                             label-color="primary"
                             v-model="this.restaurantEdit.capacity"
-                            label="Capacity"
+                            label="Capacidad Comensales"
                             class="q-ma-md"
                             :rules="[val => !!val || 'Required']"/>
                                 
                     </div>
                     <div class="flex justify-between">
-                        <q-btn class="q-ma-md" color="orange" @click="this.dlTourns = true">Modify Tourns</q-btn>         
-                        <q-btn class="q-ma-md" @click="updateRestaurant()" color="green">Send</q-btn>         
+                        <q-btn class="q-ma-md" color="orange" @click="this.dlTourns = true">Modificar Horario</q-btn>         
+                        <q-btn class="q-ma-md" @click="updateRestaurant()" color="green">Editar</q-btn>         
                     </div>      
                 </q-form>
             </div>
@@ -132,7 +132,7 @@
                     </div>
                 </q-card-section>
                 <q-card-section class="row items-center q-pb-none">
-                    <q-btn icon="add" color="green" label="New employee" class="q-mb-md" @click="this.creteEmployee()"/>
+                    <q-btn icon="add" color="green" label="Nuevo empleado" class="q-mb-md" @click="this.creteEmployee()"/>
                 </q-card-section>
             </q-card>
         </q-dialog>
@@ -140,7 +140,7 @@
         <q-dialog v-model="icon2" persistent transition-show="scale" transition-hide="scale">
             <q-card class="bg-teal text-white" style="width: 300px">
                 <q-card-section class="flex justify-between">
-                    <div class="text-h6">Editing Employee</div>
+                    <div class="text-h6">Editando Empleado</div>
                     <q-btn icon="close" flat round dense v-close-popup />
                 </q-card-section>
 
@@ -151,9 +151,9 @@
                             bg-color="white"
                             label-color="primary"
                             v-model="this.employeeEdit.name"
-                            label="Name"
+                            label="Nombre"
                             class="q-ma-md"
-                            :rules="[val => !!val || 'Required']"
+                            :rules="[val => !!val || 'Obligatorio']"
                             />
                         <q-input
                             filled
@@ -163,32 +163,32 @@
                             label="Email"
                             class="q-ma-md"
                             type="email"
-                            :rules="[val => !!val || 'Required']"
+                            :rules="[val => !!val || 'Obligatorio']"
                             />
                         <q-input
                             filled
                             bg-color="white"
                             label-color="primary"
                             v-model="this.employeeEdit.role"
-                            label="Role"
+                            label="Rol"
                             class="q-ma-md"
-                            :rules="[val => val in ['employee','admin'] || 'Role needs to be admin or employee']"
+                            :rules="[val => val in ['employee','admin'] || 'El rol debe ser (empleado) o (admin)']"
                             />
                         <q-input
                             filled
                             bg-color="white"
                             label-color="primary"
                             v-model="this.employeeEdit.tel_num"
-                            label="Phone Number"
+                            label="Numero de teléfono"
                             class="q-ma-md"
-                            :rules="[   val => val.length == 9  || 'Phone number needs to be 9 numbers']"
+                            :rules="[   val => val.length == 9  || 'El numero de telefono debe contener 9 digitos.']"
                             
                             />
                     </q-form>
                 </q-card-section>
 
                 <q-card-actions align="right" class="bg-white text-teal">
-                <q-btn flat label="Edit" @click="this.putEmployee()"  />
+                <q-btn flat label="Editar" @click="this.putEmployee()"  />
                 </q-card-actions>
             </q-card>
         </q-dialog>
@@ -196,7 +196,7 @@
         <q-dialog v-model="dlPass" persistent transition-show="scale" transition-hide="scale">
             <q-card class="bg-white" style="width: 300px">
                 <q-card-section class="flex justify-between bg-info text-white">
-                    <div class="text-h6">New Employee</div>
+                    <div class="text-h6">Nuevo empleado</div>
                     <q-btn icon="close" flat round dense v-close-popup />
                 </q-card-section>
 
@@ -207,9 +207,9 @@
                             bg-color="white"
                             label-color="primary"
                             v-model="this.employeeCreate.name"
-                            label="Name"
+                            label="Noombre"
                             class="q-ma-md"
-                            :rules="[val => !!val || 'Required']"
+                            :rules="[val => !!val || 'Obligatorio']"
                             />
                         <q-input
                             filled
@@ -218,40 +218,40 @@
                             v-model="this.employeeCreate.email"
                             label="Email"
                             class="q-ma-md"
-                            :rules="[val => !!val || 'Required']"
+                            :rules="[val => !!val || 'Obligatorio']"
                             />
                         <q-input
                             filled
                             bg-color="white"
                             label-color="primary"
                             v-model="this.employeeCreate.role"
-                            label="Role"
+                            label="Rol"
                             class="q-ma-md"
-                            :rules="[val => !!val || 'Required']"
+                            :rules="[val => !!val || 'Obligatorio']"
                             />
                         <q-input
                             filled
                             bg-color="white"
                             label-color="primary"
                             v-model="this.employeeCreate.tel_num"
-                            label="Phone Number"
+                            label="Numero de teléfono"
                             class="q-ma-md"
-                            :rules="[   val => val.length == 9  || 'Phone number needs to be 9 numbers']"
+                            :rules="[   val => val.length == 9  || 'El numero de telefono debe contener 9 digitos.']"
                             />
                         <q-input
                             filled
                             bg-color="white"
                             label-color="primary"
                             v-model="this.employeeCreate.pass"
-                            label="Password"
+                            label="Pin de Acceso"
                             class="q-ma-md"
-                            :rules="[ val => val.length == 4 || 'Please password needs to be 4 numbers ']"
+                            :rules="[ val => val.length == 4 || 'El numero pin debe tener 4 numeros.']"
                             />
                     </q-form>
                 </q-card-section>
 
                 <q-card-actions align="right" class="bg-info text-white">
-                <q-btn flat label="Create" v-close-popup @click="storeEmployee()"/>
+                <q-btn flat label="Crear" v-close-popup @click="storeEmployee()"/>
                 </q-card-actions>
             </q-card>
         </q-dialog>
@@ -259,7 +259,7 @@
         <q-dialog v-model="dlTourns" class="bg-primary">
             <q-card>
                 <q-card-section class="row items-center bg-blue-2">
-                    <div class="text-h6">Tourns</div>
+                    <div class="text-h6">Horarios</div>
                     <q-space />
                     <q-btn icon="close" flat round dense v-close-popup />
                 </q-card-section>
@@ -272,21 +272,21 @@
                         bg-color="white"
                         label-color="black"
                         v-model="this.restaurantEdit.tourns[key].start"
-                        label="Start"
+                        label="Inicio"
                         class="q-ma-md"
-                        :rules="[val => !!val || 'Required']"/>
+                        :rules="[val => !!val || 'Obligatorio']"/>
                     <q-input
                         filled
                         bg-color="white"
                         label-color="black"
                         v-model="this.restaurantEdit.tourns[key].end"
-                        label="End"
+                        label="Fin"
                         class="q-ma-md"
-                        :rules="[val => !!val || 'Required']"/>
+                        :rules="[val => !!val || 'Obligatorio']"/>
                     </div>
                 </q-card-section>
                 <q-card-section class="row items-center q-pb-none bg-blue-2">
-                    <q-btn color="green" label="Save Tourns" class="q-mb-md" @click="this.dlTourns = false"/>
+                    <q-btn color="green" label="Guardar horario" class="q-mb-md" @click="this.dlTourns = false"/>
                 </q-card-section>
             </q-card>
         </q-dialog>
@@ -616,11 +616,6 @@ export default {
 
                 })
 
-                setTimeout(() => {
-
-                    window.location.reload()
-
-                },1500)
             })
 
         }

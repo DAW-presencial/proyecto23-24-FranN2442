@@ -2,7 +2,7 @@
   <div class="full-page">
     <div class="employees bg-white">
       <div class="btn-actions q-ma-sm">
-        <q-btn color="red-5" label="Log out" @click="logout" />
+        <q-btn color="red-5" label="Cerrar Sesión" @click="logout" />
       </div>
       <div
         v-for="employee in employees"
@@ -30,8 +30,8 @@
           </q-card-section>
 
           <q-card-actions align="right" class="text-primary">
-            <q-btn flat label="Cancel" v-close-popup />
-            <q-btn flat label="Log In" @click="login" />
+            <q-btn flat label="Cancelar" v-close-popup />
+            <q-btn flat label="Iniciar Sesión" @click="login" />
           </q-card-actions>
         </q-card>
       </q-dialog>

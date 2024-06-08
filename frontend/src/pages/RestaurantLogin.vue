@@ -82,6 +82,7 @@ export default {
 
           LocalStorage.set('token_rest',resultado.token.split('|')[1])
           LocalStorage.set('restaurant_id',resultado.data.id)
+          LocalStorage.set('restRvsEmail',resultado.attributes.email_reservations)
           Notify.create({
 
             message: 'Inicio de sesión correcto!',
