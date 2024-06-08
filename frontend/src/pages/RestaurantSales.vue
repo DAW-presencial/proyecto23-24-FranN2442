@@ -7,7 +7,7 @@
         :options="options"
         label="Pantalla"
         style="background-color: white; width: 200px"
-        class="q-mr-md rounded-borders"
+        class="q-mr-md rounded-borders q-pl-xs"
         id="bar"
       />
       <q-fab
@@ -23,7 +23,7 @@
           color="primary"
           to="/erp/restaurant-panel"
           icon="admin_panel_settings"
-          label="Admin Panel"
+          label="Panel Administrador"
         />
         <q-fab-action
           color="negative"
@@ -36,32 +36,32 @@
     <q-dialog v-model="dialog" :backdrop-filter="this.backdrop">
       <q-card>
         <q-card-section class="row items-center q-pb-none text-h6">
-          Table Actions
+          Opciones de mesa
         </q-card-section>
 
         <q-card-section>
           <q-btn
-            label="Make reserve"
+            label="Hacer reserva"
             @click="getHoursOnDialog()"
             color="primary"
             class="q-mx-sm"
           />
           <q-btn
-            label="Confirm assis"
+            label="Confirmar llegada"
             @click="confirmTableAssistance()"
             color="green"
             v-if="confirmAsis == true"
             class="q-mx-sm"
           />
           <q-btn
-            label="Cancel Reservation"
+            label="Cancelar reserva"
             @click="cancelActualReservation()"
             color="red"
             v-if="cancelReservation == true"
             class="q-mx-sm"
           />
           <q-btn
-            label="Ocupate table"
+            label="Ocupar mesa"
             @click="ocupateTable()"
             color="purple"
             v-if="ocupatedTable == true"
@@ -70,29 +70,29 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Close" color="primary" v-close-popup />
+          <q-btn flat label="Cancelar" color="red" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
     <q-dialog v-model="dialogRed" :backdrop-filter="this.backdrop">
       <q-card>
         <q-card-section class="row items-center q-pb-none text-h6">
-          Table Actions
+          Opciones de mesa
         </q-card-section>
 
         <q-card-section>
-          <q-btn label="Cancel Reserve" color="negative" />
+          <q-btn label="Cancelar reserva" color="negative" />
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Close" color="primary" v-close-popup />
+          <q-btn flat label="Cerrar" color="red" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
     <q-dialog v-model="dlSelecDiners" :backdrop-filter="this.backdrop">
       <q-card>
         <q-card-section class="row items-center q-pb-none text-h6">
-          Diners
+          Comensales
         </q-card-section>
 
         <q-card-section class="flex justify-center">
@@ -107,14 +107,14 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Close" color="primary" v-close-popup />
+          <q-btn flat label="Cerrar" color="primary" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
     <q-dialog v-model="dlSelecHour" :backdrop-filter="this.backdrop">
       <q-card>
         <q-card-section class="row items-center q-pb-none text-h6">
-          Hours
+          Horas
         </q-card-section>
 
         <q-card-section class="flex justify-center">
@@ -160,14 +160,14 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Close" color="primary" v-close-popup />
+          <q-btn flat label="Cerrar" color="primary" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
     <q-dialog v-model="makeReserve" :backdrop-filter="this.backdrop">
       <q-card>
         <q-card-section class="row items-center q-pb-none text-h6">
-          Make Reservation
+          HACER RESERVA
         </q-card-section>
 
         <q-card-section>
@@ -190,7 +190,7 @@
                         <div class="row items-center justify-end">
                           <q-btn
                             v-close-popup
-                            label="Close"
+                            label="Cerrar"
                             color="primary"
                             flat
                           />
@@ -203,7 +203,7 @@
             </div>
             <div class="flex q-pa-md justify-between">
               <q-btn
-                label="Select hour"
+                label="Ver horas"
                 @click="this.dlSelecHour = true"
                 color="primary"
               />
@@ -219,13 +219,13 @@
                 filled
                 v-model="reservation.userEmail"
                 style="width: 100%"
-                label="User Email"
-                :rules="[(val) => !!val || 'Email required']"
+                label="Correo Usuario"
+                :rules="[(val) => !!val || 'Correo obligatorio']"
               ></q-input>
             </div>
             <div class="flex q-pa-md justify-between">
               <q-btn
-                label="Select diners"
+                label="Numero Comensales"
                 style="width: 40%"
                 @click="this.dlSelecDiners = true"
                 color="primary"
@@ -234,14 +234,14 @@
                 filled
                 v-model="reservation.diners"
                 style="width: 40%"
-                label="Diners"
+                label="Comensales"
                 readonly
-                :rules="[(val) => !!val || 'Number of diners required']"
+                :rules="[(val) => !!val || 'Numero de comensales obligatorio']"
               ></q-input>
             </div>
             <q-card-actions align="right">
-              <q-btn flat label="Close" color="primary" v-close-popup />
-              <q-btn :loading="this.loadingBtnCR" label="Create Reservation" color="green" type="submit" />
+              <q-btn flat label="Cancelar" color="red" v-close-popup />
+              <q-btn :loading="this.loadingBtnCR" label="Crear reserva" color="green" type="submit" />
             </q-card-actions>
           </q-form>
         </q-card-section>
@@ -413,6 +413,22 @@ export default {
           "rect"
         );
 
+        let text = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "text"
+        );
+
+        let centerX = parseInt(tables[table].x) + parseInt(tables[table].w) / 2;
+        let centerY = parseInt(tables[table].y) + parseInt(tables[table].h) / 2;
+
+        text.setAttribute('x', centerX);
+        text.setAttribute('y', centerY);
+        text.setAttribute('font-size', '20');
+        text.setAttribute('text-anchor', 'middle');
+        text.setAttribute('dominant-baseline', 'middle'); // Centra verticalmente el texto
+        text.setAttribute('fill', 'white');
+        text.textContent = tables[table].number;
+
         rect.setAttribute("x", tables[table].x);
         rect.setAttribute("y", tables[table].y);
         rect.setAttribute("width", tables[table].w + "px");
@@ -474,6 +490,7 @@ export default {
               formated_h_actu < ocupated_h[i] &&
               formated_h_actu > formated_prev
             ) {
+              text.setAttribute('fill', 'black');
               rect.setAttribute("fill", "yellow");
               rect.addEventListener("click", () => {
                 Notify.create({
@@ -493,8 +510,8 @@ export default {
         }
 
         // console.log(rect);
-
         svg.append(rect);
+        svg.append(text)
       }
 
       // console.log(svg);
@@ -755,7 +772,7 @@ export default {
             message: "El usuario no existe,registralo para iniciar sessión.",
             type: "negative",
           });
-  
+          this.loadingBtnCR = false
           this.makeReserve = false;
         }
       },1000)
@@ -772,10 +789,7 @@ export default {
         if (response.data.length != 0) {
           this.reservation.usrid = parseInt(response.data[0].id);
           this.verify = true
-        } else {
-          // TODO: Si el usuario no existe, dar la opcion de crear uno y almacenar los en LocalStorage de la reserva
-          // this.dlNoUserExist = true
-        }
+        } 
         
       });
     },

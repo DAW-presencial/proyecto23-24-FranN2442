@@ -2,7 +2,7 @@
   <footer class="footer">
     <div class="container">
       <div class="footer-content">
-        <div class="footer-section my-font">
+        <div class="footer-section">
           <h3> {{ $t('links') }}</h3>
           <ul>
             <li><a href="#"> {{ $t('home') }}</a></li>
@@ -10,24 +10,24 @@
             <li><a href="#"> {{ $t('services') }}</a></li>
           </ul>
         </div>
-        <div class="footer-section my-font">
+        <div class="footer-section">                                                                                 
           <h3> {{ $t('contact') }}</h3>
           <p> {{ $t('address') }} 123 Calle Mallorca, Islas Baleares</p>
           <p> {{ $t('phone') }} +123 456 789</p>
-          <p> {{ $t('email') }} info@example.com</p>
+          <p> {{ $t('email') }} <a href="mailto:fgonzalezviejo@gmail.com">booknow@gmail.com</a></p>
         </div>
         <div class="footer-section">
-          <h3 class="my-font">{{ $t('social') }}</h3>
+          <h3>{{ $t('social') }}</h3>
           <ul class="social-icons">
-            <li><a href="#"><i class="fa-brands fa-facebook fa-beat"></i></a></li>
-            <li><a href="#"><i class="fa-brands fa-twitter fa-beat"></i></a></li>
-            <li><a href="#"><i class="fa-brands fa-instagram fa-beat"></i></a></li>
-            <li><a href="#"><i class="fa-brands fa-github fa-beat"></i></a></li>
+            <li><a href="#"><i class="fa-brands fa-facebook"></i></a></li>
+            <li><a href="#"><i class="fa-brands fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+            <li><a href="#"><i class="fa-brands fa-github"></i></a></li>
           </ul>
         </div>
       </div>
     </div>
-    <div class="footer-bottom my-font">
+    <div class="footer-bottom">
       <p>&copy; 2024 Book Now. {{ $t('copyright') }}</p>
     </div>
   </footer>
@@ -110,5 +110,9 @@ export default {
 
 .footer-bottom p {
   margin: 0;
+}
+a{
+
+  color: white;
 }
 </style>
