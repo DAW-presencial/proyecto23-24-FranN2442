@@ -36,7 +36,7 @@
     <q-dialog v-model="dialog" :backdrop-filter="this.backdrop">
       <q-card>
         <q-card-section class="row items-center q-pb-none text-h6">
-          Opciones de mesa
+          OPCIONES DE MESA
         </q-card-section>
 
         <q-card-section>
@@ -54,30 +54,23 @@
             class="q-mx-sm"
           />
           <q-btn
-            label="Cancelar reserva"
+            label="Cancelar res"
             @click="cancelActualReservation()"
             color="red"
             v-if="cancelReservation == true"
             class="q-mx-sm"
           />
-          <q-btn
-            label="Ocupar mesa"
-            @click="ocupateTable()"
-            color="purple"
-            v-if="ocupatedTable == true"
-            class="q-mx-sm"
-          />
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Cancelar" color="red" v-close-popup />
+          <q-btn flat label="Cerrar" color="red" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
     <q-dialog v-model="dialogRed" :backdrop-filter="this.backdrop">
       <q-card>
         <q-card-section class="row items-center q-pb-none text-h6">
-          Opciones de mesa
+          OPCIONES DE MESA
         </q-card-section>
 
         <q-card-section>
@@ -92,7 +85,7 @@
     <q-dialog v-model="dlSelecDiners" :backdrop-filter="this.backdrop">
       <q-card>
         <q-card-section class="row items-center q-pb-none text-h6">
-          Comensales
+          COMENSALES 
         </q-card-section>
 
         <q-card-section class="flex justify-center">
@@ -114,7 +107,7 @@
     <q-dialog v-model="dlSelecHour" :backdrop-filter="this.backdrop">
       <q-card>
         <q-card-section class="row items-center q-pb-none text-h6">
-          Horas
+          HORAS
         </q-card-section>
 
         <q-card-section class="flex justify-center">
@@ -247,6 +240,26 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+    <q-dialog v-model="telNumUser" :backdrop-filter="this.backdrop">
+      <q-card>
+        <q-card-section class="row items-center q-pb-none text-h6">
+          NUMERO DE TELÉFONO
+        </q-card-section>
+
+        <q-card-section>
+          <q-form>
+            <q-input
+              v-model="createUser.tel_num"
+              label="Numero teléfono"
+              class="q-mb-md"
+            ></q-input>
+            <q-card-actions align="right">
+              <q-btn label="Crear usuario" color="green" type="button" @click="this.registerUser()" />
+            </q-card-actions>
+          </q-form>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 <script>
@@ -255,9 +268,6 @@ import { isEqual } from "lodash";
 import moment from "moment";
 import SvgComponent from "src/components/SvgComponent.vue";
 import { apiUrl } from "src/boot/axios";
-import { set } from "lodash";
-import { method } from "lodash";
-import { head } from "lodash";
 
 export default {
   name: "RestSalesPage",
@@ -304,7 +314,16 @@ export default {
       tableNextReserveKey: "",
       verify : false,
       loadingBtnCR : false,
-      today : ""
+      today : "",
+      createUser : {
+
+        full_name : "UserWeb",
+        email : "",
+        password : "contraseña1234",
+        tel_num : ""
+
+      },
+      telNumUser : false
     };
   },
   watch: {
@@ -352,10 +371,10 @@ export default {
   },
   created() {
     let usrRole = LocalStorage.getItem("usr");
-    console.log(usrRole);
+    // console.log(usrRole);
     if (usrRole == "admin") {
       this.admin = true;
-      console.log(this.admin);
+      // console.log(this.admin);
     } else {
       this.admin = false;
     }
@@ -363,7 +382,7 @@ export default {
     let today = moment().format("L").split("/");
     this.today = today[2] + "/" + today[0] + "/" + today[1];
     this.reservation.date = today[2] + "/" + today[0] + "/" + today[1];
-    console.log(this.today,this.reservation.date);
+    // console.log(this.today,this.reservation.date);
   },
   beforeUnmount() {
     clearInterval(this.stopInterval);
@@ -435,14 +454,14 @@ export default {
         rect.setAttribute("height", tables[table].h + "px");
         let ocupated_h = tables[table].ocupated_hours;
         if (ocupated_h.length == 0) {
-          console.log("-------- No hay horas ocupadas ---------");
+          // console.log("-------- No hay horas ocupadas ---------");
           rect.setAttribute("fill", "green");
           rect.addEventListener("click", () => {
             this.dialog = true;
             LocalStorage.set("slctbl", tables[table].number);
             this.confirmAsis = false;
             this.cancelReservation = false;
-            this.ocupateTabled = true;
+
           });
         } else {
           // console.log(ocupated_h);
@@ -470,7 +489,7 @@ export default {
               formated_h_actu >= ocupated_h[i] &&
               formated_h_actu <= formated_past
             ) {
-              console.log('Mesa ocupada',table);
+              // console.log('Mesa ocupada',table);
               rect.setAttribute("fill", "red");
               rect.addEventListener("click", () => {
                 Notify.create({
@@ -562,7 +581,7 @@ export default {
                 if (!equals) {
                   // console.log('Son diferentes',this.svgs[svg],response.data[resp_svg]);
                   this.svgs[svg] = response.data[resp_svg];
-                  console.log(this.svgs[svg].id, this.selected);
+                  // console.log(this.svgs[svg].id, this.selected);
                   if (parseInt(this.svgs[svg].id) == this.selected) {
                     this.svg = this.svgs[svg];
                     this.setSvg();
@@ -649,14 +668,14 @@ export default {
           for (let tourn in this.tourns) {
             let horas_int = [];
 
-            console.log(this.tourns[tourn].start, this.tourns[tourn].end);
+            // console.log(this.tourns[tourn].start, this.tourns[tourn].end);
 
             let split_start = this.tourns[tourn].start.split(":");
             let split_end = this.tourns[tourn].end.split(":");
             let start =
               parseInt(split_start[0]) * 60 + parseInt(split_start[1]);
             let end = parseInt(split_end[0]) * 60 + parseInt(split_end[1]);
-            console.log(start, end);
+            // console.log(start, end);
 
             horas_int.push(start);
 
@@ -691,7 +710,7 @@ export default {
             this.hours.push([this.tourns[tourn].tourn_name, aux_arr]);
           }
 
-          console.log(this.hours);
+          // console.log(this.hours);
         })
         .catch(() => {
           Notify.create({
@@ -711,11 +730,11 @@ export default {
       this.verifyEmail(this.reservation.userEmail)
 
       setTimeout(() => {
-        console.log(this.verify);
+        // console.log(this.verify);
         if (this.verify) {
-          console.log("Entra");
+          // console.log("Entra");
           setTimeout(() => {
-            console.log(this.reservation);
+            // console.log(this.reservation);
             let token = LocalStorage.getItem("token");
             fetch(apiUrl + "/reservations", {
               method: "POST",
@@ -741,7 +760,7 @@ export default {
             })
               .then((res) => res.json())
               .then((response) => {
-                console.log(response);
+                // console.log(response);
   
                 this.makeReserve = false;
   
@@ -763,22 +782,24 @@ export default {
                 this.reservation.usrid = 0
               })
               .catch((error) => {
-                console.log(error);
+                // console.log(error);
               });
           }, 1000);
   
         } else {
           Notify.create({
-            message: "El usuario no existe,registralo para iniciar sessión.",
+            message: "El usuario no existe,registrando usuario.",
             type: "negative",
           });
+          this.createUser.email = this.reservation.userEmail
           this.loadingBtnCR = false
           this.makeReserve = false;
+          this.telNumUser = true
         }
       },1000)
     },
     verifyEmail(email) {
-      console.log("DOING VERIFY EMAIL");
+      // console.log("DOING VERIFY EMAIL");
       fetch(apiUrl + "/users?filter[email]=" + email, {
         headers: {
           Accept: "application/vnd.api+json",
@@ -804,7 +825,7 @@ export default {
       let actHour = this.getActualHour()
       let number = LocalStorage.getItem('slctbl');
       let token = LocalStorage.getItem("token_rest");
-      console.log(this.tableNextReserveHour, this.tableNextReserveKey,actHour,this.selected);
+      // console.log(this.tableNextReserveHour, this.tableNextReserveKey,actHour,this.selected);
 
       fetch(`${apiUrl}/designs/confassis/${this.selected}?filter[design_id]=${this.selected}&filter[table_number]=${number}&filter[hour]=${this.tableNextReserveHour}`,{
 
@@ -825,7 +846,12 @@ export default {
       }).then((res) => res.json()).then((response) => {
 
 
-        console.log(response);
+        Notify.create({
+
+          message : "Reserva confirmada",
+          type: 'positive'
+
+        })
 
       })
     },
@@ -843,7 +869,7 @@ export default {
       .then((response) => {
 
         let reservation = response.data[0]
-        console.log(reservation);
+        // console.log(reservation);
         if(this.today == reservation.attributes.date){
 
           fetch(apiUrl + "/designs/removehour/" + reservation.attributes.design_id , {
@@ -861,13 +887,13 @@ export default {
           })
           }).then((res) => res.json()).then((response) => {
 
-            console.log(response);
+            // console.log(response);
 
             this.deleteReservation(reservation.id)
 
 
           }).catch((error) => {
-            console.log(error);
+            // console.log(error);
           });
         } else {
 
@@ -875,9 +901,6 @@ export default {
         }
 
       })
-    },
-    ocupateTable() {
-      // TODO:
     },
     getActualHour() {
       let date = new Date();
@@ -901,7 +924,7 @@ export default {
     },
     deleteReservation(reservation_id){
 
-    let token = LocalStorage.getItem("token");
+      let token = LocalStorage.getItem("token");
 
       fetch(apiUrl + "/reservations/" + reservation_id, {
         headers: {
@@ -917,11 +940,41 @@ export default {
           type: "positive"
         })
 
-        console.log(res);
+        // console.log(res);
 
       }).catch((error) => {
-        console.log(error);
+        // console.log(error);
+        Notify.create({
+
+          message : error,
+          type : "negative"
+        })
       });
+
+    },
+    registerUser(){
+
+      fetch(apiUrl + '/users', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/vnd.api+json',
+          'Content-Type': 'application/vnd.api+json',
+        },
+        body: JSON.stringify({ data: { attributes: this.createUser } })
+      }).then((res) => res.json()).then((response) => {
+
+
+        Notify.create({
+
+          message: "Usuario creado correctamente",
+          type : "positive"
+
+        })
+
+        this.telNumUser = false
+        this.makeReserve = true
+
+      })
 
     }
   },

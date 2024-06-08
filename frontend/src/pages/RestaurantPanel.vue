@@ -26,7 +26,7 @@
                         v-model="this.restaurantEdit.name"
                         label="Nombre Restaurante"
                         class="q-ma-md"
-                        :rules="[val => !!val || 'Required']"
+                        :rules="[val => !!val || 'Obligatorio']"
                             />
                             <q-input
                         filled
@@ -35,7 +35,7 @@
                         v-model="this.restaurantEdit.description"
                         label="Descripción"
                         class="q-ma-md"
-                        :rules="[val => !!val || 'Required']"
+                        :rules="[val => !!val || 'Obligatorio']"
                             />
                             <div class="flex">
                         <q-input
@@ -46,7 +46,7 @@
                             label="Numero de Teléfono"
                             class="q-ma-md"
                             style="width: 46%;"
-                            :rules="[val => val.length == 9 || 'Required']"
+                            :rules="[val => val.length == 9 || 'El numero de teléfono debe ser 9 digitos.']"
                                 />
                         <q-input
                             filled
@@ -56,7 +56,7 @@
                             label="Email"
                             class="q-ma-md"
                             style="width: 46%;"
-                            :rules="[val => !!val || 'Required']"
+                            :rules="[val => !!val || 'Obligatorio']"
                                 />
                     </div>    
                     <q-input
@@ -66,7 +66,7 @@
                         v-model="this.restaurantEdit.address"
                         label="Dirección"
                         class="q-ma-md"
-                        :rules="[val => !!val || 'Required']"/>
+                        :rules="[val => !!val || 'Obligatorio']"/>
                     <div class="flex">
                         <q-input
                             filled
@@ -76,7 +76,7 @@
                             label="Localidad"
                             class="q-ma-md"
                             style="width: 46%;"
-                            :rules="[val => !!val || 'Required']"
+                            :rules="[val => !!val || 'Obligatorio']"
                                 />
                         <q-input
                             filled
@@ -86,7 +86,7 @@
                             label="Código Postal"
                             class="q-ma-md"
                             style="width: 46%;"
-                            :rules="[val => val.length == 5 || 'Required']"
+                            :rules="[val => val.length == 5 || 'Código postal de 5 digitos']"
                                 />
                     </div>
                     <div class="flex">
@@ -97,7 +97,7 @@
                             v-model="this.restaurantEdit.category"
                             label="Categoria"
                             class="q-ma-md"
-                            :rules="[val => !!val || 'Required']"/>
+                            :rules="[val => !!val || 'Obligatorio']"/>
                             <q-input
                             filled
                             bg-color="white"
@@ -105,7 +105,7 @@
                             v-model="this.restaurantEdit.capacity"
                             label="Capacidad Comensales"
                             class="q-ma-md"
-                            :rules="[val => !!val || 'Required']"/>
+                            :rules="[val => !!val || 'Obligatorio']"/>
                                 
                     </div>
                     <div class="flex justify-between">
