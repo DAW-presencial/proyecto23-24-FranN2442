@@ -131,5 +131,7 @@ export default {
   noTable: "You have not selected any table",
   btnSvg: "Close",
   notifyT: "Table reserved, select another table",
-  seeMote: "Read more"
+  seeMote: "Read more",
+  pinAccess: 'access pin'
+
 };

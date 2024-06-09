@@ -58,7 +58,7 @@
                             style="width: 46%;"
                             :rules="[val => !!val || 'Obligatorio']"
                                 />
-                    </div>    
+                    </div>
                     <q-input
                         filled
                         bg-color="white"
@@ -106,12 +106,12 @@
                             label="Capacidad Comensales"
                             class="q-ma-md"
                             :rules="[val => !!val || 'Obligatorio']"/>
-                                
+
                     </div>
                     <div class="flex justify-between">
-                        <q-btn class="q-ma-md" color="orange" @click="this.dlTourns = true">Modificar Horario</q-btn>         
-                        <q-btn class="q-ma-md" @click="updateRestaurant()" color="green">Editar</q-btn>         
-                    </div>      
+                        <q-btn class="q-ma-md" color="orange" @click="this.dlTourns = true">Modificar Horario</q-btn>
+                        <q-btn class="q-ma-md" @click="updateRestaurant()" color="green">confirmar</q-btn>
+                    </div>
                 </q-form>
             </div>
         </div>
@@ -182,7 +182,7 @@
                             label="Numero de teléfono"
                             class="q-ma-md"
                             :rules="[   val => val.length == 9  || 'El numero de telefono debe contener 9 digitos.']"
-                            
+
                             />
                     </q-form>
                 </q-card-section>
@@ -207,7 +207,7 @@
                             bg-color="white"
                             label-color="primary"
                             v-model="this.employeeCreate.name"
-                            label="Noombre"
+                            label="Nombre"
                             class="q-ma-md"
                             :rules="[val => !!val || 'Obligatorio']"
                             />
@@ -377,7 +377,7 @@ export default {
             this.restaurantEdit.description = this.restaurant.description
             this.restaurantEdit.tourns = JSON.parse(this.restaurant.tourns)
 
-            
+
 
         })
 
@@ -462,7 +462,7 @@ export default {
             console.log(employee);
 
         },
-        putEmployee(){  
+        putEmployee(){
 
             console.log(this.employeeEdit);
 
@@ -483,7 +483,7 @@ export default {
                 }}})
             }).then((res) => res.json()).then((response) => {
 
-                
+
                 Notify.create({
 
                     message: "Empleado editado",
@@ -533,7 +533,7 @@ export default {
                 }}})
             }).then((res) => res.json()).then((response) => {
 
-                
+
                 Notify.create({
 
                     message: "Nuevo empleado creado",
@@ -608,7 +608,7 @@ export default {
                 }}})
             }).then((res) => res.json()).then((response) => {
 
-                
+
                 Notify.create({
 
                     message: "Parametros actualizados",
