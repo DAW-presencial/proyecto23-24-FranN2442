@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { useQuasar } from 'quasar'
+import { Notify, useQuasar } from 'quasar'
 import { defineComponent, ref } from 'vue'
 import { apiUrl } from 'boot/axios'
 import { useI18n } from 'vue-i18n';
@@ -126,11 +126,27 @@ export default defineComponent({
         .then(res => {
           if (!res.ok && res.status === 500) {
             throw new Error('Internal Server Error');
-          }
+          } 
           return res.json();
         })
         .then(resultado => {
-          window.location.href = "/login";
+
+          Notify.create({
+            message : "Registrado correctamente!",
+            type : "positive"
+          })
+
+          setTimeout(() => {
+
+            this.formData.full_name = '';
+            this.formData.email = '';
+            this.formData.password = '';
+            this.formData.tel_num = '';
+            
+            this.$router.push('login')
+
+          },1500)
+
         })
         .catch(error => {
           if (error.message === 'Internal Server Error') {
@@ -140,10 +156,6 @@ export default defineComponent({
           }
         });
 
-      this.formData.full_name = '';
-      this.formData.email = '';
-      this.formData.password = '';
-      this.formData.tel_num = '';
     },
 
     clearLoading() {
