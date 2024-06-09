@@ -85,3 +85,7 @@ Aunque se podría usar un solo framework para desarrollar la aplicación web com
 # Bibliografía
 * [Documentación Laravel](https://laravel.com/docs)
 * [Documentación Quasar](https://quasar.dev)
+
+# Postman Request's Collection
+En este archivo tenemos la col.leccón de peticiones que se pueden realizar a la API de nuestra aplicación.
+[Archivo JSON](https://github.com/DAW-presencial/proyecto23-24-FranN2442/blob/development/docs/Postman%20Collections%20Api/BookNowApi.postman_collection.json)
