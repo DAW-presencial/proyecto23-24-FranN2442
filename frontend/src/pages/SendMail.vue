@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md q-gutter-sm bg-grey-2 flex flex-center mgTop4 my-font">
+  <div class="q-pa-md q-gutter-sm bg-grey-2 flex flex-center mgTop4 font-lato">
     <q-breadcrumbs>
       <q-breadcrumbs-el label="Home" icon="home" to="/"  @click="handleBreadcrumbClick('home')"/>
       <q-breadcrumbs-el :label="$t('register')" icon="person" to="/register"  @click="handleBreadcrumbClick('register')"/>
@@ -8,9 +8,9 @@
   <q-page class="flex flex-center bg-grey-2">
     <div class="container bg-blue-2 ">
       <div class="bg-grey-2">
-        <h5 class="text-left text-h5 text-bold text-uppercase mgTopN my-font">{{ $t('sendTitle') }}</h5>
+        <h5 class="text-left text-h5 text-bold text-uppercase mgTopN font-lato">{{ $t('sendTitle') }}</h5>
       </div>
-      <form @submit.prevent="sendEmail">
+      <form @submit.prevent="sendEmail" class="font-lato">
         <label>{{ $t('nameLabel') }}</label>
         <input type="text" v-model="name" name="user_name" :placeholder="$t('fullName')">
         <span v-if="errors.name" class="text-left error">{{ errors.name }}</span>
