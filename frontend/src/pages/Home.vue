@@ -34,10 +34,10 @@
                   </div>
                 </div>
               </q-card-section>
-              <q-card-section class="q-pt-none card-section">
+              <q-card-section class="q-pt-none card-section" style="margin-top: -80px;">
                 <div class="text-overline text-orange-9 card-text">{{ rest.attributes.category }}</div>
-                <div class="text-caption text-grey card-text">
-                  {{rest.attributes.description}}
+                <div class="text-caption text-grey card-text description-text">
+                  {{ rest.attributes.description }}
                 </div>
               </q-card-section>
               <q-separator />
@@ -45,7 +45,8 @@
                 <q-btn flat color="primary">
                   <router-link :to="modificarRuta(rest.id)"
                     class="text-primary text-weight-bold cursor-pointer card-text" style="text-decoration: none">{{
-          $t('book') }}</router-link>
+          $t('book') }}
+                  </router-link>
                 </q-btn>
               </q-card-actions>
             </q-card>
@@ -94,7 +95,7 @@
             <h6 class="left text-black-9 text-caption font-lato" style="font-size: 18px;">{{ $t('joinUsDescription') }}
             </h6>
             <div class="text-center">
-              <q-btn class="custom bg-grey-4 font-lato" to="/send-mail" :label="$t('joinUsBtn')" />
+              <q-btn class="custom bg-grey-4 font-lato" to="/send-mail" :label="$t('joinUsBtn') " />
             </div>
           </q-card-section>
         </q-card-section>
@@ -303,9 +304,15 @@ export default defineComponent({
   max-width: 250px;
   width: 100%;
   margin: 0.5%;
+  display: flex;
+  justify-content: space-between; /* Distributes space evenly */
+  height: 380px; /* Fija la altura de las tarjetas */
+  flex-direction: column;
+
 }
 
 .card-section {
+  flex:0.5; /* Se asegura de que la sección de la tarjeta ocupe el espacio restante */
   max-height: 100px;
   overflow: hidden;
 }
@@ -402,6 +409,20 @@ export default defineComponent({
   opacity: 0.5;
   margin: 0 5px;
   cursor: pointer;
+}
+
+.description-text {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+.swiper-container {
+  padding-bottom: 20px;
+}
+
+.swiper-wrapper {
+  display: flex;
+  align-items: stretch;
 }
 
 @media screen and (max-width: 375px) and (max-height: 667px) {

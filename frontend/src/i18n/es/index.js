@@ -126,4 +126,6 @@ export default {
   noTable: "No has seleccionado ninguna mesa",
   btnSvg: "Cerrar",
   notifyT: "Mesa reservada, selecciona otra",
+  seeMore: "Ver más",
+  pinAccess: 'pin de acceso'
 };
