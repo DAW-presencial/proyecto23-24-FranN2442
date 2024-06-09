@@ -2,7 +2,8 @@
   <q-page class="flex flex-center font-lato">
     <q-card style="width: 50%">
       <q-card-section v-if="mesa_seleccionada != ''">
-        <p class="text-h6 bg-primary q-pa-sm rounded-borders shadow-2 text-white" >{{ $t('numTables') }} {{ this.mesa_seleccionada }}</p>
+        <p class="text-h6 bg-primary q-pa-sm rounded-borders shadow-2 text-white">{{ $t('numTables') }} {{
+        this.mesa_seleccionada }}</p>
       </q-card-section>
       <q-card-section v-else>
         <p class="text-h6 bg-red q-pa-sm rounded-borders shadow-2 text-white">{{ $t('noTable') }}</p>
@@ -11,7 +12,8 @@
       </q-card-section>
       <q-separator />
       <q-card-actions>
-        <q-btn class="text-subtitle2 text-white" flat v-for="design in designs" :key="design.id" @click="changeSvg(design.id)">{{
+        <q-btn class="text-subtitle2 text-white" flat v-for="design in designs" :key="design.id"
+          @click="changeSvg(design.id)">{{
         design.attributes.hal_name }}</q-btn>
         <q-space />
         <q-btn class="text-subtitle2 bg-primary text-white" v-close-popup>{{ $t('btnSvg') }}</q-btn>
@@ -85,27 +87,25 @@ export default {
   },
   methods: {
 
-  
+
     changeSvg(id) {
       const scale = 0.5;
-      this.selected_hall = id
-      LocalStorage.set('dsid', id)
-      this.getReservas(id)
+      this.selected_hall = id;
+      LocalStorage.set('dsid', id);
+      this.getReservas(id);
 
       setTimeout(() => {
-
         let filtredDesign = this.designs.filter(design => design.id.toLowerCase().includes(id));
         console.log(filtredDesign);
         this.tables = filtredDesign[0].attributes.tables;
-        // console.log(this.tables);
+
         let card_section = document.getElementById('svg');
         card_section.innerHTML = "";
-  
+
         let svg = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
-  
         svg.setAttribute('width', this.svgWidth);
         svg.setAttribute('height', this.svgHeight);
-  
+
         let backgroundImage = document.createElementNS("http://www.w3.org/2000/svg", 'image');
         backgroundImage.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImage);
         backgroundImage.setAttribute("x", "0");
@@ -113,32 +113,23 @@ export default {
         backgroundImage.setAttribute("width", this.svgWidth);
         backgroundImage.setAttribute("height", this.svgHeight);
         svg.appendChild(backgroundImage);
-  
+
         let selectedTable = null;
-  
+
         this.tables = JSON.parse(this.tables);
         for (let table in this.tables) {
           let tableData = this.tables[table];
-  
+
           let image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-  
           image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImage);
           image.setAttribute("x", tableData.x * scale);
           image.setAttribute("y", tableData.y * scale);
           image.setAttribute("width", tableData.w * scale + "px");
           image.setAttribute("height", tableData.h * scale + "px");
 
-        
-  
-          if(this.reservas.length != 0){
-  
+          if (this.reservas.length != 0) {
             this.reservas.forEach((reserva) => {
-  
-              // console.log(reserva);
-  
-              if(tableData.number == reserva.attributes.table_number){
-  
-                
+              if (tableData.number == reserva.attributes.table_number) {
                 image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImageRed);
                 image.addEventListener('click', () => {
                   this.mesa_seleccionada = "";
@@ -148,61 +139,46 @@ export default {
                     type: 'negative'
                   });
                 });
-              } else {
-
-                image.addEventListener('click', () => {
-                  if (selectedTable !== null) {
-                    selectedTable.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImage);
-                  }
-                  image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImageGreen);
-                  selectedTable = image;
-                  this.mesa_seleccionada = tableData.number;
-                  LocalStorage.set('table', tableData.number);
-                });
-
               }
-  
-            })
-  
-          } else {
-
-            image.addEventListener('click', () => {
-                  if (selectedTable !== null) {
-                    selectedTable.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImage);
-                  }
-                  image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImageGreen);
-                  selectedTable = image;
-                  this.mesa_seleccionada = tableData.number;
-                  LocalStorage.set('table', tableData.number);
-                });
-
+            });
           }
-  
+
+          image.addEventListener('click', () => {
+            if (image.getAttributeNS('http://www.w3.org/1999/xlink', 'href') !== dinnerImageRed) {
+              if (selectedTable !== null && selectedTable.getAttributeNS('http://www.w3.org/1999/xlink', 'href') !== dinnerImageRed) {
+                selectedTable.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImage);
+              }
+              image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dinnerImageGreen);
+              selectedTable = image;
+              this.mesa_seleccionada = tableData.number;
+              LocalStorage.set('table', tableData.number);
+            }
+          });
+
           svg.appendChild(image);
         }
-  
+
         card_section.appendChild(svg);
-      },500)
-      // console.log("Reservas: ", this.reservas);
+      }, 500);
     },
     getReservas(id) {
 
-      console.log(id,this.day,this.$route.query.id);
+      console.log(id, this.day, this.$route.query.id);
 
       fetch(apiUrl + "/reservations?filter[restaurant_id]=" + this.$route.query.id + "&filter[date]=" + this.day, {
-      method: "GET",
-      headers: {
-        Accept: "application/vnd.api+json",
-      },
+        method: "GET",
+        headers: {
+          Accept: "application/vnd.api+json",
+        },
       }).then((res) => res.json()).then((resultado) => {
-          this.reservas = resultado.data
-          console.log("LOG FETCH: ",resultado.data);
+        this.reservas = resultado.data
+        console.log("LOG FETCH: ", resultado.data);
 
-          if(this.reservas.length != 0){
-    
-            this.reservas = this.reservas.filter(reservation => reservation.attributes.design_id == id && (reservation.attributes.hour == this.horaReserva || reservation.attributes.old_hour == this.horaReserva) )
-            console.log("RESERVAS: ",this.reservas);
-          }
+        if (this.reservas.length != 0) {
+
+          this.reservas = this.reservas.filter(reservation => reservation.attributes.design_id == id && (reservation.attributes.hour == this.horaReserva || reservation.attributes.old_hour == this.horaReserva))
+          console.log("RESERVAS: ", this.reservas);
+        }
       });
 
 
@@ -214,7 +190,6 @@ export default {
 </script>
 
 <style scoped>
-
 .mesa-seleccionada .mesa-text {
   background-color: #00796b;
   color: #ffffff;
