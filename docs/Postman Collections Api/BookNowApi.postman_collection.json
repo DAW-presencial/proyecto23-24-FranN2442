@@ -1,0 +1,1272 @@
+{
+	"info": {
+		"_postman_id": "5bed1b9a-c3ef-429d-ab0a-23245b289284",
+		"name": "BookNowApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23702803"
+	},
+	"item": [
+		{
+			"name": "Restaurants",
+			"item": [
+				{
+					"name": "show_restaurant",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "uA3kr59gtM6qt9CkMJxAF1uY1hdlvRJjoBkkyYbZcd86d9aa",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL_LOCAL}}/restaurants/2",
+							"host": [
+								"{{API_URL_LOCAL}}"
+							],
+							"path": [
+								"restaurants",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login_restaurant",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"email\" : \"rincondelpatio@gmail.com\",\r\n    \"password\" : \"rincondelpatio1234\",\r\n    \"device_name\" : \"my devu\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/restaurant_login",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"restaurant_login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "index_restaurants",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL}}/restaurants",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"restaurants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-restaurants",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "OFeKOepQCEkR1BakqMF0bErsUOlmfIkceMb9f3MJ60913592",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL_LOCAL}}/restaurants/4",
+							"host": [
+								"{{API_URL_LOCAL}}"
+							],
+							"path": [
+								"restaurants",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-restaurants",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{REST_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"data\" : {\r\n\r\n        \"attributes\" : {\r\n\r\n            \"name\" : \"Pasta Pasta\",\r\n            \"email\" : \"pastapasta@gmail.com\",\r\n            \"address\" : \"Calle Cala Agulla, 14\",\r\n            \"tel_num\" : \"765858575\",\r\n            \"location\" : \"Cala Ratjada\",\r\n            \"postal_code\" : \"07590\",\r\n            \"category\" : \"Italian Food\",\r\n            \"capacity\" : \"64\",\r\n            \"description\" : \"La mejor pasta de la mia mama\",\r\n            \"tourns\" : {}\r\n        }\r\n\r\n    }\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/restaurants/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"restaurants",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Aquí estan las diferentes _request relacionadas con los Restaurantes._\n\n- Login\n    \n- Index\n    \n- Show\n    \n- Delete\n    \n- Update\n    \n\nEn estas request puedes aplicar filtros."
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "login_user",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"fran@gmail.com\",\r\n    \"password\" : \"password\",\r\n    \"device_name\" : \"my device\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL_LOCAL}}/user_login",
+							"host": [
+								"{{API_URL_LOCAL}}"
+							],
+							"path": [
+								"user_login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show_user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Xl0JUwH5cGrZqdMHORHHlui9FXeGBD3rD3JTbpKw6c46d2e6",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL_LOCAL}}/users/1",
+							"host": [
+								"{{API_URL_LOCAL}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store_user",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"data\" : {\r\n        \"attributes\" : {\r\n            \"full_name\" : \"fran prueba 2\",\r\n            \"email\" : \"fran04@gmail.com\",\r\n            \"password\" : \"password\",\r\n            \"tel_num\" : \"564733463\"\r\n        }\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/users",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "index_user",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL_LOCAL}}/users",
+							"host": [
+								"{{API_URL_LOCAL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "OFeKOepQCEkR1BakqMF0bErsUOlmfIkceMb9f3MJ60913592",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL_LOCAL}}/users/9",
+							"host": [
+								"{{API_URL_LOCAL}}"
+							],
+							"path": [
+								"users",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update_user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "CR0KLiNCrdrj5hbHsq5CxQSLkwUZ9eMo9VTc3Oa9993f639d",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"data\" : {\r\n        \"type\" : \"users\",\r\n        \"attributes\" : {\r\n            \"full_name\" : \"FraSDSS\",\r\n            \"email\" : \"fran@gmail.com\",\r\n            \"tel_num\" : \"435347654\"\r\n        }\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL_LOCAL}}/users/9",
+							"host": [
+								"{{API_URL_LOCAL}}"
+							],
+							"path": [
+								"users",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pass-reset",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "FNbjA5Cq8pkAh3lQvdLI59mhgR4NtJwNpLDTTm32f1da9d23",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"data\" : {\r\n        \"type\" : \"users\",\r\n        \"attributes\" : {\r\n            \"old_password\" : \"password\",\r\n            \"new_password\" : \"fran1234\"\r\n        }\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL_LOCAL}}/passwordReset/9",
+							"host": [
+								"{{API_URL_LOCAL}}"
+							],
+							"path": [
+								"passwordReset",
+								"9"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Aquí estan las diferentes _request relacionadas con los Usuarios._\n\n- Log-in\n    \n- Show\n    \n- Index\n    \n- Store\n    \n- Delete\n    \n- Update\n    \n- Reset Password\n    \n\nEn estas request puedes aplicar filtros."
+		},
+		{
+			"name": "Reservations",
+			"item": [
+				{
+					"name": "index_reservations",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL_LOCAL}}/reservations?filter[restaurant_id]=1&filter[date]=\"2024/06/05\"",
+							"host": [
+								"{{API_URL_LOCAL}}"
+							],
+							"path": [
+								"reservations"
+							],
+							"query": [
+								{
+									"key": "filter[restaurant_id]",
+									"value": "1"
+								},
+								{
+									"key": "filter[date]",
+									"value": "\"2024/06/05\""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show_reservation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL}}/reservations",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"reservations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store_reservation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": {\r\n        \"attributes\" : {        \r\n            \"date\" : \"2024/04/23\",\r\n            \"reservation_code\" :\"684385475643\",\r\n            \"hour\" : \"09:15\",\r\n            \"diners\" :\"2\",\r\n            \"table_number\" : \"22\",\r\n            \"user_id\" : 1,\r\n            \"restaurant_id\" : 1,\r\n            \"design_id\" : 1\r\n\r\n        }\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL_LOCAL}}/reservations",
+							"host": [
+								"{{API_URL_LOCAL}}"
+							],
+							"path": [
+								"reservations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-reservation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL}}/reservations/3",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"reservations",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "index_reservations[filters]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{REST_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL}}/reservations?filter[design_id]=2&filter[table_number]=3&filter[hour]=09:00&filter[date]=2024/06/07",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"reservations"
+							],
+							"query": [
+								{
+									"key": "filter[design_id]",
+									"value": "2"
+								},
+								{
+									"key": "filter[table_number]",
+									"value": "3"
+								},
+								{
+									"key": "filter[hour]",
+									"value": "09:00"
+								},
+								{
+									"key": "filter[date]",
+									"value": "2024/06/07"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show_reservation[filters]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL}}/reservations?filter[user_id]=9",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"reservations"
+							],
+							"query": [
+								{
+									"key": "filter[user_id]",
+									"value": "9"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Aquí estan las diferentes _request relacionadas con las Reservas._\n\n- Index\n    \n- Show\n    \n- Store\n    \n- Delete\n    \n\nEn estas request puedes aplicar filtros."
+		},
+		{
+			"name": "Employees",
+			"item": [
+				{
+					"name": "login_employee",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"maria@gmail.com\",\r\n    \"pin\" : \"2222\",\r\n    \"device_name\" : \"my device\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/employee_login",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"employee_login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show_employee",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL_LOCAL}}/employees/1",
+							"host": [
+								"{{API_URL_LOCAL}}"
+							],
+							"path": [
+								"employees",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "index_employees",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "LQVGi5fm1rQ1YhxqhFlNG9b8gMSXIxBLAaBfcE3zf93eefa6",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL}}/employees?filter[restaurant_id]=1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"employees"
+							],
+							"query": [
+								{
+									"key": "filter[restaurant_id]",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store_employees",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "BacKcgIyR0O3FhTw3iE8oLEOyc9LhbPwe8XRFwNTba9ce358",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"data\" : {\r\n        \"type\" : \"employees\",\r\n        \"attributes\" : {\r\n            \"full_name\" : \"Paco\",\r\n            \"email\" : \"paco@gmail.com\",\r\n            \"pin\" : \"2222\",\r\n            \"tel_num\" : \"453464532\",\r\n            \"role\" : \"employee\",\r\n            \"restaurant_id\" : 1\r\n        }\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/employees",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update_employees",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "niwmwJLJCPUUufcXdrGmw2quwEUoigpKNkSVCSJb0d65ebe2",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"data\" : {\r\n        \"type\" : \"employees\",\r\n        \"attributes\" : {\r\n            \"full_name\" : \"pepe\",\r\n            \"email\" : \"paco@gmail.com\",\r\n            \"pin\" : \"2222\",\r\n            \"tel_num\" : \"453464532\",\r\n            \"role\" : \"employee\",\r\n            \"restaurant_id\" : 1\r\n        }\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL_LOCAL}}/employees/8",
+							"host": [
+								"{{API_URL_LOCAL}}"
+							],
+							"path": [
+								"employees",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-employees",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "niwmwJLJCPUUufcXdrGmw2quwEUoigpKNkSVCSJb0d65ebe2",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL_LOCAL}}/employees/8",
+							"host": [
+								"{{API_URL_LOCAL}}"
+							],
+							"path": [
+								"employees",
+								"8"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Aquí estan las diferentes _request relacionadas con los Empleados._\n\n- Log-in\n    \n- Show\n    \n- Index\n    \n- Store\n    \n- Update\n    \n- Delete\n    \n\nEn estas request puedes aplicar filtros."
+		},
+		{
+			"name": "Designs",
+			"item": [
+				{
+					"name": "index_designs",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL_LOCAL}}/designs?filter[restaurant_id]=2",
+							"host": [
+								"{{API_URL_LOCAL}}"
+							],
+							"path": [
+								"designs"
+							],
+							"query": [
+								{
+									"key": "filter[restaurant_id]",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store-designs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1QVvoyvsEYXDyMrT4lN3hdtujyuHhqzPGJJMLw4Fef0d4846",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"data\" : {\r\n\r\n        \"attributes\" : {\r\n\r\n            \"hall_name\" : \"salon 1\",\r\n            \"tables\" : \"{}\",\r\n            \"restaurant_id\" : 1\r\n\r\n        }\r\n\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL_LOCAL}}/designs",
+							"host": [
+								"{{API_URL_LOCAL}}"
+							],
+							"path": [
+								"designs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show_designs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL_LOCAL}}/designs/2",
+							"host": [
+								"{{API_URL_LOCAL}}"
+							],
+							"path": [
+								"designs",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-designs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "xci9YZVNEWmTIqt9iKAPwOYrz3u5xsTIR5IT5eazac7c82ed",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL_LOCAL}}/designs/2",
+							"host": [
+								"{{API_URL_LOCAL}}"
+							],
+							"path": [
+								"designs",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-designs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1QVvoyvsEYXDyMrT4lN3hdtujyuHhqzPGJJMLw4Fef0d4846",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"data\" : {\r\n\r\n        \"attributes\" : {\r\n\r\n            \"hall_name\" : \"salon 2\",\r\n            \"tables\" : { \"table1\" : { \"number\" : \"22\", \"w\" : \"100\", \"h\" : \"100\",\"x\" : \"100\", \"y\" : \"100\", \"diners\" : \"2\"}},\r\n            \"restaurant_id\" : 1\r\n\r\n        }\r\n\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL_LOCAL}}/designs/1",
+							"host": [
+								"{{API_URL_LOCAL}}"
+							],
+							"path": [
+								"designs",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "confirm-assist",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{REST_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"actual\" : \"11:00\",\r\n    \"next\" : \"11:30\",\r\n    \"table\" : \"table3\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL_LOCAL}}/designs/confassis/1?filter[design_id]=1&filter[table_number]=5&filter[hour]=11:30",
+							"host": [
+								"{{API_URL_LOCAL}}"
+							],
+							"path": [
+								"designs",
+								"confassis",
+								"1"
+							],
+							"query": [
+								{
+									"key": "filter[design_id]",
+									"value": "1"
+								},
+								{
+									"key": "filter[table_number]",
+									"value": "5"
+								},
+								{
+									"key": "filter[hour]",
+									"value": "11:30"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove-hour",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.api+json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"table\" : \"2\",\r\n    \"hour\" : \"11:00\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL_LOCAL}}/designs/removehour/1",
+							"host": [
+								"{{API_URL_LOCAL}}"
+							],
+							"path": [
+								"designs",
+								"removehour",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Aquí estan las diferentes _request relacionadas con los Diseños._\n\n- Index\n    \n- Store\n    \n- Show\n    \n- Delete\n    \n- Update\n    \n- Confirm Assistance\n    \n- Remove Hours\n    \n\nEn estas request puedes aplicar filtros."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "API_URL",
+			"value": "https://booknow-api.randion.es/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "API_URL_LOCAL",
+			"value": "http://127.0.0.1:8000/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "REST_TOKEN",
+			"value": "8lkpT2qh2tKf4gNTLOUfOFQh6PB8N4QXEjLRGgoT2bb0e06e",
+			"type": "string"
+		},
+		{
+			"key": "EMPLO_TOKEN",
+			"value": "iRwcnu5cPH0klYbBiDVK7zP3wfHRbATQ4m3oqZDH4dc18072",
+			"type": "string"
+		},
+		{
+			"key": "USER_TOKEN",
+			"value": "hu8xPHeqasECLbWidUlShzaHj7WbeOIRwjA7NX2c3d4dc3cd",
+			"type": "string"
+		}
+	]
+}
