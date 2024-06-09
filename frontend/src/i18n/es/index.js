@@ -54,7 +54,7 @@ export default {
   validName: "El nombre solo puede contener letras y espacios",
   minNameLength: "El nombre debe tener al menos 6 caracteres",
   phoneRequired: "El número de teléfono es obligatorio",
-  validPhone: "El número de teléfono debe contener 10 dígitos",
+  validPhone: "El número de teléfono debe contener 9 dígitos",
   emailRequired: "El correo electrónico es obligatorio",
   validEmail: "Debe ser un correo electrónico válido",
   passwordRequired: "La contraseña es obligatoria",
